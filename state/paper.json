@@ -2,5 +2,6 @@
   "cash": 500.0,
   "orders": [],
   "positions": {},
-  "realized_pnl": 0.0
+  "realized_pnl": 0.0,
+  "resolved": []
 }
