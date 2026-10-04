@@ -24,6 +24,10 @@ class OrderRequest:
     side: str  # "yes" or "no"
     price: float  # price per contract of `side`
     contracts: int
+    # Bookkeeping for paper results; never sent to the exchange.
+    category: str = ""
+    strategy: str = "edge"
+    probability: float | None = None
 
 
 @dataclass
@@ -32,10 +36,17 @@ class Position:
     side: str
     qty: float
     cost: float  # total cost basis including fees
+    category: str = ""
+    strategy: str = "edge"
 
     @property
     def avg_price(self) -> float:
         return self.cost / self.qty if self.qty else 0.0
+
+
+def _req_fields(order: dict[str, Any]) -> dict[str, Any]:
+    names = OrderRequest.__dataclass_fields__
+    return {k: v for k, v in order.items() if k in names}
 
 
 INTENTS = {
@@ -56,6 +67,7 @@ class PaperBroker:
             self.state = json.loads(self.path.read_text())
         else:
             self.state = {"cash": starting_cash, "realized_pnl": 0.0, "positions": {}, "orders": []}
+        self.state.setdefault("resolved", [])
 
     def save(self) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
@@ -83,7 +95,9 @@ class PaperBroker:
         for key, p in self.state["positions"].items():
             slug, side = key.rsplit("|", 1)
             if p["qty"] > 0:
-                out.append(Position(slug, side, p["qty"], p["cost"]))
+                out.append(
+                    Position(slug, side, p["qty"], p["cost"], p.get("category", ""), p.get("strategy", "edge"))
+                )
         return out
 
     def open_orders(self) -> list[dict[str, Any]]:
@@ -96,7 +110,7 @@ class PaperBroker:
         if req.action == "buy":
             filled, spent = self._take(book.asks, req.price, req.contracts, buying=True)
             if filled:
-                self._add_position(req.slug, req.side, filled, spent)
+                self._add_position(req.slug, req.side, filled, spent, req)
                 self.state["cash"] -= spent
         else:
             held = self._held(req.slug, req.side)
@@ -131,7 +145,9 @@ class PaperBroker:
                 continue
             # A resting limit fills (as maker, no fee) once the other side reaches it.
             if o["action"] == "buy" and book.best_ask is not None and book.best_ask <= o["price"]:
-                self._add_position(o["slug"], o["side"], o["contracts"], o["price"] * o["contracts"])
+                self._add_position(
+                    o["slug"], o["side"], o["contracts"], o["price"] * o["contracts"], OrderRequest(**_req_fields(o))
+                )
                 self.state["cash"] -= o["price"] * o["contracts"]
                 events.append(f"filled resting buy {o['contracts']} {o['side']} {o['slug']} @ {o['price']}")
             elif o["action"] == "sell" and book.best_bid is not None and book.best_bid >= o["price"]:
@@ -152,6 +168,19 @@ class PaperBroker:
             if settle is None:
                 continue
             payout_per = settle if pos.side == "yes" else 1.0 - settle
+            entry = self.state["positions"][f"{pos.slug}|{pos.side}"]
+            self.state["resolved"].append(
+                {
+                    "slug": pos.slug,
+                    "side": pos.side,
+                    "category": pos.category,
+                    "strategy": pos.strategy,
+                    "probability": entry.get("probability"),
+                    "outcome": payout_per,
+                    "pnl": round(payout_per * pos.qty - pos.cost, 4),
+                    "resolved_at": time.time(),
+                }
+            )
             self._reduce_position(pos.slug, pos.side, pos.qty, payout_per * pos.qty)
             self.state["cash"] += payout_per * pos.qty
             self.state["orders"] = [o for o in self.state["orders"] if o["slug"] != pos.slug]
@@ -177,8 +206,14 @@ class PaperBroker:
     def _held(self, slug: str, side: str) -> float:
         return self.state["positions"].get(f"{slug}|{side}", {}).get("qty", 0)
 
-    def _add_position(self, slug: str, side: str, qty: float, cost: float) -> None:
-        p = self.state["positions"].setdefault(f"{slug}|{side}", {"qty": 0, "cost": 0.0})
+    def _add_position(self, slug: str, side: str, qty: float, cost: float, req: OrderRequest) -> None:
+        p = self.state["positions"].setdefault(
+            f"{slug}|{side}", {"qty": 0, "cost": 0.0, "category": req.category, "strategy": req.strategy}
+        )
+        if req.probability is not None:
+            # Quantity-weighted average of the probabilities given at each buy.
+            prev = p.get("probability")
+            p["probability"] = req.probability if prev is None else (prev * p["qty"] + req.probability * qty) / (p["qty"] + qty)
         p["qty"] += qty
         p["cost"] += cost
 
@@ -189,6 +224,9 @@ class PaperBroker:
         p["qty"] -= qty
         p["cost"] -= basis
         self.state["realized_pnl"] += proceeds - basis
+        pnl_by = self.state.setdefault("pnl_by", {})
+        for bucket in (f"category:{p.get('category') or 'unknown'}", f"strategy:{p.get('strategy', 'edge')}"):
+            pnl_by[bucket] = round(pnl_by.get(bucket, 0.0) + proceeds - basis, 4)
         if p["qty"] <= 0:
             del self.state["positions"][key]
 

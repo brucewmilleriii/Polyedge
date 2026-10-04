@@ -45,6 +45,15 @@ def kelly_fraction(probability: float, price: float) -> float:
     return max(0.0, (probability - price) / (1.0 - price))
 
 
+def _parse_time(raw: str | None) -> dt.datetime | None:
+    if not raw:
+        return None
+    try:
+        return dt.datetime.fromisoformat(raw.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
 class RiskManager:
     def __init__(self, settings: Settings, broker: Any, md: MarketData) -> None:
         self.s = settings
@@ -96,15 +105,24 @@ class RiskManager:
     def _event_of(self, slug: str) -> str:
         if slug not in self._event_cache:
             try:
-                self._event_cache[slug] = self.md.market(slug).get("eventSlug") or slug
+                market = self.md.market(slug)
             except Exception:
-                self._event_cache[slug] = slug
+                market = {"slug": slug}
+            self._event_cache[slug] = self.md.event_slug_for({"slug": slug, **market})
         return self._event_cache[slug]
 
-    def check(self, req: OrderRequest, probability: float | None, confidence: str = "low") -> Decision:
+    def check(
+        self,
+        req: OrderRequest,
+        probability: float | None,
+        confidence: str = "low",
+        thesis_broken: bool = False,
+    ) -> Decision:
         s = self.s
         if req.action not in ("buy", "sell") or req.side not in ("yes", "no"):
             return Decision(False, "action must be buy/sell and side must be yes/no")
+        if req.strategy not in ("edge", "favorite"):
+            return Decision(False, "strategy must be edge or favorite")
         if not isinstance(req.contracts, int) or req.contracts < 1:
             return Decision(False, "contracts must be a positive whole number")
         if self.orders_this_run >= s.max_orders_per_run:
@@ -116,8 +134,7 @@ class RiskManager:
             return Decision(False, f"could not load market {req.slug}: {e}")
         if not market or market.get("closed") or not market.get("active", True):
             return Decision(False, "market is not open")
-        if market.get("eventSlug"):
-            self._event_cache[req.slug] = market["eventSlug"]
+        self._event_cache[req.slug] = self.md.event_slug_for({"slug": req.slug, **market})
 
         held = {(p.slug, p.side): p for p in self.broker.positions()}
 
@@ -125,6 +142,8 @@ class RiskManager:
             pos = held.get((req.slug, req.side))
             if not pos or pos.qty < req.contracts:
                 return Decision(False, "can only sell contracts you hold")
+            if not thesis_broken:
+                return Decision(False, "positions are held to resolution unless the thesis is broken")
             if not 0.0 < req.price < 1.0:
                 return Decision(False, "price must be between 0 and 1")
             return Decision(True)
@@ -135,17 +154,34 @@ class RiskManager:
             return halt
         if s.categories and (market.get("category") or "").lower() not in s.categories:
             return Decision(False, f"category {market.get('category')!r} is not in the allowlist")
-        if not s.min_price <= req.price <= s.max_price:
-            return Decision(False, f"price must be between {s.min_price} and {s.max_price}")
+        if req.price > s.max_price:
+            return Decision(False, f"price must be at most {s.max_price}")
         other = "no" if req.side == "yes" else "yes"
         if (req.slug, other) in held:
             return Decision(False, f"already holding {other.upper()} in this market")
-
         if probability is None or not 0.0 <= probability <= 1.0:
             return Decision(False, "a probability estimate between 0 and 1 is required for buys")
+
+        fee = taker_fee_per_contract(req.price)
+        notional = req.price * req.contracts
+        if notional > s.max_order_usd:
+            return Decision(False, f"order is ${notional:.2f}, max per order is ${s.max_order_usd:.2f}")
+
+        book = side_book(self.md.book(req.slug), req.side)
+        if req.strategy == "favorite":
+            d = self._check_favorite(req, probability, fee, notional, market, book, held)
+        else:
+            d = self._check_edge(req, probability, confidence, fee, notional, book)
+        if not d.ok:
+            return d
+        return self._check_exposure(req, notional, fee, held)
+
+    def _check_edge(self, req, probability, confidence, fee, notional, book) -> Decision:
+        s = self.s
+        if req.price < s.min_price:
+            return Decision(False, f"price is below the {s.min_price} entry floor for the edge strategy")
         if confidence not in CONFIDENCE_MIN_EDGE:
             return Decision(False, "confidence must be high, medium or low")
-        fee = taker_fee_per_contract(req.price)
         edge = probability - req.price - fee
         min_edge = max(s.min_edge, CONFIDENCE_MIN_EDGE[confidence])
         if edge < min_edge:
@@ -153,20 +189,49 @@ class RiskManager:
                 False,
                 f"edge after fees is {edge:.3f}, below the {min_edge:.3f} minimum for {confidence} confidence",
             )
-
-        notional = req.price * req.contracts
-        equity = self.equity()
-
-        if notional > s.max_order_usd:
-            return Decision(False, f"order is ${notional:.2f}, max per order is ${s.max_order_usd:.2f}")
-
-        kelly_cap = s.kelly_multiplier * kelly_fraction(probability, req.price + fee) * equity
+        # Size on a probability pulled toward the market, since the market is usually closer to right.
+        mid = book.mid if book.mid is not None else req.price
+        p_used = mid + s.shrink * (probability - mid)
+        kelly_cap = s.kelly_multiplier * kelly_fraction(p_used, req.price + fee) * self.equity()
         if notional > kelly_cap:
             return Decision(
                 False,
-                f"order is ${notional:.2f}, {s.kelly_multiplier:.2f}x Kelly allows ${kelly_cap:.2f}",
+                f"order is ${notional:.2f}; {s.kelly_multiplier:.2f}x Kelly on your probability shrunk "
+                f"toward the mid ({p_used:.3f}) allows ${kelly_cap:.2f}",
             )
+        return Decision(True)
 
+    def _check_favorite(self, req, probability, fee, notional, market, book, held) -> Decision:
+        s = self.s
+        if req.price < s.fav_min_price:
+            return Decision(False, f"favorite strategy needs a price of at least {s.fav_min_price}")
+        if probability < req.price + fee:
+            return Decision(False, "favorite strategy still needs your probability above price plus fee")
+        end = _parse_time(market.get("endDate"))
+        if end is None:
+            return Decision(False, "market has no end date")
+        days = (end - dt.datetime.now(dt.timezone.utc)).total_seconds() / 86400
+        if days > s.fav_max_days:
+            return Decision(False, f"resolves in {days:.1f} days, favorite strategy allows {s.fav_max_days:g}")
+        if book.best_ask is not None:
+            depth = sum(l.price * l.qty for l in book.asks if l.price <= book.best_ask + 0.02)
+            if depth < s.fav_min_depth_usd:
+                return Decision(False, f"only ${depth:.0f} offered near the best ask, need ${s.fav_min_depth_usd:.0f}")
+        if notional > s.fav_max_order_usd:
+            return Decision(False, f"favorite orders are capped at ${s.fav_max_order_usd:.2f}")
+        fav_exposure = sum(p.cost for p in held.values() if p.strategy == "favorite")
+        fav_exposure += sum(
+            o["price"] * o["contracts"]
+            for o in self.broker.open_orders()
+            if o.get("strategy") == "favorite" and o.get("action") == "buy"
+        )
+        if fav_exposure + notional > s.fav_max_total_usd:
+            return Decision(False, f"favorite strategy exposure would exceed ${s.fav_max_total_usd:.2f}")
+        return Decision(True)
+
+    def _check_exposure(self, req, notional, fee, held) -> Decision:
+        s = self.s
+        equity = self.equity()
         market_cap = min(s.max_market_usd, s.max_market_pct * equity)
         market_exposure = sum(p.cost for p in held.values() if p.slug == req.slug)
         market_exposure += self.broker.pending_buy_notional(req.slug)

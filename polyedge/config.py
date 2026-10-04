@@ -41,10 +41,21 @@ class Settings:
     # dollar caps applies.
     max_market_pct: float = 0.05
     max_cluster_pct: float = 0.15
-    kelly_multiplier: float = 0.40
+    kelly_multiplier: float = 0.25
+    # Pull Claude's probability this far toward the market mid before sizing
+    # (0 = trust the market, 1 = trust Claude fully).
+    shrink: float = 0.5
     max_orders_per_run: int = 3
-    min_price: float = 0.03
+    # Entry-price floor: longshots below this are where the crowd overpays.
+    min_price: float = 0.15
     max_price: float = 0.97
+
+    # "favorite" strategy: quick-resolving heavy favorites, tracked separately.
+    fav_min_price: float = 0.92
+    fav_max_days: float = 7.0
+    fav_min_depth_usd: float = 500.0
+    fav_max_order_usd: float = 5.0
+    fav_max_total_usd: float = 30.0
     # Minimum gap between Claude's probability and the price paid, after fees.
     min_edge: float = 0.05
     # Empty means every category is allowed.
@@ -76,6 +87,12 @@ class Settings:
             max_market_pct=_float("POLYEDGE_MAX_MARKET_PCT", cls.max_market_pct),
             max_cluster_pct=_float("POLYEDGE_MAX_CLUSTER_PCT", cls.max_cluster_pct),
             kelly_multiplier=_float("POLYEDGE_KELLY_MULTIPLIER", cls.kelly_multiplier),
+            shrink=_float("POLYEDGE_SHRINK", cls.shrink),
+            fav_min_price=_float("POLYEDGE_FAV_MIN_PRICE", cls.fav_min_price),
+            fav_max_days=_float("POLYEDGE_FAV_MAX_DAYS", cls.fav_max_days),
+            fav_min_depth_usd=_float("POLYEDGE_FAV_MIN_DEPTH_USD", cls.fav_min_depth_usd),
+            fav_max_order_usd=_float("POLYEDGE_FAV_MAX_ORDER_USD", cls.fav_max_order_usd),
+            fav_max_total_usd=_float("POLYEDGE_FAV_MAX_TOTAL_USD", cls.fav_max_total_usd),
             max_orders_per_run=_int("POLYEDGE_MAX_ORDERS_PER_RUN", cls.max_orders_per_run),
             min_price=_float("POLYEDGE_MIN_PRICE", cls.min_price),
             max_price=_float("POLYEDGE_MAX_PRICE", cls.max_price),

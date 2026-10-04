@@ -82,6 +82,8 @@ class MarketData:
 
             client = PolymarketUS()
         self.client = client
+        # market slug -> event slug, filled in whenever an event is seen.
+        self.event_of: dict[str, str] = {}
 
     def list_markets(
         self,
@@ -104,13 +106,36 @@ class MarketData:
         events = self.client.search.query({"query": query, "limit": limit, "status": "active"})
         out = []
         for ev in events.get("events", []):
+            self._remember_event(ev)
             out.append(
                 {
                     "event": ev.get("title") or ev.get("slug"),
+                    "event_slug": ev.get("slug"),
                     "markets": [summarize_market(m) for m in ev.get("markets", []) or []],
                 }
             )
         return out
+
+    def event(self, slug: str) -> dict[str, Any]:
+        resp = self.client.events.retrieve_by_slug(slug)
+        ev = resp.get("event", resp)
+        self._remember_event(ev)
+        return ev
+
+    def event_slug_for(self, market: dict[str, Any]) -> str:
+        """Best guess at a market's event, used to group correlated markets."""
+        slug = market.get("slug", "")
+        if market.get("eventSlug"):
+            return market["eventSlug"]
+        if slug in self.event_of:
+            return self.event_of[slug]
+        # Polymarket US slugs end in the outcome (e.g. ...-nlchamp-2026-09-27-atl).
+        return slug.rsplit("-", 1)[0] if "-" in slug else slug
+
+    def _remember_event(self, ev: dict[str, Any]) -> None:
+        for m in ev.get("markets", []) or []:
+            if m.get("slug") and ev.get("slug"):
+                self.event_of[m["slug"]] = ev["slug"]
 
     def market(self, slug: str) -> dict[str, Any]:
         return self.client.markets.retrieve_by_slug(slug).get("market", {})

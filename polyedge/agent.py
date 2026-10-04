@@ -23,24 +23,51 @@ RUNNER_NOTES = """
 
 ## Operating environment (added by the Polyedge runner)
 
-This is an unattended, scheduled run. No human will reply, so do not wait for \
-instructions: work through your pipeline on markets you find with the tools, act through \
-place_order, and finish with your Quick Scan Table, a Full Trade Thesis for each order \
-you placed, and a No-Trade Declaration for anything you passed on.
+This is an unattended, scheduled run (roughly every 30 minutes). No human will reply, so \
+do not wait for instructions: work through your pipeline on markets you find with the \
+tools, act through place_order, and finish with your Quick Scan Table, a Full Trade Thesis \
+for each order you placed, and a No-Trade Declaration for anything you passed on. Runs are \
+frequent, so keep each one focused: re-check what changed since the last run summary and \
+your open positions first, then look at a few new candidates rather than the whole board.
 
 - Venue: Polymarket US (CFTC-regulated). Contracts pay $1 if their side wins. Markets \
 settle under the exchange's rules rather than UMA, but still skip ambiguous resolution wording.
 - Prices from get_market are per contract of the named side (yes or no). Taker fee per \
 contract is 0.0695 x p x (1 - p).
-- Tools: get_portfolio, list_markets, search_markets, get_market, place_order, \
-cancel_order, web_search.
-- Only limit orders exist here. For an emergency exit, sell at or below the best bid.
+- Tools: get_portfolio, list_markets, search_markets, get_market, check_event_consistency, \
+place_order, cancel_order, web_search.
+
+### House rules (from research on what persistently profitable Polymarket accounts do)
+- Don't buy longshots. The edge strategy cannot buy below the entry-price floor; when a \
+longshot looks overpriced, the trade is buying the NO side.
+- Look for cross-market inconsistencies. Use check_event_consistency on events with \
+mutually exclusive outcomes (a winner among several teams or candidates), and compare \
+related markets (a game against its series, a state against the national race). Gaps \
+there are an edge a slower, reasoning trader can actually capture.
+- Hold to resolution by default. Selling is allowed only with thesis_broken set to true, \
+when new information has actually invalidated the reason you bought.
+- Avoid markets that resolve on one person's decision or a surprise announcement \
+(strikes, arrests, appointments, award picks, "will X say Y"). Insiders dominate them.
+- Use your track record. get_portfolio reports paper P&L and calibration by category \
+and by strategy. Be more selective in categories where you are losing.
+- Your probability is shrunk halfway toward the market mid before quarter-Kelly sizing. \
+The edge gate uses your full probability, but size comes out smaller than raw Kelly.
+
+### Two strategies, tracked separately
+- strategy "edge": the main pipeline above.
+- strategy "favorite": heavy favorites priced 0.92 or higher that resolve within a week \
+on a deep book, where favorites tend to be slightly underpriced. Still requires your \
+probability above price plus fee and the usual no-ambiguity check. These have their own \
+smaller per-order and total caps, and skip the confidence-tier edge minimums.
+
+### Limits
 - place_order enforces hard limits in code; get_portfolio lists their current values. Where \
 your sizing rules and those limits differ, the stricter one applies. Limits include \
 per-order, per-market and total dollar caps, a per-event cluster cap, daily and weekly \
-loss stops, a fractional-Kelly cap, and minimum edge after fees measured against the \
-price you pay (high 5, medium 8, low 12 points). If an order is rejected, do not resize \
-it just to squeeze under a limit; move on.
+loss stops, the Kelly cap, and minimum edge after fees measured against the price you pay \
+(high 5, medium 8, low 12 points). If an order is rejected, do not resize it just to \
+squeeze under a limit; move on.
+- Only limit orders exist here. For an emergency exit, sell at or below the best bid.
 - The run context states whether this is paper or live mode.
 """
 
@@ -116,9 +143,34 @@ def tool_defs(settings: Settings) -> list[dict[str, Any]]:
                     "contracts": {"type": "integer"},
                     "probability": {"type": "number", "description": "Chance `side` wins, 0-1. Ignored for sells."},
                     "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
+                    "strategy": {"type": "string", "enum": ["edge", "favorite"]},
+                    "thesis_broken": {
+                        "type": "boolean",
+                        "description": "Sells only: true when new information invalidated the reason you bought.",
+                    },
                     "rationale": {"type": "string"},
                 },
-                "required": ["slug", "action", "side", "price", "contracts", "probability", "confidence", "rationale"],
+                "required": [
+                    "slug", "action", "side", "price", "contracts", "probability",
+                    "confidence", "strategy", "thesis_broken", "rationale",
+                ],
+                "additionalProperties": False,
+            },
+            "strict": True,
+        },
+        {
+            "name": "check_event_consistency",
+            "description": (
+                "For an event with several outcome markets, return each market's best YES bid and ask "
+                "and their sums. If the outcomes are mutually exclusive and exhaustive, the asks should "
+                "sum to about 1 or more and the bids to about 1 or less; a sum of asks well under 1 or "
+                "of bids well over 1 means some outcome is mispriced. event_slug comes from "
+                "search_markets."
+            ),
+            "input_schema": {
+                "type": "object",
+                "properties": {"event_slug": {"type": "string"}},
+                "required": ["event_slug"],
                 "additionalProperties": False,
             },
             "strict": True,
@@ -178,6 +230,7 @@ class Toolbox:
             "pnl_today": round(equity - start, 2),
             "positions": positions,
             "open_orders": self.broker.open_orders(),
+            "track_record": track_record(self.broker),
             "limits": {
                 "max_order_usd": self.s.max_order_usd,
                 "max_market_usd": self.s.max_market_usd,
@@ -234,10 +287,25 @@ class Toolbox:
         contracts: int,
         probability: float,
         confidence: str,
+        strategy: str,
+        thesis_broken: bool,
         rationale: str,
     ) -> dict[str, Any]:
-        req = OrderRequest(slug=slug, action=action, side=side, price=round(float(price), 3), contracts=int(contracts))
-        decision = self.risk.check(req, probability, confidence)
+        try:
+            category = (self.md.market(slug).get("category") or "").lower()
+        except Exception:
+            category = ""
+        req = OrderRequest(
+            slug=slug,
+            action=action,
+            side=side,
+            price=round(float(price), 3),
+            contracts=int(contracts),
+            category=category,
+            strategy=strategy,
+            probability=probability if action == "buy" else None,
+        )
+        decision = self.risk.check(req, probability, confidence, thesis_broken=thesis_broken)
         self.journal.log(
             "order_request",
             slug=slug,
@@ -247,6 +315,9 @@ class Toolbox:
             contracts=req.contracts,
             probability=probability,
             confidence=confidence,
+            strategy=strategy,
+            category=category,
+            thesis_broken=thesis_broken,
             rationale=rationale,
             approved=decision.ok,
             reject_reason=decision.reason or None,
@@ -258,13 +329,104 @@ class Toolbox:
         self.journal.log("order_result", slug=slug, **result)
         return {"status": "accepted", **result}
 
+    def t_check_event_consistency(self, event_slug: str) -> dict[str, Any]:
+        ev = self.md.event(event_slug)
+        rows = []
+        for m in (ev.get("markets") or [])[:25]:
+            if m.get("closed"):
+                continue
+            try:
+                b = side_book(self.md.book(m["slug"]), "yes")
+            except Exception:
+                continue
+            rows.append(
+                {
+                    "slug": m["slug"],
+                    "outcome": m.get("title") or m.get("subtitle") or m.get("question"),
+                    "yes_bid": b.best_bid,
+                    "yes_ask": b.best_ask,
+                }
+            )
+        asks = [r["yes_ask"] for r in rows if r["yes_ask"] is not None]
+        bids = [r["yes_bid"] for r in rows if r["yes_bid"] is not None]
+        return {
+            "event": ev.get("title") or event_slug,
+            "markets": rows,
+            "sum_of_yes_asks": round(sum(asks), 4) if len(asks) == len(rows) else None,
+            "sum_of_yes_bids": round(sum(bids), 4) if len(bids) == len(rows) else None,
+            "note": "Sums are only meaningful if the outcomes are mutually exclusive and cover every case.",
+        }
+
     def t_cancel_order(self, order_id: str, slug: str) -> dict[str, Any]:
         self.broker.cancel(order_id, slug)
         self.journal.log("cancel", order_id=order_id, slug=slug)
         return {"status": "canceled", "order_id": order_id}
 
 
+def track_record(broker: Any) -> dict[str, Any]:
+    """Paper results by category and strategy: P&L, resolved count, hit rate and Brier score."""
+    state = getattr(broker, "state", None)
+    if not state:
+        return {}
+    groups: dict[str, dict[str, Any]] = {}
+    for r in state.get("resolved", []):
+        for key in (f"category:{r.get('category') or 'unknown'}", f"strategy:{r.get('strategy', 'edge')}"):
+            g = groups.setdefault(key, {"resolved": 0, "won": 0, "brier_sum": 0.0, "brier_n": 0})
+            g["resolved"] += 1
+            g["won"] += 1 if r["outcome"] >= 0.5 else 0
+            if r.get("probability") is not None:
+                g["brier_sum"] += (r["probability"] - r["outcome"]) ** 2
+                g["brier_n"] += 1
+    out = {}
+    for key, pnl in sorted(state.get("pnl_by", {}).items()):
+        g = groups.get(key, {"resolved": 0, "won": 0, "brier_n": 0})
+        out[key] = {
+            "realized_pnl": round(pnl, 2),
+            "resolved": g["resolved"],
+            "hit_rate": round(g["won"] / g["resolved"], 3) if g["resolved"] else None,
+            "brier": round(g["brier_sum"] / g["brier_n"], 4) if g.get("brier_n") else None,
+        }
+    return out
+
+
+# USD per million tokens for claude-opus-5-5, plus $10 per 1,000 web searches.
+PRICES = {"input": 4.00, "output": 20.00, "cache_read": 0.20, "cache_write": 5.00, "search": 0.01}
+
+
+class UsageMeter:
+    def __init__(self) -> None:
+        self.calls = 0
+        self.tokens = {"input": 0, "output": 0, "cache_read": 0, "cache_write": 0}
+        self.searches = 0
+
+    def add(self, usage: Any) -> None:
+        if usage is None:
+            return
+        self.calls += 1
+        self.tokens["input"] += getattr(usage, "input_tokens", 0) or 0
+        self.tokens["output"] += getattr(usage, "output_tokens", 0) or 0
+        self.tokens["cache_read"] += getattr(usage, "cache_read_input_tokens", 0) or 0
+        self.tokens["cache_write"] += getattr(usage, "cache_creation_input_tokens", 0) or 0
+        stu = getattr(usage, "server_tool_use", None)
+        self.searches += (getattr(stu, "web_search_requests", 0) or 0) if stu else 0
+
+    def cost_usd(self) -> float:
+        tok = sum(self.tokens[k] * PRICES[k] for k in self.tokens) / 1_000_000
+        return round(tok + self.searches * PRICES["search"], 4)
+
+    def summary(self) -> dict[str, Any]:
+        return {"api_calls": self.calls, **self.tokens, "web_searches": self.searches, "est_cost_usd": self.cost_usd()}
+
+
 def run_agent(settings: Settings, toolbox: Toolbox, context: str, client: anthropic.Anthropic | None = None) -> str:
+    meter = UsageMeter()
+    try:
+        return _run_agent(settings, toolbox, context, client, meter)
+    finally:
+        toolbox.journal.log("usage", model=settings.model, **meter.summary())
+
+
+def _run_agent(settings, toolbox, context, client, meter) -> str:
     client = client or anthropic.Anthropic()
     tools = tool_defs(settings)
     messages: list[dict[str, Any]] = [{"role": "user", "content": context}]
@@ -283,6 +445,7 @@ def run_agent(settings: Settings, toolbox: Toolbox, context: str, client: anthro
             betas=["server-side-fallback-2026-07-01"],
             fallbacks="default",
         )
+        meter.add(getattr(response, "usage", None))
         messages.append({"role": "assistant", "content": response.content})
         text = "".join(b.text for b in response.content if b.type == "text")
         if text:
@@ -311,12 +474,14 @@ def run_agent(settings: Settings, toolbox: Toolbox, context: str, client: anthro
     return final_text or "Run ended: turn limit reached."
 
 
-def run_context(settings: Settings, sync_events: list[str]) -> str:
+def run_context(settings: Settings, sync_events: list[str], last_run: str = "") -> str:
     now = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     lines = [f"Current time: {now}.", f"Mode: {settings.mode}."]
     if settings.categories:
         lines.append(f"Only these categories can be traded: {', '.join(settings.categories)}.")
     if sync_events:
         lines.append("Since the last run: " + "; ".join(sync_events) + ".")
+    if last_run:
+        lines.append("Your previous run's summary, for continuity:\n" + last_run[:6000])
     lines.append("Run your trading routine now.")
     return "\n".join(lines)

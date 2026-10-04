@@ -124,7 +124,8 @@ def test_risk_blocks_opposite_side_and_unheld_sells(env):
     env.broker.place(OrderRequest("atl", "buy", "yes", 0.42, 10))
     assert "already holding" in env.risk.check(OrderRequest("atl", "buy", "no", 0.60, 5), 0.9).reason
     assert not env.risk.check(OrderRequest("atl", "sell", "yes", 0.40, 11), None).ok
-    assert env.risk.check(OrderRequest("atl", "sell", "yes", 0.40, 10), None).ok
+    assert "held to resolution" in env.risk.check(OrderRequest("atl", "sell", "yes", 0.40, 10), None).reason
+    assert env.risk.check(OrderRequest("atl", "sell", "yes", 0.40, 10), None, thesis_broken=True).ok
 
 
 def test_kill_switch_and_daily_loss_halt_buys(env):
@@ -147,8 +148,8 @@ def test_orders_per_run_limit_through_toolbox(env, tmp_path):
     s = replace(env.settings, max_orders_per_run=1)
     risk = RiskManager(s, env.broker, env.md)
     tb = Toolbox(s, env.md, env.broker, risk, Journal(tmp_path, "t", "paper"))
-    first = tb.run("place_order", dict(slug="atl", action="buy", side="yes", price=0.42, contracts=5, probability=0.6, confidence="high", rationale="x"))
-    second = tb.run("place_order", dict(slug="atl", action="buy", side="yes", price=0.42, contracts=5, probability=0.6, confidence="high", rationale="x"))
+    first = tb.run("place_order", dict(slug="atl", action="buy", side="yes", price=0.42, contracts=5, probability=0.6, confidence="high", strategy="edge", thesis_broken=False, rationale="x"))
+    second = tb.run("place_order", dict(slug="atl", action="buy", side="yes", price=0.42, contracts=5, probability=0.6, confidence="high", strategy="edge", thesis_broken=False, rationale="x"))
     assert first["status"] == "accepted"
     assert second["status"] == "rejected" and "this run" in second["reason"]
     assert (tmp_path / "journal.jsonl").read_text().count("order_request") == 2
@@ -195,11 +196,14 @@ def test_confidence_sets_minimum_edge(env):
 
 
 def test_fractional_kelly_caps_size(env):
-    # Thin edge on a $100 bankroll: 0.4x Kelly allows about $3.75.
-    env.broker.state["cash"] = 100.0
-    d = env.risk.check(OrderRequest("atl", "buy", "yes", 0.42, 23), 0.49, "high")
-    assert not d.ok and "Kelly allows $3.7" in d.reason
-    assert env.risk.check(OrderRequest("atl", "buy", "yes", 0.42, 5), 0.49, "high").ok
+    # Claude says 0.60 against a 0.41 mid: shrunk to 0.505, quarter Kelly on $500 allows about $15.
+    d = env.risk.check(OrderRequest("atl", "buy", "yes", 0.42, 23), 0.60, "high")
+    assert d.ok
+    env.broker.state["cash"] = 100.0  # same trade on a $100 bankroll allows about $3
+    env.risk.path.unlink()  # reset the day's opening equity so the loss stop doesn't fire
+    d = env.risk.check(OrderRequest("atl", "buy", "yes", 0.42, 23), 0.60, "high")
+    assert not d.ok and "shrunk toward the mid (0.505)" in d.reason
+    assert env.risk.check(OrderRequest("atl", "buy", "yes", 0.42, 5), 0.60, "high").ok
 
 
 def test_percent_of_equity_cap_wins_when_stricter(env):
@@ -233,3 +237,73 @@ def test_system_prompt_is_polyedge_v2_1():
 
     assert SYSTEM_PROMPT.startswith("# SYSTEM PROMPT — POLYEDGE v2.1")
     assert "Operating environment" in SYSTEM_PROMPT
+
+
+def test_entry_price_floor_blocks_longshots(env):
+    env.client.books["atl"]["bids"] = [{"px": px(0.08), "qty": "1000"}]
+    env.client.books["atl"]["offers"] = [{"px": px(0.10), "qty": "1000"}]
+    d = env.risk.check(OrderRequest("atl", "buy", "yes", 0.10, 20), 0.40, "high")
+    assert not d.ok and "entry floor" in d.reason
+    # The mirror trade (buying NO on the overpriced longshot) is allowed.
+    assert env.risk.check(OrderRequest("atl", "buy", "no", 0.92, 5), 0.99, "high").ok
+
+
+def _favorite_market(env, days=2.0, depth_qty="1000"):
+    import datetime as dt
+
+    end = dt.datetime.now(dt.timezone.utc) + dt.timedelta(days=days)
+    env.client.meta["atl"]["endDate"] = end.isoformat().replace("+00:00", "Z")
+    env.client.books["atl"]["bids"] = [{"px": px(0.93), "qty": depth_qty}]
+    env.client.books["atl"]["offers"] = [{"px": px(0.94), "qty": depth_qty}]
+
+
+def test_favorite_strategy_rules(env):
+    _favorite_market(env)
+    fav = lambda n, price=0.94: OrderRequest("atl", "buy", "yes", price, n, strategy="favorite")
+    assert env.risk.check(fav(5), 0.97, "high").ok
+    assert "capped at $5.00" in env.risk.check(fav(6), 0.97, "high").reason
+    assert "at least 0.92" in env.risk.check(fav(5, price=0.90), 0.97, "high").reason
+    assert "above price plus fee" in env.risk.check(fav(5), 0.94, "high").reason
+
+    _favorite_market(env, days=20)
+    assert "favorite strategy allows 7" in env.risk.check(fav(5), 0.97, "high").reason
+
+    _favorite_market(env, depth_qty="100")
+    assert "offered near the best ask" in env.risk.check(fav(5), 0.97, "high").reason
+
+
+def test_favorite_exposure_is_capped_separately(env):
+    _favorite_market(env)
+    s = replace(env.settings, fav_max_total_usd=8)
+    risk = RiskManager(s, env.broker, env.md)
+    env.broker.place(OrderRequest("atl", "buy", "yes", 0.94, 5, strategy="favorite"))
+    d = risk.check(OrderRequest("atl", "buy", "yes", 0.94, 5, strategy="favorite"), 0.98, "high")
+    assert not d.ok and "favorite strategy exposure" in d.reason
+
+
+def test_settlement_records_category_strategy_and_probability(env):
+    env.broker.place(OrderRequest("atl", "buy", "yes", 0.42, 10, category="sports", probability=0.6))
+    env.client.meta["atl"]["closed"] = True
+    env.client.settle["atl"] = 1.0
+    env.broker.sync()
+    r = env.broker.state["resolved"][0]
+    assert (r["category"], r["strategy"], r["probability"], r["outcome"]) == ("sports", "edge", 0.6, 1.0)
+    assert env.broker.state["pnl_by"]["category:sports"] == pytest.approx(r["pnl"], abs=1e-3)
+    assert r["pnl"] > 0
+
+
+def test_track_record_and_usage_meter(env):
+    from polyedge.agent import UsageMeter, track_record
+
+    env.broker.place(OrderRequest("atl", "buy", "yes", 0.42, 10, category="sports", probability=0.6))
+    env.client.meta["atl"]["closed"] = True
+    env.client.settle["atl"] = 0.0
+    env.broker.sync()
+    rec = track_record(env.broker)["category:sports"]
+    assert rec["resolved"] == 1 and rec["hit_rate"] == 0 and rec["brier"] == pytest.approx(0.36)
+    assert rec["realized_pnl"] < 0
+
+    m = UsageMeter()
+    m.add(SimpleNamespace(input_tokens=1_000_000, output_tokens=0, cache_read_input_tokens=0,
+                          cache_creation_input_tokens=0, server_tool_use=SimpleNamespace(web_search_requests=10)))
+    assert m.cost_usd() == pytest.approx(4.10)

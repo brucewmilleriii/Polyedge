@@ -50,7 +50,11 @@ def cmd_run(settings: Settings) -> None:
         _write_last_run(settings, run_id, f"Halted: {halt.reason}")
         return
 
-    summary = run_agent(settings, Toolbox(settings, md, broker, risk, journal), run_context(settings, events))
+    last_path = settings.state_dir / "last_run.md"
+    last_run = last_path.read_text() if last_path.exists() else ""
+    summary = run_agent(
+        settings, Toolbox(settings, md, broker, risk, journal), run_context(settings, events, last_run)
+    )
     journal.log("summary", text=summary)
     _write_last_run(settings, run_id, summary)
     print(summary)
@@ -71,12 +75,25 @@ def cmd_status(settings: Settings) -> None:
         start = settings.paper_starting_cash
         print(f"Paper P&L since start: ${equity - start:+.2f} ({(equity - start) / start:+.1%})")
         print(f"Realized P&L: ${broker.state['realized_pnl']:+.2f}")
+        from polyedge.agent import track_record
+
+        for key, row in track_record(broker).items():
+            print(f"  {key}: P&L ${row['realized_pnl']:+.2f}, resolved {row['resolved']}, "
+                  f"hit rate {row['hit_rate']}, Brier {row['brier']}")
     print("Positions:")
     for p in broker.positions():
         print(f"  {p.slug} {p.side.upper()} x{p.qty:g} @ {p.avg_price:.3f}")
     journal = settings.state_dir / "journal.jsonl"
     if journal.exists():
         rows = [json.loads(l) for l in journal.read_text().splitlines() if l.strip()]
+        usage = [r for r in rows if r["kind"] == "usage"]
+        if usage:
+            cutoff = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=1)).isoformat()
+            day = [u for u in usage if u["ts"] >= cutoff]
+            print(
+                f"Claude API spend (estimate): ${sum(u['est_cost_usd'] for u in day):.2f} over {len(day)} runs "
+                f"in the last 24h, ${sum(u['est_cost_usd'] for u in usage):.2f} total"
+            )
         reqs = [r for r in rows if r["kind"] == "order_request"]
         print(f"Order requests: {len(reqs)} ({sum(r['approved'] for r in reqs)} approved)")
         for r in reqs[-5:]:
