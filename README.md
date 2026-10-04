@@ -4,6 +4,10 @@ Polyedge is a Claude-driven trading agent for [Polymarket US](https://polymarket
 
 It starts in **paper mode**. Paper mode reads live order books but only simulates fills, and it keeps its ledger in `state/`. Nothing real is traded until you explicitly switch to live mode.
 
+## System prompt
+
+Claude runs with the PolyEdge v2.1 prompt in `polyedge/prompts/polyedge_v2_1.md`. A short runner note is appended in `polyedge/agent.py`. It tells Claude the run is unattended, lists the tools, and explains that code enforces the limits below. Edit the markdown file to change the strategy. The limits stay in code regardless of what the prompt says.
+
 ## How a run works
 
 1. Resting paper orders that the market has crossed are filled, and positions in closed markets are settled.
@@ -19,9 +23,13 @@ It starts in **paper mode**. Paper mode reads live order books but only simulate
 | `POLYEDGE_MAX_ORDER_USD` | 10 | Max cost of a single buy |
 | `POLYEDGE_MAX_MARKET_USD` | 25 | Max cost basis plus resting buys in any one market |
 | `POLYEDGE_MAX_TOTAL_USD` | 100 | Max total cost basis plus resting buys |
+| `POLYEDGE_MAX_MARKET_PCT` | 0.05 | Per-market cap as a share of equity; the stricter of this and the dollar cap applies |
+| `POLYEDGE_MAX_CLUSTER_PCT` | 0.15 | Cap on everything in one event (correlated markets), as a share of equity |
+| `POLYEDGE_KELLY_MULTIPLIER` | 0.40 | A buy can't exceed this fraction of full Kelly (computed with the fee included) |
 | `POLYEDGE_MAX_DAILY_LOSS_USD` | 25 | Stop the run once equity is this far below today's open (UTC) |
+| `POLYEDGE_MAX_WEEKLY_LOSS_USD` | 50 | Stop the run once equity is this far below this week's open |
 | `POLYEDGE_MAX_ORDERS_PER_RUN` | 3 | Max orders per run |
-| `POLYEDGE_MIN_EDGE` | 0.05 | Claude's probability must beat price plus taker fee by this much |
+| `POLYEDGE_MIN_EDGE` | 0.05 | Floor on edge after fees; the stated confidence raises it to 5 / 8 / 12 points for high / medium / low |
 | `POLYEDGE_MIN_PRICE` / `POLYEDGE_MAX_PRICE` | 0.03 / 0.97 | No lottery tickets and no picking up pennies |
 | `POLYEDGE_CATEGORIES` | all | Comma-separated allowlist, for example `sports` |
 | `POLYEDGE_KILL` or a `KILL` file in the repo root | off | Blocks all buys |

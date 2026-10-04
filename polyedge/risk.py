@@ -1,7 +1,8 @@
 """Hard trading limits. Every order passes through `RiskManager.check`.
 
 These rules live in code, not in Claude's prompt, so a bad model decision can
-lose at most what the limits allow.
+lose at most what the limits allow. Where the system prompt and the configured
+limits disagree, the stricter of the two is enforced here.
 """
 
 from __future__ import annotations
@@ -14,6 +15,9 @@ from typing import Any
 from polyedge.brokers import OrderRequest, Position
 from polyedge.config import Settings
 from polyedge.market_data import MarketData, side_book, taker_fee_per_contract
+
+# Minimum edge after fees by stated confidence, from the PolyEdge v2.1 prompt.
+CONFIDENCE_MIN_EDGE = {"high": 0.05, "medium": 0.08, "low": 0.12}
 
 
 @dataclass
@@ -34,6 +38,13 @@ def mark_value(positions: list[Position], md: MarketData) -> float:
     return total
 
 
+def kelly_fraction(probability: float, price: float) -> float:
+    """Full-Kelly share of bankroll for a contract paying $1 bought at `price`."""
+    if price >= 1.0:
+        return 0.0
+    return max(0.0, (probability - price) / (1.0 - price))
+
+
 class RiskManager:
     def __init__(self, settings: Settings, broker: Any, md: MarketData) -> None:
         self.s = settings
@@ -41,34 +52,56 @@ class RiskManager:
         self.md = md
         self.orders_this_run = 0
         self.path = settings.state_dir / "risk.json"
+        self._event_cache: dict[str, str] = {}
 
-    # -- daily loss tracking ---------------------------------------------------
+    # -- loss tracking -----------------------------------------------------------
 
     def equity(self) -> float:
         return self.broker.total_cash() + mark_value(self.broker.positions(), self.md)
 
-    def start_of_day_equity(self, equity_now: float) -> float:
-        """Return today's opening equity, recording it on the first run of the day."""
-        today = dt.datetime.now(dt.timezone.utc).date().isoformat()
+    def _period_start(self, key: str, period: str, equity_now: float) -> float:
         state = json.loads(self.path.read_text()) if self.path.exists() else {}
-        if state.get("day") != today:
-            state = {"day": today, "start_equity": equity_now}
+        entry = state.get(key) or {}
+        if entry.get("period") != period:
+            state[key] = {"period": period, "start_equity": equity_now}
             self.path.parent.mkdir(parents=True, exist_ok=True)
             self.path.write_text(json.dumps(state, indent=2))
-        return float(state["start_equity"])
+            return equity_now
+        return float(entry["start_equity"])
+
+    def start_of_day_equity(self, equity_now: float) -> float:
+        """Today's opening equity (UTC), recorded on the first run of the day."""
+        today = dt.datetime.now(dt.timezone.utc).date()
+        return self._period_start("day", today.isoformat(), equity_now)
+
+    def start_of_week_equity(self, equity_now: float) -> float:
+        """This ISO week's opening equity, recorded on the first run of the week."""
+        year, week, _ = dt.datetime.now(dt.timezone.utc).date().isocalendar()
+        return self._period_start("week", f"{year}-W{week:02d}", equity_now)
 
     def halted(self) -> Decision:
         if self.s.kill_switch_on():
             return Decision(False, "kill switch is on")
         eq = self.equity()
-        start = self.start_of_day_equity(eq)
-        if start - eq >= self.s.max_daily_loss_usd:
-            return Decision(False, f"daily loss limit hit (down ${start - eq:.2f} today)")
+        day_start = self.start_of_day_equity(eq)
+        if day_start - eq >= self.s.max_daily_loss_usd:
+            return Decision(False, f"daily loss limit hit (down ${day_start - eq:.2f} today)")
+        week_start = self.start_of_week_equity(eq)
+        if week_start - eq >= self.s.max_weekly_loss_usd:
+            return Decision(False, f"weekly loss limit hit (down ${week_start - eq:.2f} this week)")
         return Decision(True)
 
     # -- per-order checks --------------------------------------------------------
 
-    def check(self, req: OrderRequest, probability: float | None) -> Decision:
+    def _event_of(self, slug: str) -> str:
+        if slug not in self._event_cache:
+            try:
+                self._event_cache[slug] = self.md.market(slug).get("eventSlug") or slug
+            except Exception:
+                self._event_cache[slug] = slug
+        return self._event_cache[slug]
+
+    def check(self, req: OrderRequest, probability: float | None, confidence: str = "low") -> Decision:
         s = self.s
         if req.action not in ("buy", "sell") or req.side not in ("yes", "no"):
             return Decision(False, "action must be buy/sell and side must be yes/no")
@@ -83,6 +116,8 @@ class RiskManager:
             return Decision(False, f"could not load market {req.slug}: {e}")
         if not market or market.get("closed") or not market.get("active", True):
             return Decision(False, "market is not open")
+        if market.get("eventSlug"):
+            self._event_cache[req.slug] = market["eventSlug"]
 
         held = {(p.slug, p.side): p for p in self.broker.positions()}
 
@@ -106,17 +141,53 @@ class RiskManager:
         if (req.slug, other) in held:
             return Decision(False, f"already holding {other.upper()} in this market")
 
+        if probability is None or not 0.0 <= probability <= 1.0:
+            return Decision(False, "a probability estimate between 0 and 1 is required for buys")
+        if confidence not in CONFIDENCE_MIN_EDGE:
+            return Decision(False, "confidence must be high, medium or low")
+        fee = taker_fee_per_contract(req.price)
+        edge = probability - req.price - fee
+        min_edge = max(s.min_edge, CONFIDENCE_MIN_EDGE[confidence])
+        if edge < min_edge:
+            return Decision(
+                False,
+                f"edge after fees is {edge:.3f}, below the {min_edge:.3f} minimum for {confidence} confidence",
+            )
+
         notional = req.price * req.contracts
-        fees = taker_fee_per_contract(req.price) * req.contracts
+        equity = self.equity()
+
         if notional > s.max_order_usd:
             return Decision(False, f"order is ${notional:.2f}, max per order is ${s.max_order_usd:.2f}")
 
-        market_exposure = sum(p.cost for p in held.values() if p.slug == req.slug)
-        market_exposure += self.broker.pending_buy_notional(req.slug)
-        if market_exposure + notional > s.max_market_usd:
+        kelly_cap = s.kelly_multiplier * kelly_fraction(probability, req.price + fee) * equity
+        if notional > kelly_cap:
             return Decision(
                 False,
-                f"would put ${market_exposure + notional:.2f} in this market, max is ${s.max_market_usd:.2f}",
+                f"order is ${notional:.2f}, {s.kelly_multiplier:.2f}x Kelly allows ${kelly_cap:.2f}",
+            )
+
+        market_cap = min(s.max_market_usd, s.max_market_pct * equity)
+        market_exposure = sum(p.cost for p in held.values() if p.slug == req.slug)
+        market_exposure += self.broker.pending_buy_notional(req.slug)
+        if market_exposure + notional > market_cap:
+            return Decision(
+                False,
+                f"would put ${market_exposure + notional:.2f} in this market, max is ${market_cap:.2f}",
+            )
+
+        event = self._event_of(req.slug)
+        cluster_cap = s.max_cluster_pct * equity
+        cluster_exposure = sum(p.cost for p in held.values() if self._event_of(p.slug) == event)
+        cluster_exposure += sum(
+            self.broker.pending_buy_notional(slug)
+            for slug in {o.get("slug") or o.get("marketSlug") for o in self.broker.open_orders()}
+            if slug and self._event_of(slug) == event
+        )
+        if cluster_exposure + notional > cluster_cap:
+            return Decision(
+                False,
+                f"would put ${cluster_exposure + notional:.2f} in event {event}, max is ${cluster_cap:.2f}",
             )
 
         total_exposure = sum(p.cost for p in held.values()) + self.broker.pending_buy_notional()
@@ -126,17 +197,8 @@ class RiskManager:
                 f"would bring total exposure to ${total_exposure + notional:.2f}, max is ${s.max_total_usd:.2f}",
             )
 
-        if notional + fees > self.broker.cash():
+        if notional + fee * req.contracts > self.broker.cash():
             return Decision(False, "not enough cash")
-
-        if probability is None or not 0.0 <= probability <= 1.0:
-            return Decision(False, "a probability estimate between 0 and 1 is required for buys")
-        edge = probability - req.price - taker_fee_per_contract(req.price)
-        if edge < s.min_edge:
-            return Decision(
-                False,
-                f"edge after fees is {edge:.3f}, below the {s.min_edge:.3f} minimum",
-            )
         return Decision(True)
 
     def record_order(self) -> None:

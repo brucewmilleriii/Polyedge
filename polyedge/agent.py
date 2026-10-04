@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+from pathlib import Path
 from typing import Any
 
 import anthropic
@@ -12,36 +13,38 @@ from polyedge.brokers import OrderRequest
 from polyedge.config import Settings
 from polyedge.journal import Journal
 from polyedge.market_data import MarketData, side_book, taker_fee_per_contract
-from polyedge.risk import RiskManager
+from polyedge.risk import CONFIDENCE_MIN_EDGE, RiskManager
 
-SYSTEM_PROMPT = """\
-You are a disciplined prediction-market trader working on Polymarket US, a \
-CFTC-regulated exchange where each contract pays $1 if its side wins and $0 if it loses.
+PROMPT_FILE = Path(__file__).parent / "prompts" / "polyedge_v2_1.md"
 
-Each run, review the portfolio, look for mispriced markets, and place at most a few \
-small limit orders where you have a real, explainable edge. Doing nothing is a good \
-outcome when nothing is clearly mispriced; most runs should place zero or one order.
+RUNNER_NOTES = """
 
-How to work:
-- Start with get_portfolio. Manage what you already hold before looking for new trades: \
-sell a position if the reason you bought it no longer holds.
-- Find candidates with list_markets or search_markets, then call get_market for the \
-order book before trading. Prices are per contract of the side you name (yes or no).
-- Use web_search to check recent news, injuries, polls or schedules that bear on the outcome. \
-Prefer markets where public information is moving faster than the price.
-- Estimate the probability that the side you are buying wins before you look hard at the price, \
-then compare. Only buy when your probability beats the price by a clear margin after fees.
-- Use limit orders. Pricing at or just inside the best ask fills now; pricing lower rests \
-on the book and may fill later.
-- Avoid thin books, very wide spreads, and markets that resolve on information you cannot check.
+---
 
-place_order enforces hard limits (order size, per-market and total exposure, daily loss, \
-price bounds, minimum edge). If it rejects an order, do not retry the same trade at a \
-slightly different size to squeeze under a limit; move on.
+## Operating environment (added by the Polyedge runner)
 
-Finish with a short plain-text summary: what you held, what you traded and why, and what \
-you passed on.
+This is an unattended, scheduled run. No human will reply, so do not wait for \
+instructions: work through your pipeline on markets you find with the tools, act through \
+place_order, and finish with your Quick Scan Table, a Full Trade Thesis for each order \
+you placed, and a No-Trade Declaration for anything you passed on.
+
+- Venue: Polymarket US (CFTC-regulated). Contracts pay $1 if their side wins. Markets \
+settle under the exchange's rules rather than UMA, but still skip ambiguous resolution wording.
+- Prices from get_market are per contract of the named side (yes or no). Taker fee per \
+contract is 0.0695 x p x (1 - p).
+- Tools: get_portfolio, list_markets, search_markets, get_market, place_order, \
+cancel_order, web_search.
+- Only limit orders exist here. For an emergency exit, sell at or below the best bid.
+- place_order enforces hard limits in code; get_portfolio lists their current values. Where \
+your sizing rules and those limits differ, the stricter one applies. Limits include \
+per-order, per-market and total dollar caps, a per-event cluster cap, daily and weekly \
+loss stops, a fractional-Kelly cap, and minimum edge after fees measured against the \
+price you pay (high 5, medium 8, low 12 points). If an order is rejected, do not resize \
+it just to squeeze under a limit; move on.
+- The run context states whether this is paper or live mode.
 """
+
+SYSTEM_PROMPT = PROMPT_FILE.read_text() + RUNNER_NOTES
 
 
 def tool_defs(settings: Settings) -> list[dict[str, Any]]:
@@ -112,9 +115,10 @@ def tool_defs(settings: Settings) -> list[dict[str, Any]]:
                     "price": {"type": "number"},
                     "contracts": {"type": "integer"},
                     "probability": {"type": "number", "description": "Chance `side` wins, 0-1. Ignored for sells."},
+                    "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
                     "rationale": {"type": "string"},
                 },
-                "required": ["slug", "action", "side", "price", "contracts", "probability", "rationale"],
+                "required": ["slug", "action", "side", "price", "contracts", "probability", "confidence", "rationale"],
                 "additionalProperties": False,
             },
             "strict": True,
@@ -179,8 +183,12 @@ class Toolbox:
                 "max_market_usd": self.s.max_market_usd,
                 "max_total_usd": self.s.max_total_usd,
                 "max_daily_loss_usd": self.s.max_daily_loss_usd,
+                "max_weekly_loss_usd": self.s.max_weekly_loss_usd,
+                "max_market_pct_of_equity": self.s.max_market_pct,
+                "max_event_cluster_pct_of_equity": self.s.max_cluster_pct,
+                "kelly_multiplier": self.s.kelly_multiplier,
                 "orders_left_this_run": self.s.max_orders_per_run - self.risk.orders_this_run,
-                "min_edge_after_fees": self.s.min_edge,
+                "min_edge_after_fees": {k: max(v, self.s.min_edge) for k, v in CONFIDENCE_MIN_EDGE.items()},
                 "price_range": [self.s.min_price, self.s.max_price],
                 "categories": list(self.s.categories) or "all",
             },
@@ -225,10 +233,11 @@ class Toolbox:
         price: float,
         contracts: int,
         probability: float,
+        confidence: str,
         rationale: str,
     ) -> dict[str, Any]:
         req = OrderRequest(slug=slug, action=action, side=side, price=round(float(price), 3), contracts=int(contracts))
-        decision = self.risk.check(req, probability)
+        decision = self.risk.check(req, probability, confidence)
         self.journal.log(
             "order_request",
             slug=slug,
@@ -237,6 +246,7 @@ class Toolbox:
             price=req.price,
             contracts=req.contracts,
             probability=probability,
+            confidence=confidence,
             rationale=rationale,
             approved=decision.ok,
             reject_reason=decision.reason or None,

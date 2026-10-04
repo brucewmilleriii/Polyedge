@@ -36,6 +36,12 @@ class Settings:
     max_market_usd: float = 25.0
     max_total_usd: float = 100.0
     max_daily_loss_usd: float = 25.0
+    max_weekly_loss_usd: float = 50.0
+    # Percentage caps from the PolyEdge prompt; the stricter of these and the
+    # dollar caps applies.
+    max_market_pct: float = 0.05
+    max_cluster_pct: float = 0.15
+    kelly_multiplier: float = 0.40
     max_orders_per_run: int = 3
     min_price: float = 0.03
     max_price: float = 0.97
@@ -66,6 +72,10 @@ class Settings:
             max_market_usd=_float("POLYEDGE_MAX_MARKET_USD", cls.max_market_usd),
             max_total_usd=_float("POLYEDGE_MAX_TOTAL_USD", cls.max_total_usd),
             max_daily_loss_usd=_float("POLYEDGE_MAX_DAILY_LOSS_USD", cls.max_daily_loss_usd),
+            max_weekly_loss_usd=_float("POLYEDGE_MAX_WEEKLY_LOSS_USD", cls.max_weekly_loss_usd),
+            max_market_pct=_float("POLYEDGE_MAX_MARKET_PCT", cls.max_market_pct),
+            max_cluster_pct=_float("POLYEDGE_MAX_CLUSTER_PCT", cls.max_cluster_pct),
+            kelly_multiplier=_float("POLYEDGE_KELLY_MULTIPLIER", cls.kelly_multiplier),
             max_orders_per_run=_int("POLYEDGE_MAX_ORDERS_PER_RUN", cls.max_orders_per_run),
             min_price=_float("POLYEDGE_MIN_PRICE", cls.min_price),
             max_price=_float("POLYEDGE_MAX_PRICE", cls.max_price),

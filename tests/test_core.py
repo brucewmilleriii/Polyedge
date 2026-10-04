@@ -147,8 +147,8 @@ def test_orders_per_run_limit_through_toolbox(env, tmp_path):
     s = replace(env.settings, max_orders_per_run=1)
     risk = RiskManager(s, env.broker, env.md)
     tb = Toolbox(s, env.md, env.broker, risk, Journal(tmp_path, "t", "paper"))
-    first = tb.run("place_order", dict(slug="atl", action="buy", side="yes", price=0.42, contracts=5, probability=0.6, rationale="x"))
-    second = tb.run("place_order", dict(slug="atl", action="buy", side="yes", price=0.42, contracts=5, probability=0.6, rationale="x"))
+    first = tb.run("place_order", dict(slug="atl", action="buy", side="yes", price=0.42, contracts=5, probability=0.6, confidence="high", rationale="x"))
+    second = tb.run("place_order", dict(slug="atl", action="buy", side="yes", price=0.42, contracts=5, probability=0.6, confidence="high", rationale="x"))
     assert first["status"] == "accepted"
     assert second["status"] == "rejected" and "this run" in second["reason"]
     assert (tmp_path / "journal.jsonl").read_text().count("order_request") == 2
@@ -184,3 +184,52 @@ def test_agent_loop_runs_tools_and_returns_summary(env, tmp_path):
     tool_result = calls[1]["messages"][2]["content"][0]
     assert tool_result["tool_use_id"] == "t1" and '"mode": "paper"' in tool_result["content"]
     assert calls[0]["fallbacks"] == "default" and calls[0]["model"] == "claude-opus-5-5"
+
+
+def test_confidence_sets_minimum_edge(env):
+    # Edge after fees here is about 0.093: enough for high and medium, not low.
+    req = OrderRequest("atl", "buy", "yes", 0.42, 5)
+    assert env.risk.check(req, 0.53, "high").ok
+    assert env.risk.check(req, 0.53, "medium").ok
+    assert "low confidence" in env.risk.check(req, 0.53, "low").reason
+
+
+def test_fractional_kelly_caps_size(env):
+    # Thin edge on a $100 bankroll: 0.4x Kelly allows about $3.75.
+    env.broker.state["cash"] = 100.0
+    d = env.risk.check(OrderRequest("atl", "buy", "yes", 0.42, 23), 0.49, "high")
+    assert not d.ok and "Kelly allows $3.7" in d.reason
+    assert env.risk.check(OrderRequest("atl", "buy", "yes", 0.42, 5), 0.49, "high").ok
+
+
+def test_percent_of_equity_cap_wins_when_stricter(env):
+    s = replace(env.settings, max_market_pct=0.01)  # 1% of $500 = $5
+    risk = RiskManager(s, env.broker, env.md)
+    d = risk.check(OrderRequest("atl", "buy", "yes", 0.42, 15), 0.9, "high")
+    assert not d.ok and "max is $5.00" in d.reason
+
+
+def test_event_cluster_cap(env):
+    env.client.meta["atl"]["eventSlug"] = "mlb-nl"
+    env.client.books["atl2"] = env.client.books["atl"]
+    env.client.meta["atl2"] = {"slug": "atl2", "category": "sports", "active": True, "closed": False, "eventSlug": "mlb-nl"}
+    env.broker.place(OrderRequest("atl", "buy", "yes", 0.42, 20))
+    s = replace(env.settings, max_cluster_pct=0.03)  # $15 across the event
+    risk = RiskManager(s, env.broker, env.md)
+    d = risk.check(OrderRequest("atl2", "buy", "yes", 0.42, 15), 0.9, "high")
+    assert not d.ok and "event mlb-nl" in d.reason
+
+
+def test_weekly_loss_halts(env):
+    s = replace(env.settings, max_daily_loss_usd=1000, max_weekly_loss_usd=20)
+    risk = RiskManager(s, env.broker, env.md)
+    risk.start_of_week_equity(risk.equity())
+    env.broker.state["cash"] -= 25
+    assert "weekly loss" in risk.halted().reason
+
+
+def test_system_prompt_is_polyedge_v2_1():
+    from polyedge.agent import SYSTEM_PROMPT
+
+    assert SYSTEM_PROMPT.startswith("# SYSTEM PROMPT — POLYEDGE v2.1")
+    assert "Operating environment" in SYSTEM_PROMPT
