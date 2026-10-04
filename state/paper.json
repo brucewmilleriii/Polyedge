@@ -1,6 +1,43 @@
 {
   "cash": 500.0,
-  "orders": [],
+  "orders": [
+    {
+      "action": "buy",
+      "category": "sports",
+      "contracts": 16,
+      "created": 1791127856.0832186,
+      "id": "paper-50d6562cb5",
+      "price": 0.6,
+      "probability": 0.68,
+      "side": "yes",
+      "slug": "asc-mlb-lad-atl-2026-10-06-pos-1pt5",
+      "strategy": "edge"
+    },
+    {
+      "action": "buy",
+      "category": "sports",
+      "contracts": 17,
+      "created": 1791127863.0937533,
+      "id": "paper-96683b29ad",
+      "price": 0.565,
+      "probability": 0.645,
+      "side": "yes",
+      "slug": "asc-mlb-cle-cws-2026-10-07-pos-1pt5",
+      "strategy": "edge"
+    },
+    {
+      "action": "buy",
+      "category": "sports",
+      "contracts": 18,
+      "created": 1791127863.2740004,
+      "id": "paper-63e8e2af41",
+      "price": 0.535,
+      "probability": 0.615,
+      "side": "yes",
+      "slug": "asc-mlb-mil-sd-2026-10-06-pos-1pt5",
+      "strategy": "edge"
+    }
+  ],
   "positions": {},
   "realized_pnl": 0.0,
   "resolved": []

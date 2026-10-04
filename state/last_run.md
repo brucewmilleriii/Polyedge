@@ -1,30 +1,47 @@
-# Run 20261004T064346Z (paper)
+# Run 20261004T152821Z (paper)
 
-I placed no orders this run. The Alaska order was turned down because its edge was too small, so I skipped it as the rules require. Paper cash is still $500, with no positions and no open orders.
+# Run 20261004T1528Z (paper)
+
+I placed three resting buy orders on MLB Game 3 "+1.5 run" spread markets. None has filled yet. Paper cash is $500, I hold no positions, and $28.78 is committed in open orders.
 
 ### Changes since last run
-- **Alaska Senate, Dem (Peltola):** the price hasn't moved. Mid is 0.715, NO sells at 0.29 (25.6k contracts available) and buys at 0.28. There's been no new information since 06:39.
-- **Correction to last run:** I wrote that the house rules forbid shrinking an order to fit a limit. That's wrong. A size rejection allows one resubmit at or below the size named; only eligibility rejections mean skip. It didn't matter this time, because the 23-contract order was turned down for edge, not size.
-- **Why Alaska failed:** the system pulls my 0.40 halfway toward the 0.285 mid, which gives 0.343. That leaves 0.343 − 0.29 − 0.0143 fee = **3.8 points of edge**, against an 8-point minimum for medium confidence. Last run I measured the 9.6-point edge on my unadjusted 0.40, which the rule doesn't allow. To trade this, I'd need to believe the NO side is worth about 0.50, meaning Peltola under 50%. The evidence doesn't support that.
+- **Alaska Senate (Dem):** price unchanged (Dem 0.71 / Rep 0.29). I'm still watching only.
+- **New mispricing found:** in all four division series Game 3s, the "+1.5 runs" spread markets are mispriced. The only bids sit at roughly the moneyline price (the chance the team wins outright). The asks are fixed at 0.93, which looks like a placeholder from a market maker. A team covers +1.5 if it wins outright or loses by exactly one run, so +1.5 has to be worth more than the moneyline. About 30% of MLB losses are by one run, so fair value is about the moneyline plus 0.30 × (1 − moneyline).
 
 ### Quick Scan Table
 | Market | Mid | My Prob | Net Edge (after shrink and fee) | Liq Score | Action | Size | Confidence |
 |---|---|---|---|---|---|---|---|
-| Alaska Senate – Dem NO | 0.285 (NO) | 0.40 (0.32–0.48) | +3.8 pts | High | BUY NO 23 @ 0.29, **rejected (edge)** | 0 | Medium |
-| Alaska turnout >290k / >275k ladder | 0.47 / 0.01 listed | — | — | No real book | None | 0 | — |
-| Kansas Senate – Dem (Hamilton) | ~0.33 | ~0.35 (0.28–0.42) | ~+1 pt | Not checked | None | 0 | Low |
-| Safe-seat Senate markets (MA, DE, IL, WY, WV, VA, OK, TN, SD) | 0.92–0.98 | about the same as market | <2 pts; they settle Jan 2027, so they don't qualify for the "favorite" strategy | — | None | 0 | — |
+| LAD +1.5 vs ATL (G3, Oct 6) | 0.74 (0.55/0.93) | 0.68 | +9.6 pts at 0.60 | Low (placeholder ask) | BUY YES limit 0.60, resting | 16 ($9.60) | Med |
+| CLE +1.5 vs CWS (G3, Oct 7) | 0.715 | 0.645 | +9.6 pts at 0.565 | Low | BUY YES limit 0.565, resting | 17 ($9.61) | Med |
+| MIL +1.5 vs SD (G3, Oct 6) | 0.695 | 0.615 | +9.3 pts at 0.535 | Low | BUY YES limit 0.535, resting | 18 ($9.63) | Med |
+| TB +1.5 vs NYY (G3) | 0.69 | ~0.61 | ~+10 pts at 0.53 | Low | None (out of order slots) | 0 | Med |
+| Texas Senate Dem (Talarico) | 0.64 | ~0.58 (0.50–0.66) | <0 | High | None | 0 | Med |
+| TX county markets (Tarrant D 0.88, Collin D 0.64, Denton D 0.57) | — | ~fair compared with statewide | <3 pts | Thin | None | 0 | Low |
+| ME Senate margin and turnout ladders | — | — | — | No real book | None | 0 | — |
+| WS champion vs. pennant ladder (LAD 0.364/0.497) | — | LAD ~0.31 to win the WS | ~2.5 pts | Medium | None | 0 | Low |
+
+### Full Trade Thesis: MLB Game 3 +1.5 run spreads (3 orders, same reasoning)
+- **Settlement rule:** settles YES "if the [team] cover a +1.5 run spread", extra innings count, and the outcome comes from MLB. Game 3 is played regardless of the series score, and the postponement fallback is standard. The wording is clear.
+- **How I get my probability:** P(+1.5) = P(team wins) + P(team loses by exactly 1). I take P(win) from the deep moneyline books: LAD's is 0.545/0.555 with 500+ contracts at each level. About 30% of MLB losses are by one run, and the playoff share is similar or a bit higher. That gives fair values of LAD 0.68, CLE 0.645 and MIL 0.615.
+- **Case against:** a late starting-pitcher change could move the moneyline. Anyone who sells into my bid may know something I don't. And if one-run games are less common than I assume (25%), each fair value drops about 2 points.
+- **Book:** the bids are 0.55, 0.50 and 0.46 with about 660–780 contracts each, and every ask is 0.93. Every price I could take now is overpriced: the opposite side of each spread asks about 0.45–0.55, against a fair value near 0.31–0.39. So the only trade is to rest a bid myself.
+- **Edge:** using LAD as the example, p_used = 0.74 + 0.5 × (0.68 − 0.74) = 0.71, and 0.71 − 0.60 − 0.017 fee = **+9.6 points**. That clears the 8-point minimum for medium confidence. The other two orders come to +9.6 and +9.3 points.
+- **Sizing:** quarter Kelly works out to about $35 per order, so the $10 per-order cap applies. Total is $28.84. All three are in the MLB cluster, which allows up to $75.
+- **Orders:** limit buys at 0.60, 0.565 and 0.535. They stay open until each game starts.
+- **When I'd cancel:** if a team's moneyline moves more than 5 points before the game, or the starting pitcher changes, I'll re-price and cancel any bid that no longer has 8 points of edge. If filled, I hold to settlement.
+- **Portfolio:** if all three fill, total exposure is $28.84 of the $100 cap. Their outcomes are close to independent of each other.
 
 ### No-Trade Declarations
-- **Alaska Senate Dem NO:** No trade. Reason: edge too small (3.8 points after the halfway shrink, against 8 needed). I'm keeping my 0.60 for Peltola. The polling average is about Peltola +3–4, and Decision Desk HQ's forecast puts her at just over 60%. Alaska polls have historically underrated Republicans, but that's already in my number. I won't revisit unless the price reaches about 0.25 or lower, or new data moves my estimate a lot.
-- **Alaska turnout ladder:** No trade. Reason: liquidity and the price floor. The listed prices can't both be right, since >275k must be at least as likely as >290k. But >290k has only 99.9 YES bid at 0.47, and >275k has 9.56 contracts asked at 0.86. The listed prices are leftover quotes, not real markets. Buying >275k YES at the listed 0.01 would also fall below the 0.15 price floor.
-- **Kansas Senate:** No trade. Reason: edge too small and too uncertain. Emerson has 45% of Kansas voters support Democrat Adam Hamilton and 43% support incumbent Republican Roger Marshall, with a Libertarian at 4%. Kansas's strong Republican lean against a near-tie in the polls gives a fair value around 0.30–0.40 for Hamilton, which brackets the 0.33 market.
-- **Safe-seat Senate favorites:** No trade. Reason: they settle well beyond the 48-hour window the favorite strategy requires, and the prices look fair.
+- **Texas Senate Dem at 0.64:** No trade. Reason: no edge. James Talarico leads Ken Paxton 47% to 46% in the TSU poll, and TPOR has Talarico's lead over Paxton narrowed by one point (net +6 to +5). Texas polls have overstated Democrats before, so my 0.58 is at or below the market.
+- **TB +1.5:** No trade this run. Reason: I'd used all three order slots. It's the first candidate for next run if the book hasn't changed.
+- **TX county markets, ME ladders, Alaska turnout:** No trade. Reason: the books are thin or just leftover quotes, or the edge is under 3 points.
+- **WS champion vs. pennant ladder:** No trade. Reason: the Dodgers' WS price implies about a 74% chance of winning the WS if they take the pennant, which looks rich. But after the shrink the edge on LAD WS NO is only about 2.5 points.
+- **Alaska Senate Dem NO:** No trade. Reason: unchanged since last run, with about 3.8 points of edge against 8 needed.
 
 ### Risk state
-Exposure is $0 of the $100 cap, and the daily and weekly loss stops haven't been touched. I used one of three orders this run, on the rejected Alaska attempt.
+I have $28.84 in resting orders against the $100 cap, with no positions and nothing filled. The loss stops haven't been touched. I used all three orders this run.
 
 ### Next run
-1. Re-price MLB futures after today's NL Game 2s.
-2. Research the midterm races I haven't looked at yet: ME, MI, NC, GA, NH. Look for gaps of at least 16 points between my estimate and the market, which is what the halfway shrink requires to clear 8 points at medium confidence.
-3. Alaska: watch only. Act only if NO drops to 0.25 or lower, or a major new poll comes out.
+1. Check fills on the three spread bids. Re-check the moneylines and probable starters, and cancel any bid whose edge falls below 8 points.
+2. Post TB +1.5 at 0.53 if the book is still the same.
+3. Look at the midterm races I haven't covered (MI, NC, GA, NH). Alaska stays on watch for NO at 0.25 or lower.
