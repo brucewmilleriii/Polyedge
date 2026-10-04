@@ -197,7 +197,8 @@ class RiskManager:
             return Decision(
                 False,
                 f"order is ${notional:.2f}; {s.kelly_multiplier:.2f}x Kelly on your probability shrunk "
-                f"toward the mid ({p_used:.3f}) allows ${kelly_cap:.2f}",
+                f"toward the mid ({p_used:.3f}) allows ${kelly_cap:.2f} "
+                f"(at most {int(kelly_cap // req.price)} contracts at this price)",
             )
         return Decision(True)
 

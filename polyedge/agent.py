@@ -65,8 +65,10 @@ smaller per-order and total caps, and skip the confidence-tier edge minimums.
 your sizing rules and those limits differ, the stricter one applies. Limits include \
 per-order, per-market and total dollar caps, a per-event cluster cap, daily and weekly \
 loss stops, the Kelly cap, and minimum edge after fees measured against the price you pay \
-(high 5, medium 8, low 12 points). If an order is rejected, do not resize it just to \
-squeeze under a limit; move on.
+(high 5, medium 8, low 12 points). A rejection for size (Kelly, per-order, per-market, \
+event or total caps) is the sizing rule doing its job: resubmit once at or below the \
+allowed size it names. A rejection for eligibility (edge, price floor, confidence, \
+category, loss stop, hold rule) means skip the trade; do not tweak inputs to get it through.
 - Only limit orders exist here. For an emergency exit, sell at or below the best bid.
 - The run context states whether this is paper or live mode.
 """
