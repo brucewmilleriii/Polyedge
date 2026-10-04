@@ -1,0 +1,10 @@
+{
+  "day": {
+    "period": "2026-10-04",
+    "start_equity": 500.0
+  },
+  "week": {
+    "period": "2026-W40",
+    "start_equity": 500.0
+  }
+}
