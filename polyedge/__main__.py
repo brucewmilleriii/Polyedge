@@ -66,9 +66,8 @@ def _write_performance(settings: Settings, broker) -> None:
     """Per-category and per-strategy paper P&L and Brier score, for review outside the agent."""
     from polyedge.agent import track_record
 
-    record = track_record(broker)
-    if record:
-        (settings.state_dir / "performance.json").write_text(json.dumps(record, indent=2, sort_keys=True))
+    settings.state_dir.mkdir(parents=True, exist_ok=True)
+    (settings.state_dir / "performance.json").write_text(json.dumps(track_record(broker), indent=2, sort_keys=True))
 
 
 def _write_last_run(settings: Settings, run_id: str, text: str) -> None:
