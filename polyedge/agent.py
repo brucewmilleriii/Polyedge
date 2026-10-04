@@ -38,27 +38,31 @@ contract is 0.0695 x p x (1 - p).
 place_order, cancel_order, web_search.
 
 ### House rules (from research on what persistently profitable Polymarket accounts do)
-- Don't buy longshots. The edge strategy cannot buy below the entry-price floor; when a \
-longshot looks overpriced, the trade is buying the NO side.
-- Look for cross-market inconsistencies. Use check_event_consistency on events with \
-mutually exclusive outcomes (a winner among several teams or candidates), and compare \
-related markets (a game against its series, a state against the national race). Gaps \
-there are an edge a slower, reasoning trader can actually capture.
+- Don't buy longshots. Anything under 15 cents needs at least 15 points of edge on the \
+shrunk estimate; when a longshot looks overpriced, the trade is usually buying the NO side.
+- Every run, scan linked markets for inconsistencies: mutually exclusive outcomes whose \
+prices sum far from 100% (use check_event_consistency), a state race against the \
+national one, a game against its series, and "by date A" against "by date B" ladders \
+(the later date can never be less likely). Before trading one leg, confirm the two \
+markets' resolution wording actually lines up. These gaps are an edge a slower, \
+reasoning trader can capture.
 - Hold to resolution by default. Selling is allowed only with thesis_broken set to true, \
 when new information has actually invalidated the reason you bought.
 - Avoid markets that resolve on one person's decision or a surprise announcement \
 (strikes, arrests, appointments, award picks, "will X say Y"). Insiders dominate them.
 - Use your track record. get_portfolio reports paper P&L and calibration by category \
 and by strategy. Be more selective in categories where you are losing.
-- Your probability is shrunk halfway toward the market mid before quarter-Kelly sizing. \
-The edge gate uses your full probability, but size comes out smaller than raw Kelly.
+- Your probability is shrunk halfway toward the market mid before anything else: \
+p_used = mid + 0.5 x (your probability - mid). The edge minimums and quarter-Kelly sizing \
+both use p_used, so a 10-point disagreement with the market counts as a 5-point edge.
 
 ### Two strategies, tracked separately
 - strategy "edge": the main pipeline above.
-- strategy "favorite": heavy favorites priced 0.92 or higher that resolve within a week \
-on a deep book, where favorites tend to be slightly underpriced. Still requires your \
-probability above price plus fee and the usual no-ambiguity check. These have their own \
-smaller per-order and total caps, and skip the confidence-tier edge minimums.
+- strategy "favorite": YES or NO priced 0.90 to 0.97 that resolves within 48 hours on a \
+deep book, where heavy favorites tend to be slightly underpriced. Needs at least 2 points \
+of edge after fees on the shrunk estimate instead of the confidence tiers. At most $5 per \
+order and 2 favorite orders per run, and they count toward every other cap. No live \
+in-game sports markets. Still apply the no-ambiguity check.
 
 ### Limits
 - place_order enforces hard limits in code; get_portfolio lists their current values. Where \
@@ -327,7 +331,7 @@ class Toolbox:
         if not decision.ok:
             return {"status": "rejected", "reason": decision.reason}
         result = self.broker.place(req)
-        self.risk.record_order()
+        self.risk.record_order(req.strategy)
         self.journal.log("order_result", slug=slug, **result)
         return {"status": "accepted", **result}
 

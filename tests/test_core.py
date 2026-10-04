@@ -108,9 +108,10 @@ def test_risk_rejects_oversized_order(env):
 
 
 def test_risk_requires_edge_after_fees(env):
-    d = env.risk.check(OrderRequest("atl", "buy", "yes", 0.42, 10), probability=0.45)
-    assert not d.ok and "edge" in d.reason
-    assert env.risk.check(OrderRequest("atl", "buy", "yes", 0.42, 10), probability=0.60).ok
+    # Mid is 0.41, so 0.45 shrinks to 0.43: below price plus fee.
+    d = env.risk.check(OrderRequest("atl", "buy", "yes", 0.42, 10), 0.45, "high")
+    assert not d.ok and "shrunk toward the mid (0.430)" in d.reason
+    assert env.risk.check(OrderRequest("atl", "buy", "yes", 0.42, 10), 0.70, "high").ok
 
 
 def test_risk_caps_exposure_per_market(env):
@@ -188,22 +189,22 @@ def test_agent_loop_runs_tools_and_returns_summary(env, tmp_path):
 
 
 def test_confidence_sets_minimum_edge(env):
-    # Edge after fees here is about 0.093: enough for high and medium, not low.
+    # 0.66 shrinks to 0.535, an edge of about 0.098 after fees: enough for high and medium, not low.
     req = OrderRequest("atl", "buy", "yes", 0.42, 5)
-    assert env.risk.check(req, 0.53, "high").ok
-    assert env.risk.check(req, 0.53, "medium").ok
-    assert "low confidence" in env.risk.check(req, 0.53, "low").reason
+    assert env.risk.check(req, 0.66, "high").ok
+    assert env.risk.check(req, 0.66, "medium").ok
+    assert "low confidence" in env.risk.check(req, 0.66, "low").reason
 
 
 def test_fractional_kelly_caps_size(env):
-    # Claude says 0.60 against a 0.41 mid: shrunk to 0.505, quarter Kelly on $500 allows about $15.
-    d = env.risk.check(OrderRequest("atl", "buy", "yes", 0.42, 23), 0.60, "high")
+    # Claude says 0.70 against a 0.41 mid: shrunk to 0.555, quarter Kelly on $500 allows about $26.
+    d = env.risk.check(OrderRequest("atl", "buy", "yes", 0.42, 23), 0.70, "high")
     assert d.ok
-    env.broker.state["cash"] = 100.0  # same trade on a $100 bankroll allows about $3
+    env.broker.state["cash"] = 100.0  # same trade on a $100 bankroll allows about $5
     env.risk.path.unlink()  # reset the day's opening equity so the loss stop doesn't fire
-    d = env.risk.check(OrderRequest("atl", "buy", "yes", 0.42, 23), 0.60, "high")
-    assert not d.ok and "shrunk toward the mid (0.505)" in d.reason
-    assert env.risk.check(OrderRequest("atl", "buy", "yes", 0.42, 5), 0.60, "high").ok
+    d = env.risk.check(OrderRequest("atl", "buy", "yes", 0.42, 23), 0.70, "high")
+    assert not d.ok and "shrunk probability (0.555)" in d.reason
+    assert env.risk.check(OrderRequest("atl", "buy", "yes", 0.42, 5), 0.70, "high").ok
 
 
 def test_percent_of_equity_cap_wins_when_stricter(env):
@@ -242,13 +243,14 @@ def test_system_prompt_is_polyedge_v2_1():
 def test_entry_price_floor_blocks_longshots(env):
     env.client.books["atl"]["bids"] = [{"px": px(0.08), "qty": "1000"}]
     env.client.books["atl"]["offers"] = [{"px": px(0.10), "qty": "1000"}]
+    # 0.40 shrinks to 0.245 against a 0.09 mid: about 14 points, under the 15 needed below the floor.
     d = env.risk.check(OrderRequest("atl", "buy", "yes", 0.10, 20), 0.40, "high")
     assert not d.ok and "entry floor" in d.reason
-    # The mirror trade (buying NO on the overpriced longshot) is allowed.
-    assert env.risk.check(OrderRequest("atl", "buy", "no", 0.92, 5), 0.99, "high").ok
+    # 0.50 shrinks to 0.295: about 19 points, so the longshot is allowed.
+    assert env.risk.check(OrderRequest("atl", "buy", "yes", 0.10, 20), 0.50, "high").ok
 
 
-def _favorite_market(env, days=2.0, depth_qty="1000"):
+def _favorite_market(env, days=1.0, depth_qty="1000"):
     import datetime as dt
 
     end = dt.datetime.now(dt.timezone.utc) + dt.timedelta(days=days)
@@ -258,18 +260,32 @@ def _favorite_market(env, days=2.0, depth_qty="1000"):
 
 
 def test_favorite_strategy_rules(env):
+    import datetime as dt
+
     _favorite_market(env)
     fav = lambda n, price=0.94: OrderRequest("atl", "buy", "yes", price, n, strategy="favorite")
-    assert env.risk.check(fav(5), 0.97, "high").ok
-    assert "capped at $5.00" in env.risk.check(fav(6), 0.97, "high").reason
-    assert "at least 0.92" in env.risk.check(fav(5, price=0.90), 0.97, "high").reason
-    assert "above price plus fee" in env.risk.check(fav(5), 0.94, "high").reason
+    # Mid 0.935: 0.995 shrinks to 0.965, about 2.1 points over price plus fee.
+    assert env.risk.check(fav(5), 0.995, "high").ok
+    assert "capped at $5.00" in env.risk.check(fav(6), 0.995, "high").reason
+    assert "between 0.9" in env.risk.check(fav(5, price=0.89), 0.995, "high").reason
+    assert "needs 0.020" in env.risk.check(fav(5), 0.97, "high").reason
 
-    _favorite_market(env, days=20)
-    assert "favorite strategy allows 7" in env.risk.check(fav(5), 0.97, "high").reason
+    env.risk.record_order("favorite")
+    env.risk.record_order("favorite")
+    assert "2 favorite orders" in env.risk.check(fav(5), 0.995, "high").reason
+    env.risk.favorites_this_run = env.risk.orders_this_run = 0
+
+    _favorite_market(env, days=3)
+    assert "allows 48" in env.risk.check(fav(5), 0.995, "high").reason
+
+    _favorite_market(env)
+    started = dt.datetime.now(dt.timezone.utc) - dt.timedelta(hours=1)
+    env.client.meta["atl"]["gameStartTime"] = started.isoformat().replace("+00:00", "Z")
+    assert "live in-game" in env.risk.check(fav(5), 0.995, "high").reason
+    del env.client.meta["atl"]["gameStartTime"]
 
     _favorite_market(env, depth_qty="100")
-    assert "offered near the best ask" in env.risk.check(fav(5), 0.97, "high").reason
+    assert "offered near the best ask" in env.risk.check(fav(5), 0.995, "high").reason
 
 
 def test_favorite_exposure_is_capped_separately(env):
@@ -277,7 +293,7 @@ def test_favorite_exposure_is_capped_separately(env):
     s = replace(env.settings, fav_max_total_usd=8)
     risk = RiskManager(s, env.broker, env.md)
     env.broker.place(OrderRequest("atl", "buy", "yes", 0.94, 5, strategy="favorite"))
-    d = risk.check(OrderRequest("atl", "buy", "yes", 0.94, 5, strategy="favorite"), 0.98, "high")
+    d = risk.check(OrderRequest("atl", "buy", "yes", 0.94, 5, strategy="favorite"), 0.995, "high")
     assert not d.ok and "favorite strategy exposure" in d.reason
 
 

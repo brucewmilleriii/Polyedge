@@ -60,6 +60,7 @@ class RiskManager:
         self.broker = broker
         self.md = md
         self.orders_this_run = 0
+        self.favorites_this_run = 0
         self.path = settings.state_dir / "risk.json"
         self._event_cache: dict[str, str] = {}
 
@@ -176,44 +177,66 @@ class RiskManager:
             return d
         return self._check_exposure(req, notional, fee, held)
 
+    def _shrunk(self, probability: float, book, price: float) -> float:
+        """Pull Claude's probability toward the market mid; the market is usually closer to right."""
+        mid = book.mid if book.mid is not None else price
+        return mid + self.s.shrink * (probability - mid)
+
     def _check_edge(self, req, probability, confidence, fee, notional, book) -> Decision:
         s = self.s
-        if req.price < s.min_price:
-            return Decision(False, f"price is below the {s.min_price} entry floor for the edge strategy")
         if confidence not in CONFIDENCE_MIN_EDGE:
             return Decision(False, "confidence must be high, medium or low")
-        edge = probability - req.price - fee
+        p_used = self._shrunk(probability, book, req.price)
+        edge = p_used - req.price - fee
+        if req.price < s.min_price and edge < s.longshot_min_edge:
+            return Decision(
+                False,
+                f"price is below the {s.min_price} entry floor; that needs an edge of "
+                f"{s.longshot_min_edge:.2f} on the shrunk estimate, this is {edge:.3f}",
+            )
         min_edge = max(s.min_edge, CONFIDENCE_MIN_EDGE[confidence])
         if edge < min_edge:
             return Decision(
                 False,
-                f"edge after fees is {edge:.3f}, below the {min_edge:.3f} minimum for {confidence} confidence",
+                f"edge after fees on your probability shrunk toward the mid ({p_used:.3f}) is {edge:.3f}, "
+                f"below the {min_edge:.3f} minimum for {confidence} confidence",
             )
-        # Size on a probability pulled toward the market, since the market is usually closer to right.
-        mid = book.mid if book.mid is not None else req.price
-        p_used = mid + s.shrink * (probability - mid)
         kelly_cap = s.kelly_multiplier * kelly_fraction(p_used, req.price + fee) * self.equity()
         if notional > kelly_cap:
             return Decision(
                 False,
-                f"order is ${notional:.2f}; {s.kelly_multiplier:.2f}x Kelly on your probability shrunk "
-                f"toward the mid ({p_used:.3f}) allows ${kelly_cap:.2f} "
+                f"order is ${notional:.2f}; {s.kelly_multiplier:.2f}x Kelly on your shrunk probability "
+                f"({p_used:.3f}) allows ${kelly_cap:.2f} "
                 f"(at most {int(kelly_cap // req.price)} contracts at this price)",
             )
         return Decision(True)
 
     def _check_favorite(self, req, probability, fee, notional, market, book, held) -> Decision:
         s = self.s
-        if req.price < s.fav_min_price:
-            return Decision(False, f"favorite strategy needs a price of at least {s.fav_min_price}")
-        if probability < req.price + fee:
-            return Decision(False, "favorite strategy still needs your probability above price plus fee")
+        if self.favorites_this_run >= s.fav_max_orders_per_run:
+            return Decision(False, f"already placed {s.fav_max_orders_per_run} favorite orders this run")
+        if not s.fav_min_price <= req.price <= s.max_price:
+            return Decision(False, f"favorite strategy needs a price between {s.fav_min_price} and {s.max_price}")
+        p_used = self._shrunk(probability, book, req.price)
+        edge = p_used - req.price - fee
+        if edge < s.fav_min_edge:
+            return Decision(
+                False,
+                f"edge after fees on your shrunk probability ({p_used:.3f}) is {edge:.3f}, "
+                f"favorite strategy needs {s.fav_min_edge:.3f}",
+            )
+        now = dt.datetime.now(dt.timezone.utc)
         end = _parse_time(market.get("endDate"))
         if end is None:
             return Decision(False, "market has no end date")
-        days = (end - dt.datetime.now(dt.timezone.utc)).total_seconds() / 86400
-        if days > s.fav_max_days:
-            return Decision(False, f"resolves in {days:.1f} days, favorite strategy allows {s.fav_max_days:g}")
+        hours = (end - now).total_seconds() / 3600
+        if hours > s.fav_max_hours:
+            return Decision(False, f"resolves in {hours:.0f} hours, favorite strategy allows {s.fav_max_hours:g}")
+        start = _parse_time(market.get("gameStartTime"))
+        if (market.get("category") or "").lower() == "sports" and start and start <= now <= end:
+            # A game that has started: in-game prices move faster than this agent runs.
+            if market.get("marketType") != "futures" and market.get("sportsMarketType") != "futures":
+                return Decision(False, "no live in-game markets for the favorite strategy")
         if book.best_ask is not None:
             depth = sum(l.price * l.qty for l in book.asks if l.price <= book.best_ask + 0.02)
             if depth < s.fav_min_depth_usd:
@@ -267,5 +290,7 @@ class RiskManager:
             return Decision(False, "not enough cash")
         return Decision(True)
 
-    def record_order(self) -> None:
+    def record_order(self, strategy: str = "edge") -> None:
         self.orders_this_run += 1
+        if strategy == "favorite":
+            self.favorites_this_run += 1

@@ -42,6 +42,7 @@ def cmd_run(settings: Settings) -> None:
     events = broker.sync()
     for e in events:
         journal.log("sync", event=e)
+    _write_performance(settings, broker)
 
     halt = risk.halted()
     if not halt.ok:
@@ -57,7 +58,17 @@ def cmd_run(settings: Settings) -> None:
     )
     journal.log("summary", text=summary)
     _write_last_run(settings, run_id, summary)
+    _write_performance(settings, broker)
     print(summary)
+
+
+def _write_performance(settings: Settings, broker) -> None:
+    """Per-category and per-strategy paper P&L and Brier score, for review outside the agent."""
+    from polyedge.agent import track_record
+
+    record = track_record(broker)
+    if record:
+        (settings.state_dir / "performance.json").write_text(json.dumps(record, indent=2, sort_keys=True))
 
 
 def _write_last_run(settings: Settings, run_id: str, text: str) -> None:

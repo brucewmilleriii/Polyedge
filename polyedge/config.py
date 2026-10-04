@@ -48,13 +48,17 @@ class Settings:
     max_orders_per_run: int = 3
     # Entry-price floor: longshots below this are where the crowd overpays.
     min_price: float = 0.15
+    # Below the floor, a buy needs at least this much edge on the shrunk estimate.
+    longshot_min_edge: float = 0.15
     max_price: float = 0.97
 
     # "favorite" strategy: quick-resolving heavy favorites, tracked separately.
-    fav_min_price: float = 0.92
-    fav_max_days: float = 7.0
+    fav_min_price: float = 0.90
+    fav_max_hours: float = 48.0
+    fav_min_edge: float = 0.02
     fav_min_depth_usd: float = 500.0
     fav_max_order_usd: float = 5.0
+    fav_max_orders_per_run: int = 2
     fav_max_total_usd: float = 30.0
     # Minimum gap between Claude's probability and the price paid, after fees.
     min_edge: float = 0.05
@@ -89,7 +93,10 @@ class Settings:
             kelly_multiplier=_float("POLYEDGE_KELLY_MULTIPLIER", cls.kelly_multiplier),
             shrink=_float("POLYEDGE_SHRINK", cls.shrink),
             fav_min_price=_float("POLYEDGE_FAV_MIN_PRICE", cls.fav_min_price),
-            fav_max_days=_float("POLYEDGE_FAV_MAX_DAYS", cls.fav_max_days),
+            longshot_min_edge=_float("POLYEDGE_LONGSHOT_MIN_EDGE", cls.longshot_min_edge),
+            fav_max_hours=_float("POLYEDGE_FAV_MAX_HOURS", cls.fav_max_hours),
+            fav_min_edge=_float("POLYEDGE_FAV_MIN_EDGE", cls.fav_min_edge),
+            fav_max_orders_per_run=_int("POLYEDGE_FAV_MAX_ORDERS_PER_RUN", cls.fav_max_orders_per_run),
             fav_min_depth_usd=_float("POLYEDGE_FAV_MIN_DEPTH_USD", cls.fav_min_depth_usd),
             fav_max_order_usd=_float("POLYEDGE_FAV_MAX_ORDER_USD", cls.fav_max_order_usd),
             fav_max_total_usd=_float("POLYEDGE_FAV_MAX_TOTAL_USD", cls.fav_max_total_usd),

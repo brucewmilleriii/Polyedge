@@ -20,13 +20,13 @@ Claude runs with the PolyEdge v2.1 prompt in `polyedge/prompts/polyedge_v2_1.md`
 
 These come from research into what persistently profitable Polymarket accounts do (`top-accounts-analysis.md` in the project files).
 
-- **Entry-price floor.** The edge strategy can't buy anything priced below $0.15, because longshots are where the crowd overpays. Buying the NO side of an overpriced longshot is still allowed.
-- **Shrink, then quarter Kelly.** Claude's full probability has to clear the edge gate. For sizing, the probability is first pulled halfway toward the market mid, and a buy can't exceed 0.25x Kelly on that shrunk number.
-- **Cross-market consistency.** `check_event_consistency` sums the YES bids and asks across an event's outcome markets, so Claude can spot mutually exclusive outcomes that are mispriced against each other.
+- **Shrink first.** Before any check, Claude's probability is pulled halfway toward the market mid: `p_used = mid + 0.5 × (p_claude − mid)`. The edge minimums (5 / 8 / 12 points for high / medium / low confidence) and quarter-Kelly sizing both use `p_used`.
+- **Entry-price floor.** Anything under $0.15 needs at least 15 points of edge on `p_used`, because longshots are where the crowd overpays. Buying NO on an overpriced longshot is the usual alternative.
+- **Linked-market scan.** On every run Claude checks for inconsistencies between linked markets: mutually exclusive outcomes far from summing to 100% (`check_event_consistency`), state against national races, game against series, and "by date A" against "by date B" ladders. It confirms that the resolution wording matches before trading.
 - **Hold to resolution.** A sell is rejected unless Claude marks `thesis_broken`.
-- **No single-decision markets.** The prompt tells Claude to skip markets settled by one person's decision or a surprise announcement.
-- **Track record.** Paper P&L, hit rate and Brier score are tracked by category and by strategy. Claude sees them on every run through `get_portfolio`, and `python -m polyedge status` prints them.
-- **Favorites strategy (`strategy: "favorite"`), tracked separately.** It buys outcomes priced 0.92 or higher that resolve within 7 days, with at least $500 offered within 2¢ of the best ask. Each order is capped at $5 and the strategy at $30 total. It skips the confidence-tier edge minimums but still needs Claude's probability above price plus fee.
+- **No single-decision markets.** The prompt tells Claude to skip markets settled by one person's decision or a secret announcement (strikes, arrests, appointments, awards).
+- **Track record.** Every order is tagged with a category and a strategy. Paper P&L, hit rate and Brier score are written to `state/performance.json` on every run, shown to Claude through `get_portfolio`, and printed by `python -m polyedge status`.
+- **Favorites strategy (`strategy: "favorite"`, paper only, tracked separately).** It buys YES or NO priced 0.90 to 0.97 that resolves within 48 hours, with at least $500 offered within 2¢ of the best ask. It needs at least 2 points of edge after fees on `p_used`. Limits: $5 per order, 2 orders per run, $30 total, and every other cap still applies. Live in-game sports markets are excluded.
 
 ## Risk limits (enforced in code)
 
@@ -38,13 +38,14 @@ These come from research into what persistently profitable Polymarket accounts d
 | `POLYEDGE_MAX_MARKET_PCT` | 0.05 | Per-market cap as a share of equity; the stricter of this and the dollar cap applies |
 | `POLYEDGE_MAX_CLUSTER_PCT` | 0.15 | Cap on everything in one event (correlated markets), as a share of equity |
 | `POLYEDGE_KELLY_MULTIPLIER` | 0.25 | A buy can't exceed this fraction of full Kelly (computed with the fee included) |
-| `POLYEDGE_SHRINK` | 0.5 | How far Claude's probability counts versus the market mid when sizing (0 = market only, 1 = Claude only) |
+| `POLYEDGE_SHRINK` | 0.5 | Weight on Claude's probability versus the market mid for every edge and sizing check (0 = market only, 1 = Claude only) |
 | `POLYEDGE_MAX_DAILY_LOSS_USD` | 25 | Stop the run once equity is this far below today's open (UTC) |
 | `POLYEDGE_MAX_WEEKLY_LOSS_USD` | 50 | Stop the run once equity is this far below this week's open |
 | `POLYEDGE_MAX_ORDERS_PER_RUN` | 3 | Max orders per run |
-| `POLYEDGE_MIN_EDGE` | 0.05 | Floor on edge after fees; the stated confidence raises it to 5 / 8 / 12 points for high / medium / low |
+| `POLYEDGE_MIN_EDGE` | 0.05 | Floor on edge after fees on the shrunk probability; the stated confidence raises it to 5 / 8 / 12 points for high / medium / low |
+| `POLYEDGE_LONGSHOT_MIN_EDGE` | 0.15 | Edge needed to buy below the entry-price floor |
 | `POLYEDGE_MIN_PRICE` / `POLYEDGE_MAX_PRICE` | 0.15 / 0.97 | Entry-price floor for the edge strategy, and the highest price anything can be bought at |
-| `POLYEDGE_FAV_MIN_PRICE`, `_FAV_MAX_DAYS`, `_FAV_MIN_DEPTH_USD`, `_FAV_MAX_ORDER_USD`, `_FAV_MAX_TOTAL_USD` | 0.92, 7, 500, 5, 30 | Favorites strategy rules |
+| `POLYEDGE_FAV_MIN_PRICE`, `_FAV_MAX_HOURS`, `_FAV_MIN_EDGE`, `_FAV_MIN_DEPTH_USD`, `_FAV_MAX_ORDER_USD`, `_FAV_MAX_ORDERS_PER_RUN`, `_FAV_MAX_TOTAL_USD` | 0.90, 48, 0.02, 500, 5, 2, 30 | Favorites strategy rules |
 | `POLYEDGE_CATEGORIES` | all | Comma-separated allowlist, for example `sports` |
 | `POLYEDGE_KILL` or a `KILL` file in the repo root | off | Blocks all buys |
 
