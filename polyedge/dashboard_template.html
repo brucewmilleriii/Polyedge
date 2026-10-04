@@ -1,0 +1,647 @@
+<title>Polyedge Command Deck</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #04060c;
+  --bg2: #070b16;
+  --panel: rgba(10, 18, 36, 0.72);
+  --panel-solid: #0a1224;
+  --line: rgba(0, 240, 255, 0.16);
+  --line-strong: rgba(0, 240, 255, 0.42);
+  --text: #d6e7ff;
+  --muted: #7f93b5;
+  --dim: #4b5d7e;
+  --cyan: #00f0ff;
+  --magenta: #ff2bd6;
+  --lime: #a8ff3e;
+  --amber: #ffb84d;
+  --red: #ff4d6d;
+  --violet: #8b5cff;
+  --glow-c: 0 0 18px rgba(0, 240, 255, 0.35);
+  --glow-m: 0 0 18px rgba(255, 43, 214, 0.35);
+  --radius: 14px;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+  --display: "Orbitron", "Rajdhani", sans-serif;
+  --body: "Rajdhani", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(139, 92, 255, 0.18), transparent 60%),
+    radial-gradient(900px 500px at -10% 10%, rgba(0, 240, 255, 0.12), transparent 60%),
+    linear-gradient(var(--bg), var(--bg2));
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.45;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse at 50% 0%, #000 30%, transparent 85%);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: "";
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(255,255,255,0.018) 0 1px, transparent 1px 3px);
+  pointer-events: none;
+  z-index: 0;
+}
+.wrap { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: 20px 16px 64px; }
+
+/* header */
+header.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 18px; }
+.brand { display: flex; align-items: center; gap: 14px; }
+.logo {
+  width: 46px; height: 46px; border-radius: 12px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, rgba(0,240,255,0.18), rgba(255,43,214,0.18));
+  border: 1px solid var(--line-strong);
+  box-shadow: var(--glow-c);
+}
+.brand h1 {
+  font-family: var(--display); font-weight: 900; letter-spacing: 0.14em;
+  font-size: clamp(20px, 4vw, 30px); margin: 0;
+  background: linear-gradient(90deg, var(--cyan), #9fd8ff 45%, var(--magenta));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.brand .sub { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); background: rgba(4, 10, 24, 0.7);
+  color: var(--muted); display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;
+}
+.chip b { color: var(--text); font-weight: 600; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px var(--lime); animation: pulse 2s infinite; }
+.dot.amber { background: var(--amber); box-shadow: 0 0 10px var(--amber); }
+.dot.red { background: var(--red); box-shadow: 0 0 10px var(--red); }
+@keyframes pulse { 50% { opacity: 0.35; } }
+
+nav.tabs { display: flex; gap: 6px; margin: 0 0 18px; overflow-x: auto; scrollbar-width: none; }
+nav.tabs::-webkit-scrollbar { display: none; }
+nav.tabs a {
+  font-family: var(--display); font-size: 12px; letter-spacing: 0.16em; text-decoration: none;
+  color: var(--muted); padding: 9px 14px; border-radius: 10px; border: 1px solid transparent; white-space: nowrap;
+}
+nav.tabs a:hover { color: var(--cyan); border-color: var(--line); background: rgba(0,240,255,0.05); }
+
+/* panels */
+section { margin-bottom: 26px; scroll-margin-top: 12px; }
+.sec-title { display: flex; align-items: baseline; gap: 12px; margin: 0 0 12px; }
+.sec-title h2 { font-family: var(--display); font-size: 14px; letter-spacing: 0.28em; margin: 0; color: var(--cyan); text-shadow: var(--glow-c); }
+.sec-title .rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--line-strong), transparent); }
+.sec-title .idx { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+
+.grid { display: grid; gap: 14px; }
+.kpis { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+.two { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+.three { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+
+.panel {
+  position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); min-width: 0;
+}
+.panel::before, .panel::after {
+  content: ""; position: absolute; width: 14px; height: 14px; border-color: var(--cyan); opacity: 0.7;
+}
+.panel::before { top: -1px; left: -1px; border-top: 2px solid; border-left: 2px solid; border-top-left-radius: var(--radius); }
+.panel::after { bottom: -1px; right: -1px; border-bottom: 2px solid; border-right: 2px solid; border-bottom-right-radius: var(--radius); }
+.panel h3 { font-family: var(--display); font-size: 11px; letter-spacing: 0.22em; color: var(--muted); margin: 0 0 12px; font-weight: 500; text-transform: uppercase; }
+
+.kpi .label { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; color: var(--muted); text-transform: uppercase; }
+.kpi .value { font-family: var(--display); font-weight: 700; font-size: clamp(22px, 3vw, 30px); margin: 6px 0 2px; letter-spacing: 0.04em; }
+.kpi .foot { font-family: var(--mono); font-size: 11.5px; color: var(--dim); }
+.c-cyan { color: var(--cyan); text-shadow: var(--glow-c); }
+.c-mag { color: var(--magenta); text-shadow: var(--glow-m); }
+.c-lime { color: var(--lime); text-shadow: 0 0 16px rgba(168,255,62,0.35); }
+.c-amber { color: var(--amber); }
+.c-red { color: var(--red); }
+.muted { color: var(--muted); }
+.mono { font-family: var(--mono); }
+
+/* gauges */
+.gauges { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+.gauge { text-align: center; }
+.gauge svg { width: 100%; max-width: 128px; height: auto; display: block; margin: 0 auto; }
+.gauge .g-label { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
+
+/* bars */
+.bars { display: flex; flex-direction: column; gap: 10px; }
+.bar-row { display: grid; grid-template-columns: minmax(90px, 140px) 1fr auto; align-items: center; gap: 10px; font-size: 14px; }
+.bar-row .name { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.track { height: 10px; border-radius: 99px; background: rgba(255,255,255,0.05); overflow: hidden; border: 1px solid rgba(255,255,255,0.04); }
+.fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--cyan), var(--violet)); box-shadow: var(--glow-c); }
+.fill.mag { background: linear-gradient(90deg, var(--violet), var(--magenta)); box-shadow: var(--glow-m); }
+.fill.amber { background: linear-gradient(90deg, #ff8a3d, var(--amber)); box-shadow: none; }
+.fill.lime { background: linear-gradient(90deg, #3dffb0, var(--lime)); box-shadow: none; }
+.bar-row .v { font-family: var(--mono); font-size: 12.5px; min-width: 48px; text-align: right; }
+
+/* tables */
+.table-wrap { overflow-x: auto; margin: 0 -4px; padding: 0 4px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { font-family: var(--mono); font-weight: 400; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td { padding: 9px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: top; }
+td.num { font-family: var(--mono); font-size: 13px; text-align: right; white-space: nowrap; }
+th.num { text-align: right; }
+tr.clickable { cursor: pointer; }
+tr.clickable:hover td { background: rgba(0,240,255,0.04); }
+tr.detail td { color: var(--muted); font-size: 13.5px; background: rgba(0,0,0,0.25); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 6px; border: 1px solid; text-transform: uppercase; white-space: nowrap; }
+.tag.ok { color: var(--lime); border-color: rgba(168,255,62,0.4); background: rgba(168,255,62,0.07); }
+.tag.no { color: var(--red); border-color: rgba(255,77,109,0.4); background: rgba(255,77,109,0.07); }
+.tag.yes-side { color: var(--cyan); border-color: rgba(0,240,255,0.4); }
+.tag.no-side { color: var(--magenta); border-color: rgba(255,43,214,0.4); }
+.tag.neutral { color: var(--muted); border-color: var(--line); }
+.slug { font-family: var(--mono); font-size: 12.5px; word-break: break-all; }
+
+.empty {
+  border: 1px dashed var(--line); border-radius: 10px; padding: 18px; text-align: center; color: var(--muted);
+  font-size: 14.5px; background: repeating-linear-gradient(135deg, rgba(0,240,255,0.02) 0 10px, transparent 10px 20px);
+}
+
+/* chart */
+.chart { width: 100%; height: auto; display: block; }
+.chart text { font-family: var(--mono); font-size: 10px; fill: var(--dim); }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 8px; }
+.legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+
+/* agents */
+.agent { display: flex; flex-direction: column; gap: 12px; }
+.agent-head { display: flex; align-items: center; gap: 12px; }
+.avatar {
+  width: 44px; height: 44px; border-radius: 50%; flex: none; display: grid; place-items: center;
+  border: 1px solid var(--line-strong); position: relative;
+  background: radial-gradient(circle at 35% 30%, rgba(0,240,255,0.35), rgba(4,10,24,0.9) 70%);
+}
+.avatar.mag { background: radial-gradient(circle at 35% 30%, rgba(255,43,214,0.35), rgba(4,10,24,0.9) 70%); border-color: rgba(255,43,214,0.45); }
+.avatar.lime { background: radial-gradient(circle at 35% 30%, rgba(168,255,62,0.3), rgba(4,10,24,0.9) 70%); border-color: rgba(168,255,62,0.45); }
+.avatar::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; border: 1px dashed rgba(0,240,255,0.35); animation: spin 14s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.agent-head .n { font-family: var(--display); font-size: 14px; letter-spacing: 0.12em; }
+.agent-head .r { font-size: 13.5px; color: var(--muted); }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 14px; }
+.kv dt { color: var(--muted); font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; padding-top: 2px; }
+.kv dd { margin: 0; text-align: right; font-family: var(--mono); font-size: 13px; }
+
+.report { font-size: 15px; line-height: 1.55; max-height: 560px; overflow: auto; padding-right: 6px; }
+.report h1 { font-family: var(--display); font-size: 15px; letter-spacing: 0.12em; color: var(--cyan); margin: 0 0 10px; }
+.report h2, .report h3 { font-family: var(--display); font-size: 12.5px; letter-spacing: 0.16em; color: var(--magenta); margin: 18px 0 8px; text-transform: uppercase; }
+.report table { font-size: 13px; margin: 8px 0; }
+.report th { font-size: 10px; }
+.report strong { color: #fff; }
+.report code { font-family: var(--mono); font-size: 12.5px; color: var(--cyan); }
+.report ul, .report ol { padding-left: 20px; }
+
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.tl-item { display: grid; grid-template-columns: 16px 1fr; gap: 12px; }
+.tl-rail { position: relative; }
+.tl-rail::before { content: ""; position: absolute; left: 7px; top: 0; bottom: 0; width: 1px; background: var(--line); }
+.tl-rail::after { content: ""; position: absolute; left: 3px; top: 8px; width: 9px; height: 9px; border-radius: 50%; background: var(--cyan); box-shadow: var(--glow-c); }
+.tl-item.halt .tl-rail::after { background: var(--red); box-shadow: 0 0 12px var(--red); }
+.tl-body { padding-bottom: 16px; min-width: 0; }
+.tl-meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
+.tl-text { font-size: 14.5px; margin-top: 4px; }
+details summary { cursor: pointer; color: var(--cyan); font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; margin-top: 6px; list-style: none; }
+details summary::-webkit-details-marker { display: none; }
+
+.limits { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 10px; }
+.limit { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; background: rgba(0,0,0,0.2); }
+.limit .k { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
+.limit .v { font-family: var(--display); font-size: 17px; margin-top: 4px; }
+
+footer { font-family: var(--mono); font-size: 11px; color: var(--dim); text-align: center; margin-top: 30px; letter-spacing: 0.08em; }
+
+@media (max-width: 560px) {
+  .wrap { padding: 14px 16px 48px; }
+  .bar-row { grid-template-columns: 84px 1fr auto; }
+  .panel { padding: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .dot, .avatar::after { animation: none; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00f0ff"/><stop offset="1" stop-color="#ff2bd6"/></linearGradient></defs>
+          <path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/>
+        </svg>
+      </div>
+      <div>
+        <h1>POLYEDGE</h1>
+        <div class="sub">Autonomous prediction-market agent // command deck</div>
+      </div>
+    </div>
+    <div class="chips" id="chips"></div>
+  </header>
+
+  <nav class="tabs">
+    <a href="#funds">01 FUNDS</a>
+    <a href="#analytics">02 TRADE ANALYTICS</a>
+    <a href="#agents">03 AGENTS</a>
+    <a href="#limits">04 GUARDRAILS</a>
+  </nav>
+
+  <section id="funds">
+    <div class="sec-title"><span class="idx">01</span><h2>FUNDS</h2><span class="rule"></span></div>
+    <div class="grid kpis" id="kpis"></div>
+    <div class="grid two" style="margin-top:14px">
+      <div class="panel">
+        <h3>Equity trajectory</h3>
+        <div id="equity-chart"></div>
+      </div>
+      <div class="panel">
+        <h3>Risk utilisation</h3>
+        <div class="gauges" id="gauges"></div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:14px">
+      <h3>Open positions</h3>
+      <div id="positions"></div>
+    </div>
+  </section>
+
+  <section id="analytics">
+    <div class="sec-title"><span class="idx">02</span><h2>TRADE ANALYTICS</h2><span class="rule"></span></div>
+    <div class="grid three">
+      <div class="panel"><h3>Decision funnel</h3><div id="funnel"></div></div>
+      <div class="panel"><h3>Why orders were blocked</h3><div id="reasons"></div></div>
+      <div class="panel"><h3>Claude vs market</h3><div id="scatter"></div></div>
+    </div>
+    <div class="grid two" style="margin-top:14px">
+      <div class="panel"><h3>Track record by category &amp; strategy</h3><div id="track"></div></div>
+      <div class="panel"><h3>Exposure by category</h3><div id="by-cat"></div></div>
+    </div>
+    <div class="panel" style="margin-top:14px">
+      <h3>Order log <span class="muted mono" style="letter-spacing:0;text-transform:none;font-size:11px">· tap a row for Claude's rationale</span></h3>
+      <div id="orders"></div>
+    </div>
+  </section>
+
+  <section id="agents">
+    <div class="sec-title"><span class="idx">03</span><h2>AGENTS</h2><span class="rule"></span></div>
+    <div class="grid three" id="agent-cards"></div>
+    <div class="grid two" style="margin-top:14px">
+      <div class="panel"><h3>API cost per run</h3><div id="cost-chart"></div></div>
+      <div class="panel"><h3>Run timeline</h3><div class="timeline" id="timeline"></div></div>
+    </div>
+    <div class="panel" style="margin-top:14px">
+      <h3>Latest agent report</h3>
+      <div class="report" id="report"></div>
+    </div>
+  </section>
+
+  <section id="limits">
+    <div class="sec-title"><span class="idx">04</span><h2>GUARDRAILS</h2><span class="rule"></span></div>
+    <div class="panel">
+      <h3>Hard limits enforced in code before any order is sent</h3>
+      <div class="limits" id="limit-grid"></div>
+    </div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const D = /*__POLYEDGE_DATA__*/null;
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const usd = (n, d = 2) => (n < 0 ? "-$" : "$") + Math.abs(n).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+const signed = (n) => (n > 0 ? "+" : n < 0 ? "-" : "±") + usd(Math.abs(n)).slice(0);
+const pct = (n, d = 1) => (n * 100).toFixed(d) + "%";
+const when = (iso) => {
+  if (!iso) return "—";
+  const t = new Date(iso);
+  return t.toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+};
+const ago = (iso) => {
+  if (!iso) return "never";
+  const m = Math.round((Date.now() - new Date(iso)) / 60000);
+  if (m < 1) return "just now";
+  if (m < 60) return m + "m ago";
+  const h = Math.floor(m / 60);
+  if (h < 48) return h + "h " + (m % 60) + "m ago";
+  return Math.floor(h / 24) + "d ago";
+};
+const empty = (msg) => `<div class="empty">${msg}</div>`;
+
+function nextRun() {
+  // Cron "7 */2 * * *" in UTC.
+  const n = new Date();
+  const t = new Date(Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate(), n.getUTCHours(), 7));
+  if (t.getUTCHours() % 2) t.setUTCHours(t.getUTCHours() + 1);
+  while (t <= n) t.setUTCHours(t.getUTCHours() + 2);
+  return t;
+}
+
+function gauge(value, max, label, color) {
+  const frac = max > 0 ? Math.max(0, Math.min(1, value / max)) : 0;
+  const r = 44, c = 2 * Math.PI * r, arc = c * 0.75;
+  const col = frac >= 0.8 ? "var(--red)" : frac >= 0.5 ? "var(--amber)" : color;
+  return `<div class="gauge">
+    <svg viewBox="0 0 120 120" role="img" aria-label="${esc(label)} ${usd(value)} of ${usd(max, 0)}">
+      <circle cx="60" cy="60" r="${r}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="9"
+        stroke-dasharray="${arc} ${c}" transform="rotate(135 60 60)" stroke-linecap="round"/>
+      <circle cx="60" cy="60" r="${r}" fill="none" stroke="${col}" stroke-width="9"
+        stroke-dasharray="${Math.max(0.001, arc * frac)} ${c}" transform="rotate(135 60 60)" stroke-linecap="round"
+        style="filter: drop-shadow(0 0 6px ${col})"/>
+      <text x="60" y="58" text-anchor="middle" style="font-family:Orbitron;font-size:17px;font-weight:700;fill:#d6e7ff">${pct(frac, 0)}</text>
+      <text x="60" y="76" text-anchor="middle" style="font-family:'JetBrains Mono';font-size:9.5px;fill:#7f93b5">${usd(value, 0)} / ${usd(max, 0)}</text>
+    </svg>
+    <div class="g-label">${esc(label)}</div>
+  </div>`;
+}
+
+function bars(rows, cls = "") {
+  if (!rows.length) return "";
+  const max = Math.max(...rows.map((r) => r.value), 1e-9);
+  return `<div class="bars">${rows.map((r) => `
+    <div class="bar-row"><span class="name" title="${esc(r.name)}">${esc(r.name)}</span>
+      <div class="track"><div class="fill ${r.cls || cls}" style="width:${(100 * r.value) / max}%"></div></div>
+      <span class="v">${esc(r.label ?? r.value)}</span></div>`).join("")}</div>`;
+}
+
+function lineChart(points, { yFmt = (v) => v, w = 520, h = 200, baseline } = {}) {
+  const pad = { l: 46, r: 12, t: 12, b: 24 };
+  const ys = points.map((p) => p.y).concat(baseline != null ? [baseline] : []);
+  let lo = Math.min(...ys), hi = Math.max(...ys);
+  if (hi - lo < 1) { lo -= 5; hi += 5; }
+  const xs = points.map((p) => p.x);
+  const x0 = Math.min(...xs), x1 = Math.max(...xs) === x0 ? x0 + 1 : Math.max(...xs);
+  const X = (x) => pad.l + ((x - x0) / (x1 - x0)) * (w - pad.l - pad.r);
+  const Y = (y) => pad.t + (1 - (y - lo) / (hi - lo)) * (h - pad.t - pad.b);
+  const path = points.map((p, i) => (i ? "L" : "M") + X(p.x).toFixed(1) + " " + Y(p.y).toFixed(1)).join(" ");
+  const area = path + ` L${X(points.at(-1).x).toFixed(1)} ${h - pad.b} L${X(points[0].x).toFixed(1)} ${h - pad.b} Z`;
+  const ticks = [lo, (lo + hi) / 2, hi];
+  return `<svg class="chart" viewBox="0 0 ${w} ${h}">
+    <defs><linearGradient id="eqfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00f0ff" stop-opacity="0.35"/><stop offset="1" stop-color="#00f0ff" stop-opacity="0"/></linearGradient></defs>
+    ${ticks.map((t) => `<line x1="${pad.l}" x2="${w - pad.r}" y1="${Y(t)}" y2="${Y(t)}" stroke="rgba(0,240,255,0.08)"/><text x="${pad.l - 6}" y="${Y(t) + 3}" text-anchor="end">${yFmt(t)}</text>`).join("")}
+    ${baseline != null ? `<line x1="${pad.l}" x2="${w - pad.r}" y1="${Y(baseline)}" y2="${Y(baseline)}" stroke="rgba(255,43,214,0.5)" stroke-dasharray="4 4"/>` : ""}
+    <path d="${area}" fill="url(#eqfill)"/>
+    <path d="${path}" fill="none" stroke="#00f0ff" stroke-width="2" style="filter:drop-shadow(0 0 5px #00f0ff)"/>
+    ${points.map((p) => `<circle cx="${X(p.x)}" cy="${Y(p.y)}" r="3" fill="#04060c" stroke="#00f0ff" stroke-width="1.5"><title>${esc(p.t || "")} ${yFmt(p.y)}</title></circle>`).join("")}
+    <text x="${pad.l}" y="${h - 6}">${esc(points[0].t || "")}</text>
+    <text x="${w - pad.r}" y="${h - 6}" text-anchor="end">${esc(points.at(-1).t || "")}</text>
+  </svg>`;
+}
+
+function scatter(reqs) {
+  const pts = reqs.filter((r) => r.action === "buy" && r.probability != null && r.price != null);
+  if (!pts.length) return empty("No buy decisions yet.");
+  const w = 300, h = 240, p = 30;
+  const X = (v) => p + v * (w - p - 10), Y = (v) => h - p - v * (h - p - 10);
+  const grid = [0, 0.25, 0.5, 0.75, 1];
+  return `<svg class="chart" viewBox="0 0 ${w} ${h}">
+    ${grid.map((g) => `<line x1="${X(g)}" x2="${X(g)}" y1="${Y(0)}" y2="${Y(1)}" stroke="rgba(0,240,255,0.06)"/><line x1="${X(0)}" x2="${X(1)}" y1="${Y(g)}" y2="${Y(g)}" stroke="rgba(0,240,255,0.06)"/>
+      <text x="${X(g)}" y="${h - 14}" text-anchor="middle">${g}</text><text x="${p - 6}" y="${Y(g) + 3}" text-anchor="end">${g}</text>`).join("")}
+    <line x1="${X(0)}" y1="${Y(0)}" x2="${X(1)}" y2="${Y(1)}" stroke="rgba(255,43,214,0.55)" stroke-dasharray="4 4"/>
+    ${pts.map((r) => {
+      const col = r.approved ? "#a8ff3e" : "#ff4d6d";
+      return `<line x1="${X(r.price)}" y1="${Y(r.price)}" x2="${X(r.price)}" y2="${Y(r.probability)}" stroke="${col}" stroke-opacity="0.35"/>
+      <circle cx="${X(r.price)}" cy="${Y(r.probability)}" r="5" fill="${col}" fill-opacity="0.25" stroke="${col}" style="filter:drop-shadow(0 0 4px ${col})"><title>${esc(r.slug)} ${r.side.toUpperCase()} · price ${r.price} · Claude ${r.probability}</title></circle>`;
+    }).join("")}
+    <text x="${w - 8}" y="${h - 2}" text-anchor="end">price paid →</text>
+    <text x="4" y="10">Claude's probability ↑</text>
+  </svg>
+  <div class="legend"><span><i style="background:#a8ff3e"></i>approved</span><span><i style="background:#ff4d6d"></i>blocked</span><span><i style="background:#ff2bd6"></i>no-edge line</span></div>`;
+}
+
+function reasonBucket(r) {
+  const s = (r || "").toLowerCase();
+  if (s.includes("kelly")) return "Kelly size";
+  if (s.includes("edge")) return "Edge too small";
+  if (s.includes("exposure") || s.includes("would put") || s.includes("max per order") || s.includes("max is")) return "Exposure cap";
+  if (s.includes("held to resolution")) return "Hold rule";
+  if (s.includes("loss limit") || s.includes("kill")) return "Loss stop";
+  if (s.includes("favorite")) return "Favorite rules";
+  if (s.includes("cash")) return "Cash";
+  return "Other";
+}
+
+function render() {
+  if (!D) {
+    document.querySelector(".wrap").insertAdjacentHTML("beforeend", empty("No data embedded."));
+    return;
+  }
+  const L = D.limits;
+  const positions = D.positions || [];
+  const reqs = D.requests || [];
+  const runs = D.runs || [];
+  const atCost = positions.reduce((a, p) => a + p.cost, 0);
+  const pendingBuys = (D.open_orders || []).filter((o) => o.action === "buy").reduce((a, o) => a + o.price * o.contracts, 0);
+  const equity = D.cash + atCost + pendingBuys;
+  const pnl = equity - D.starting_cash;
+  const lastRun = runs.at(-1);
+  const isLive = D.mode === "live";
+  const totalCost = runs.reduce((a, r) => a + (r.cost || 0), 0);
+  const costed = runs.filter((r) => r.cost != null);
+  const avgCost = costed.length ? totalCost / costed.length : 0;
+  const nr = nextRun();
+
+  // Header chips
+  $("chips").innerHTML = [
+    `<span class="chip"><span class="dot ${isLive ? "red" : ""}"></span>Mode <b>${isLive ? "LIVE" : "PAPER"}</b></span>`,
+    `<span class="chip">Last run <b>${ago(lastRun?.ts)}</b></span>`,
+    `<span class="chip">Next run <b>${nr.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" })}</b></span>`,
+    `<span class="chip"><span class="dot ${D.live_check.auth === "ok" ? "" : "amber"}"></span>Polymarket US <b>${D.live_check.auth === "ok" ? "AUTH OK" : "NOT CHECKED"}</b></span>`,
+  ].join("");
+
+  // KPIs
+  const kpi = (label, value, foot, cls = "") => `<div class="panel kpi"><div class="label">${label}</div><div class="value ${cls}">${value}</div><div class="foot">${foot}</div></div>`;
+  $("kpis").innerHTML = [
+    kpi(isLive ? "Equity" : "Paper equity", usd(equity), `start ${usd(D.starting_cash, 0)} · positions at cost`, "c-cyan"),
+    kpi("Cash available", usd(D.cash), pendingBuys ? `${usd(pendingBuys)} reserved in orders` : "nothing reserved"),
+    kpi("Total P&amp;L", (pnl >= 0 ? "+" : "") + usd(pnl), `${(pnl / D.starting_cash * 100).toFixed(2)}% · realized ${usd(D.realized_pnl)}`, pnl > 0 ? "c-lime" : pnl < 0 ? "c-red" : ""),
+    kpi("Deployed", usd(atCost + pendingBuys), `${positions.length} positions · cap ${usd(L.max_total_usd, 0)}`, "c-mag"),
+    kpi("Settled trades", String((D.resolved || []).length), (D.resolved || []).length ? `${(D.resolved.filter((r) => r.pnl > 0).length / D.resolved.length * 100).toFixed(0)}% winners` : "track record starts at first settle"),
+    kpi("Agent spend", usd(totalCost), `${costed.length} runs · ~${usd(avgCost)}/run`),
+  ].join("");
+
+  // Equity chart: start, each settlement, now.
+  const pts = [{ x: 0, y: D.starting_cash, t: "start" }];
+  let cum = D.starting_cash;
+  (D.resolved || []).slice().sort((a, b) => a.resolved_at - b.resolved_at).forEach((r, i) => {
+    cum += r.pnl;
+    pts.push({ x: i + 1, y: cum, t: new Date(r.resolved_at * 1000).toLocaleDateString() });
+  });
+  pts.push({ x: pts.length, y: equity, t: "now" });
+  $("equity-chart").innerHTML = lineChart(pts, { yFmt: (v) => "$" + v.toFixed(0), baseline: D.starting_cash }) +
+    `<div class="legend"><span><i style="background:#00f0ff"></i>equity at each settlement</span><span><i style="background:#ff2bd6"></i>starting bankroll</span></div>`;
+
+  // Risk gauges
+  const dayStart = D.risk?.day?.start_equity ?? D.starting_cash;
+  const weekStart = D.risk?.week?.start_equity ?? D.starting_cash;
+  const favExp = positions.filter((p) => p.strategy === "favorite").reduce((a, p) => a + p.cost, 0);
+  $("gauges").innerHTML = [
+    gauge(atCost + pendingBuys, L.max_total_usd, "Total exposure", "var(--cyan)"),
+    gauge(Math.max(0, dayStart - equity), L.max_daily_loss_usd, "Daily loss stop", "var(--lime)"),
+    gauge(Math.max(0, weekStart - equity), L.max_weekly_loss_usd, "Weekly loss stop", "var(--lime)"),
+    gauge(favExp, L.fav_max_total_usd, "Favorites book", "var(--magenta)"),
+  ].join("");
+
+  // Positions
+  $("positions").innerHTML = positions.length
+    ? `<div class="table-wrap"><table><thead><tr><th>Market</th><th>Side</th><th class="num">Qty</th><th class="num">Avg</th><th class="num">Cost</th><th class="num">Claude p</th><th>Strategy</th></tr></thead><tbody>
+      ${positions.map((p) => `<tr><td class="slug">${esc(p.slug)}</td><td><span class="tag ${p.side}-side">${esc(p.side)}</span></td><td class="num">${p.qty}</td><td class="num">${p.avg_price.toFixed(3)}</td><td class="num">${usd(p.cost)}</td><td class="num">${p.probability != null ? p.probability.toFixed(2) : "—"}</td><td><span class="tag neutral">${esc(p.strategy)}</span></td></tr>`).join("")}
+      </tbody></table></div>`
+    : empty(`No open positions. All ${usd(D.cash, 0)} is in cash while the agent waits for edge that clears the rules.`);
+
+  // Funnel
+  const approved = reqs.filter((r) => r.approved).length;
+  const filled = (D.fills || []).filter((f) => (f.filled || 0) > 0).length;
+  const settled = (D.resolved || []).length;
+  $("funnel").innerHTML = reqs.length
+    ? bars([
+        { name: "Requested", value: reqs.length },
+        { name: "Approved", value: approved, cls: "lime" },
+        { name: "Filled", value: filled, cls: "mag" },
+        { name: "Settled", value: settled, cls: "amber" },
+      ].map((r) => ({ ...r, value: Math.max(r.value, 0), label: r.value }))) +
+      `<div class="legend" style="margin-top:12px"><span>approval rate <b class="c-cyan">${pct(approved / reqs.length, 0)}</b></span></div>`
+    : empty("No orders requested yet.");
+
+  // Rejection reasons
+  const counts = {};
+  reqs.filter((r) => !r.approved).forEach((r) => { const b = reasonBucket(r.reject_reason); counts[b] = (counts[b] || 0) + 1; });
+  const rr = Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([name, value]) => ({ name, value, label: value }));
+  $("reasons").innerHTML = rr.length ? bars(rr, "mag") : empty("Nothing blocked yet.");
+
+  // Scatter
+  $("scatter").innerHTML = scatter(reqs);
+
+  // Track record
+  const tr = Object.entries(D.track_record || {});
+  $("track").innerHTML = tr.length
+    ? `<div class="table-wrap"><table><thead><tr><th>Bucket</th><th class="num">P&amp;L</th><th class="num">Settled</th><th class="num">Hit rate</th><th class="num">Brier</th></tr></thead><tbody>
+      ${tr.map(([k, v]) => `<tr><td>${esc(k.replace(":", " · "))}</td><td class="num ${v.realized_pnl > 0 ? "c-lime" : v.realized_pnl < 0 ? "c-red" : ""}">${usd(v.realized_pnl)}</td><td class="num">${v.resolved}</td><td class="num">${v.hit_rate != null ? pct(v.hit_rate, 0) : "—"}</td><td class="num">${v.brier ?? "—"}</td></tr>`).join("")}
+      </tbody></table></div><div class="legend">Brier: 0 is perfect, 0.25 is a coin flip.</div>`
+    : empty("No settled trades yet. P&amp;L, hit rate and Brier score fill in here by category and strategy as markets resolve.");
+
+  // Exposure by category (positions) or attempted volume by category
+  const catExp = {};
+  positions.forEach((p) => { catExp[p.category || "other"] = (catExp[p.category || "other"] || 0) + p.cost; });
+  if (Object.keys(catExp).length) {
+    $("by-cat").innerHTML = bars(Object.entries(catExp).map(([name, v]) => ({ name, value: v, label: usd(v) })));
+  } else {
+    const att = {};
+    reqs.forEach((r) => { const c = r.category || "other"; att[c] = (att[c] || 0) + r.price * r.contracts; });
+    $("by-cat").innerHTML = Object.keys(att).length
+      ? `<div class="muted" style="font-size:13.5px;margin-bottom:10px">Nothing deployed. Attempted order volume by category:</div>` +
+        bars(Object.entries(att).map(([name, v]) => ({ name, value: v, label: usd(v) })), "mag")
+      : empty("No exposure yet.");
+  }
+
+  // Order log
+  $("orders").innerHTML = reqs.length
+    ? `<div class="table-wrap"><table><thead><tr><th>Time</th><th>Market</th><th>Order</th><th class="num">Price</th><th class="num">Qty</th><th class="num">Claude p</th><th>Conf</th><th>Strategy</th><th>Verdict</th></tr></thead><tbody>
+      ${reqs.slice().reverse().map((r, i) => `<tr class="clickable" data-i="${i}"><td class="mono" style="font-size:12px;white-space:nowrap">${when(r.ts)}</td><td class="slug">${esc(r.slug)}</td>
+        <td style="white-space:nowrap">${esc(r.action)} <span class="tag ${r.side}-side">${esc(r.side)}</span></td>
+        <td class="num">${r.price}</td><td class="num">${r.contracts}</td><td class="num">${r.probability ?? "—"}</td>
+        <td><span class="tag neutral">${esc(r.confidence || "—")}</span></td><td><span class="tag neutral">${esc(r.strategy)}</span></td>
+        <td>${r.approved ? `<span class="tag ok">approved</span>` : `<span class="tag no">blocked</span>`}</td></tr>
+        <tr class="detail" data-d="${i}" hidden><td colspan="9">${r.approved ? "" : `<div><b class="c-red">Blocked:</b> ${esc(r.reject_reason)}</div>`}<div style="margin-top:4px"><b class="c-cyan">Rationale:</b> ${esc(r.rationale)}</div></td></tr>`).join("")}
+      </tbody></table></div>`
+    : empty("No orders requested yet.");
+  $("orders").addEventListener("click", (e) => {
+    const tr = e.target.closest("tr.clickable");
+    if (!tr) return;
+    const d = $("orders").querySelector(`tr[data-d="${tr.dataset.i}"]`);
+    d.hidden = !d.hidden;
+  });
+
+  // Agent cards
+  const strat = (s) => {
+    const rs = reqs.filter((r) => r.strategy === s);
+    const exp = positions.filter((p) => p.strategy === s).reduce((a, p) => a + p.cost, 0);
+    const pnlS = D.track_record?.["strategy:" + s]?.realized_pnl ?? 0;
+    return { reqs: rs.length, ok: rs.filter((r) => r.approved).length, exp, pnl: pnlS };
+  };
+  const E = strat("edge"), F = strat("favorite");
+  const card = (cls, icon, name, role, rows, status) => `<div class="panel agent">
+    <div class="agent-head"><div class="avatar ${cls}">${icon}</div><div><div class="n">${name}</div><div class="r">${role}</div></div></div>
+    <dl class="kv">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>
+    <div class="tl-meta">${status}</div></div>`;
+  const ic = (d, c) => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+  $("agent-cards").innerHTML = [
+    card("", ic('<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/>', "#00f0ff"),
+      "ORCHESTRATOR", "Runs the PolyEdge v2.1 prompt and routes every order through the risk engine",
+      [["Model", esc(D.model)], ["Schedule", "every 2h"], ["Runs logged", runs.length], ["Last run", ago(lastRun?.ts)], ["Next run", nr.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" })], ["Avg cost", usd(avgCost)]],
+      `<span class="dot"></span> ${lastRun?.halted ? "halted: " + esc(lastRun.halted) : "online · " + (isLive ? "live" : "paper")}`),
+    card("mag", ic('<path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/>', "#ff2bd6"),
+      "EDGE HUNTER", "Mispriced markets: shrunk estimate, 5/8/12-pt edge by confidence, 0.25x Kelly",
+      [["Requests", E.reqs], ["Approved", E.ok], ["Deployed", usd(E.exp)], ["Realized P&amp;L", usd(E.pnl)], ["Order cap", usd(L.max_order_usd, 0)], ["Per run", L.max_orders_per_run + " orders"]],
+      `<span class="tag neutral">hold to resolution</span>`),
+    card("lime", ic('<path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7z"/>', "#a8ff3e"),
+      "FAVORITES DESK", `Heavy favorites ${L.fav_min_price}–${L.max_price} resolving within ${L.fav_max_hours}h, no live in-game sports`,
+      [["Requests", F.reqs], ["Approved", F.ok], ["Deployed", usd(F.exp)], ["Realized P&amp;L", usd(F.pnl)], ["Order cap", usd(L.fav_max_order_usd, 0)], ["Book cap", usd(L.fav_max_total_usd, 0)]],
+      `<span class="tag neutral">${L.fav_max_orders_per_run} orders / run</span>`),
+  ].join("");
+
+  // Cost chart
+  if (costed.length) {
+    const w = 520, h = 190, p = { l: 40, r: 10, t: 12, b: 26 };
+    const mx = Math.max(...costed.map((r) => r.cost), 0.01) * 1.15;
+    const bw = (w - p.l - p.r) / costed.length;
+    const Y = (v) => p.t + (1 - v / mx) * (h - p.t - p.b);
+    $("cost-chart").innerHTML = `<svg class="chart" viewBox="0 0 ${w} ${h}">
+      <defs><linearGradient id="cb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff2bd6"/><stop offset="1" stop-color="#8b5cff" stop-opacity="0.3"/></linearGradient></defs>
+      ${[0, mx / 2, mx].map((t) => `<line x1="${p.l}" x2="${w - p.r}" y1="${Y(t)}" y2="${Y(t)}" stroke="rgba(0,240,255,0.08)"/><text x="${p.l - 6}" y="${Y(t) + 3}" text-anchor="end">$${t.toFixed(2)}</text>`).join("")}
+      ${costed.map((r, i) => `<rect x="${p.l + i * bw + bw * 0.18}" y="${Y(r.cost)}" width="${Math.max(2, bw * 0.64)}" height="${h - p.b - Y(r.cost)}" rx="3" fill="url(#cb)" style="filter:drop-shadow(0 0 5px rgba(255,43,214,0.5))"><title>${when(r.ts)} · ${usd(r.cost)} · ${r.web_searches ?? 0} searches</title></rect>`).join("")}
+      <text x="${p.l}" y="${h - 8}">${when(costed[0].ts)}</text><text x="${w - p.r}" y="${h - 8}" text-anchor="end">${when(costed.at(-1).ts)}</text>
+    </svg><div class="legend"><span>total <b class="c-mag">${usd(totalCost)}</b></span><span>avg <b>${usd(avgCost)}</b>/run</span><span>≈ <b>${usd(avgCost * 12)}</b>/day at 12 runs</span></div>`;
+  } else {
+    $("cost-chart").innerHTML = empty("No metered runs yet.");
+  }
+
+  // Timeline
+  $("timeline").innerHTML = runs.length
+    ? runs.slice().reverse().slice(0, 12).map((r) => {
+        const s = r.summary || r.halted || "";
+        const first = s.split(/(?<=\.)\s/).slice(0, 2).join(" ");
+        return `<div class="tl-item ${r.halted ? "halt" : ""}"><div class="tl-rail"></div><div class="tl-body">
+          <div class="tl-meta"><span>${when(r.ts)}</span>${r.cost != null ? `<span class="tag neutral">${usd(r.cost)}</span>` : ""}<span class="tag ${r.approved ? "ok" : "neutral"}">${r.approved}/${r.requests} orders</span></div>
+          <div class="tl-text">${esc(first)}</div>
+          ${s.length > first.length ? `<details><summary>▸ full summary</summary><div class="tl-text muted">${esc(s)}</div></details>` : ""}
+        </div></div>`;
+      }).join("")
+    : empty("No runs yet.");
+
+  // Report
+  const md = D.last_run_md || "";
+  $("report").innerHTML = md
+    ? (window.marked && window.DOMPurify ? DOMPurify.sanitize(marked.parse(md)) : `<pre style="white-space:pre-wrap">${esc(md)}</pre>`)
+    : empty("No report yet.");
+
+  // Limits
+  const lim = [
+    ["Per order", usd(L.max_order_usd, 0)], ["Per market", `${usd(L.max_market_usd, 0)} / ${pct(L.max_market_pct, 0)}`],
+    ["Event cluster", pct(L.max_cluster_pct, 0) + " of equity"], ["Total exposure", usd(L.max_total_usd, 0)],
+    ["Daily loss stop", usd(L.max_daily_loss_usd, 0)], ["Weekly loss stop", usd(L.max_weekly_loss_usd, 0)],
+    ["Kelly sizing", L.kelly_multiplier + "×"], ["Shrink to market", pct(L.shrink, 0)],
+    ["Edge by confidence", "5 / 8 / 12 pts"], ["Under " + Math.round(L.min_price * 100) + "¢", "needs " + Math.round(L.longshot_min_edge * 100) + " pt edge"],
+    ["Max price", L.max_price], ["Orders per run", L.max_orders_per_run], ["Order type", "limit only"], ["Exit", "hold to resolution"],
+  ];
+  $("limit-grid").innerHTML = lim.map(([k, v]) => `<div class="limit"><div class="k">${k}</div><div class="v">${esc(v)}</div></div>`).join("");
+
+  $("foot").innerHTML = `SNAPSHOT ${esc(D.generated_at)} UTC · ${isLive ? "LIVE" : "PAPER"} MODE · ACCOUNT ${D.live_check.funded ? "FUNDED" : "NOT YET FUNDED"} · LIVE CHECK ${when(D.live_check.checked_at)}`;
+}
+render();
+</script>

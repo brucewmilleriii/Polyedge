@@ -323,3 +323,18 @@ def test_track_record_and_usage_meter(env):
     m.add(SimpleNamespace(input_tokens=1_000_000, output_tokens=0, cache_read_input_tokens=0,
                           cache_creation_input_tokens=0, server_tool_use=SimpleNamespace(web_search_requests=10)))
     assert m.cost_usd() == pytest.approx(4.10)
+
+
+def test_dashboard_renders_from_state(tmp_path):
+    from polyedge.config import Settings
+    from polyedge.dashboard import render
+
+    (tmp_path / "journal.jsonl").write_text(
+        '{"ts": "2026-10-04T06:40:23+00:00", "run": "r1", "mode": "paper", "kind": "usage", "est_cost_usd": 0.3}\n'
+    )
+    (tmp_path / "live_check.json").write_text('{"auth": "ok", "account": {"funded": false, "balance": 123}}')
+    out = render(Settings(state_dir=tmp_path), tmp_path / "d.html")
+    html = out.read_text()
+    assert "/*__POLYEDGE_DATA__*/" not in html
+    assert '"est_cost_usd"' not in html and '"cost": 0.3' in html
+    assert "123" not in html

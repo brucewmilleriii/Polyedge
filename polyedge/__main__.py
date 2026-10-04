@@ -2,6 +2,7 @@
 
     python -m polyedge run      # one trading run (paper unless POLYEDGE_MODE=live)
     python -m polyedge status   # print portfolio, P&L and recent decisions
+    python -m polyedge dashboard [--out FILE]  # write the dashboard page from state/
 """
 
 from __future__ import annotations
@@ -113,9 +114,17 @@ def cmd_status(settings: Settings) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(prog="polyedge")
-    parser.add_argument("command", choices=["run", "status"])
+    parser.add_argument("command", choices=["run", "status", "dashboard"])
+    parser.add_argument("--out", default="dashboard.html", help="dashboard output file")
     args = parser.parse_args()
     settings = Settings.from_env()
+    if args.command == "dashboard":
+        from pathlib import Path
+
+        from polyedge.dashboard import render
+
+        print(render(settings, Path(args.out)))
+        return
     {"run": cmd_run, "status": cmd_status}[args.command](settings)
 
 
