@@ -68,7 +68,7 @@ Paper mode needs no Polymarket account, because market data is public.
 
 ### 2. Run it on a schedule with GitHub Actions
 
-`.github/workflows/trade.yml` runs every 30 minutes and commits `state/` back to the repo, so the paper ledger persists between runs. GitHub sometimes starts scheduled runs late or skips one when it's busy. If the cost is too high, change the `cron` line.
+`.github/workflows/trade.yml` runs every 2 hours and commits `state/` back to the repo, so the paper ledger persists between runs. GitHub sometimes starts scheduled runs late or skips one when it's busy. If the cost is too high, change the `cron` line.
 
 1. Add the repository secret `ANTHROPIC_API_KEY`.
 2. Optionally set repository variables (Settings → Secrets and variables → Actions → Variables) for any of the limits above.

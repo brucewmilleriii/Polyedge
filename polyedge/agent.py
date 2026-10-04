@@ -23,7 +23,7 @@ RUNNER_NOTES = """
 
 ## Operating environment (added by the Polyedge runner)
 
-This is an unattended, scheduled run (roughly every 30 minutes). No human will reply, so \
+This is an unattended, scheduled run (roughly every 2 hours). No human will reply, so \
 do not wait for instructions: work through your pipeline on markets you find with the \
 tools, act through place_order, and finish with your Quick Scan Table, a Full Trade Thesis \
 for each order you placed, and a No-Trade Declaration for anything you passed on. Runs are \

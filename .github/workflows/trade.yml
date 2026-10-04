@@ -2,8 +2,8 @@ name: trade
 
 on:
   schedule:
-    # Every 30 minutes (GitHub may start scheduled runs a few minutes late).
-    - cron: "*/30 * * * *"
+    # Every 2 hours (GitHub may start scheduled runs a few minutes late).
+    - cron: "7 */2 * * *"
   workflow_dispatch:
 
 concurrency:
