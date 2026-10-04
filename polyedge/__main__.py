@@ -1,0 +1,96 @@
+"""Command line entry point.
+
+    python -m polyedge run      # one trading run (paper unless POLYEDGE_MODE=live)
+    python -m polyedge status   # print portfolio, P&L and recent decisions
+"""
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import os
+import sys
+
+from polyedge.brokers import LiveBroker, PaperBroker
+from polyedge.config import Settings
+from polyedge.journal import Journal
+from polyedge.market_data import MarketData
+from polyedge.risk import RiskManager
+
+
+def build(settings: Settings):
+    md = MarketData()
+    if settings.live:
+        key_id = os.environ.get("POLYMARKET_KEY_ID")
+        secret = os.environ.get("POLYMARKET_SECRET_KEY")
+        if not key_id or not secret:
+            sys.exit("Live mode needs POLYMARKET_KEY_ID and POLYMARKET_SECRET_KEY.")
+        broker = LiveBroker(md, key_id, secret)
+    else:
+        broker = PaperBroker(md, settings.state_dir, settings.paper_starting_cash)
+    return md, broker, RiskManager(settings, broker, md)
+
+
+def cmd_run(settings: Settings) -> None:
+    from polyedge.agent import Toolbox, run_agent, run_context
+
+    run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    md, broker, risk = build(settings)
+    journal = Journal(settings.state_dir, run_id, settings.mode)
+
+    events = broker.sync()
+    for e in events:
+        journal.log("sync", event=e)
+
+    halt = risk.halted()
+    if not halt.ok:
+        journal.log("halted", reason=halt.reason)
+        print(f"Not trading: {halt.reason}.")
+        _write_last_run(settings, run_id, f"Halted: {halt.reason}")
+        return
+
+    summary = run_agent(settings, Toolbox(settings, md, broker, risk, journal), run_context(settings, events))
+    journal.log("summary", text=summary)
+    _write_last_run(settings, run_id, summary)
+    print(summary)
+
+
+def _write_last_run(settings: Settings, run_id: str, text: str) -> None:
+    settings.state_dir.mkdir(parents=True, exist_ok=True)
+    (settings.state_dir / "last_run.md").write_text(f"# Run {run_id} ({settings.mode})\n\n{text}\n")
+
+
+def cmd_status(settings: Settings) -> None:
+    md, broker, risk = build(settings)
+    equity = risk.equity()
+    print(f"Mode: {settings.mode}")
+    print(f"Cash available: ${broker.cash():.2f}")
+    print(f"Equity (positions at best bid): ${equity:.2f}")
+    if not settings.live:
+        start = settings.paper_starting_cash
+        print(f"Paper P&L since start: ${equity - start:+.2f} ({(equity - start) / start:+.1%})")
+        print(f"Realized P&L: ${broker.state['realized_pnl']:+.2f}")
+    print("Positions:")
+    for p in broker.positions():
+        print(f"  {p.slug} {p.side.upper()} x{p.qty:g} @ {p.avg_price:.3f}")
+    journal = settings.state_dir / "journal.jsonl"
+    if journal.exists():
+        rows = [json.loads(l) for l in journal.read_text().splitlines() if l.strip()]
+        reqs = [r for r in rows if r["kind"] == "order_request"]
+        print(f"Order requests: {len(reqs)} ({sum(r['approved'] for r in reqs)} approved)")
+        for r in reqs[-5:]:
+            verdict = "ok" if r["approved"] else f"rejected: {r['reject_reason']}"
+            print(f"  {r['ts']} {r['action']} {r['side']} {r['slug']} @ {r['price']} x{r['contracts']} ({verdict})")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(prog="polyedge")
+    parser.add_argument("command", choices=["run", "status"])
+    args = parser.parse_args()
+    settings = Settings.from_env()
+    {"run": cmd_run, "status": cmd_status}[args.command](settings)
+
+
+if __name__ == "__main__":
+    main()
