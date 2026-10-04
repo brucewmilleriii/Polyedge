@@ -81,7 +81,7 @@ Each run makes several Claude calls plus up to 8 web searches. The estimated cos
 1. Install the Polymarket US app, complete KYC, and fund the account. Polymarket US is not available in every state.
 2. Create an API key at [polymarket.us/developer](https://polymarket.us/developer). The secret is shown once.
 3. Add the repository secrets `POLYMARKET_KEY_ID` and `POLYMARKET_SECRET_KEY`.
-4. **Verify NO-side pricing with one tiny manual order first.** Polymarket US documents that order prices refer to the YES side. Polyedge therefore sends a NO buy at `p` as `ORDER_INTENT_BUY_SHORT` with YES price `1 - p` (see `LiveBroker.place`). Confirm this on a 1-contract order before trusting it with size. Also check that `portfolio.positions()` reports NO holdings as negative `netPosition`, as `LiveBroker.positions` assumes.
+4. Run the `live-check` workflow from the Actions tab. It confirms the keys authenticate and previews, without placing, 1-contract YES and NO orders, then writes the result to `state/live_check.json`. The NO-side convention was confirmed this way on 2026-10-04: a `BUY_SHORT` at YES-terms price `1 - p` rests on the book as a YES sell at `1 - p`, which is a NO buy at `p`.
 5. Set the repository variable `POLYEDGE_MODE=live`.
 
 To stop trading immediately, set the repository variable `POLYEDGE_KILL=1` or commit a `KILL` file.
