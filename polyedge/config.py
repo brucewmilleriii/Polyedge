@@ -35,8 +35,8 @@ class Settings:
     max_order_usd: float = 5.0
     max_market_usd: float = 10.0
     max_total_usd: float = 50.0
-    max_daily_loss_usd: float = 10.0
-    max_weekly_loss_usd: float = 20.0
+    max_daily_loss_usd: float = 100.0
+    max_weekly_loss_usd: float = 100.0
     # Percentage caps from the PolyEdge prompt; the stricter of these and the
     # dollar caps applies.
     max_market_pct: float = 0.05
@@ -63,6 +63,18 @@ class Settings:
     fav_max_order_usd: float = 5.0
     fav_max_orders_per_run: int = 2
     fav_max_total_usd: float = 30.0
+    # "crypto_updown": in the last crypto_window_secs of each crypto Up/Down window,
+    # buy the side priced between crypto_min_price and crypto_max_price and hold.
+    crypto_assets: tuple[str, ...] = ("btc", "eth", "sol", "xrp")
+    crypto_horizons: tuple[str, ...] = ("5m",)
+    crypto_min_price: float = 0.85
+    crypto_max_price: float = 0.97
+    crypto_max_order_usd: float = 10.0
+    crypto_window_secs: float = 120.0
+    crypto_min_secs_left: float = 5.0
+    crypto_poll_secs: float = 4.0
+    crypto_cancel_after_secs: float = 3.0
+    crypto_run_minutes: float = 345.0
     # Minimum gap between Claude's probability and the price paid, after fees.
     min_edge: float = 0.05
     # Empty means every category is allowed.
@@ -109,6 +121,15 @@ class Settings:
             max_price=_float("POLYEDGE_MAX_PRICE", cls.max_price),
             min_edge=_float("POLYEDGE_MIN_EDGE", cls.min_edge),
             categories=_list("POLYEDGE_CATEGORIES"),
+            crypto_assets=_list("POLYEDGE_CRYPTO_ASSETS") or cls.crypto_assets,
+            crypto_horizons=_list("POLYEDGE_CRYPTO_HORIZONS") or cls.crypto_horizons,
+            crypto_min_price=_float("POLYEDGE_CRYPTO_MIN_PRICE", cls.crypto_min_price),
+            crypto_max_price=_float("POLYEDGE_CRYPTO_MAX_PRICE", cls.crypto_max_price),
+            crypto_max_order_usd=_float("POLYEDGE_CRYPTO_MAX_ORDER_USD", cls.crypto_max_order_usd),
+            crypto_window_secs=_float("POLYEDGE_CRYPTO_WINDOW_SECS", cls.crypto_window_secs),
+            crypto_min_secs_left=_float("POLYEDGE_CRYPTO_MIN_SECS_LEFT", cls.crypto_min_secs_left),
+            crypto_poll_secs=_float("POLYEDGE_CRYPTO_POLL_SECS", cls.crypto_poll_secs),
+            crypto_run_minutes=_float("POLYEDGE_CRYPTO_RUN_MINUTES", cls.crypto_run_minutes),
             paper_starting_cash=_float("POLYEDGE_PAPER_STARTING_CASH", cls.paper_starting_cash),
             state_dir=Path(os.environ.get("POLYEDGE_STATE_DIR", "state")),
         )

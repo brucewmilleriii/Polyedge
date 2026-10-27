@@ -1,6 +1,7 @@
 """Command line entry point.
 
     python -m polyedge run      # one trading run (paper unless POLYEDGE_MODE=live)
+    python -m polyedge crypto   # BTC Up/Down closing-minutes loop (no Claude calls)
     python -m polyedge status   # print portfolio, P&L and recent decisions
     python -m polyedge dashboard [--out FILE]  # write the dashboard page from state/
 """
@@ -63,6 +64,22 @@ def cmd_run(settings: Settings) -> None:
     print(summary)
 
 
+def cmd_crypto(settings: Settings) -> None:
+    from dataclasses import replace
+
+    from polyedge.crypto_updown import CryptoTrader
+
+    # Separate state folder so this loop and the scheduled Claude runs never write the same files.
+    settings = replace(settings, state_dir=settings.state_dir / "crypto")
+    run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    md, broker, risk = build(settings)
+    journal = Journal(settings.state_dir, run_id, settings.mode)
+    journal.log("crypto_start", horizons=list(settings.crypto_horizons), minutes=settings.crypto_run_minutes)
+    trades = CryptoTrader(settings, md, broker, risk, journal).run(settings.crypto_run_minutes)
+    journal.log("crypto_end", trades=len(trades))
+    print(f"{len(trades)} trades this run.")
+
+
 def _write_performance(settings: Settings, broker) -> None:
     """Per-category and per-strategy paper P&L and Brier score, for review outside the agent."""
     from polyedge.agent import track_record
@@ -114,7 +131,7 @@ def cmd_status(settings: Settings) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(prog="polyedge")
-    parser.add_argument("command", choices=["run", "status", "dashboard"])
+    parser.add_argument("command", choices=["run", "crypto", "status", "dashboard"])
     parser.add_argument("--out", default="dashboard.html", help="dashboard output file")
     args = parser.parse_args()
     settings = Settings.from_env()
@@ -125,7 +142,7 @@ def main() -> None:
 
         print(render(settings, Path(args.out)))
         return
-    {"run": cmd_run, "status": cmd_status}[args.command](settings)
+    {"run": cmd_run, "crypto": cmd_crypto, "status": cmd_status}[args.command](settings)
 
 
 if __name__ == "__main__":
