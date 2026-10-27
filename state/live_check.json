@@ -1,30 +1,30 @@
 {
-  "checked_at": "2026-10-04T07:29:33+00:00",
+  "checked_at": "2026-10-27T02:42:23+00:00",
   "auth": "ok",
   "account": {
-    "funded": false,
+    "funded": true,
     "positions": 0,
     "open_orders": 0
   },
   "market": {
-    "slug": "tec-mlb-nlchamp-2026-09-27-lad",
-    "yes_bid": 0.491,
-    "yes_ask": 0.498,
-    "no_bid": 0.502,
-    "no_ask": 0.509
+    "slug": "paccc-usse-midterms-2026-11-03-rep",
+    "yes_bid": 0.373,
+    "yes_ask": 0.374,
+    "no_bid": 0.626,
+    "no_ask": 0.627
   },
   "previews": {
     "buy_yes": {
-      "sent_yes_terms_price": 0.391,
+      "sent_yes_terms_price": 0.273,
       "ok": true,
       "response": {
         "order": {
           "id": "",
-          "marketSlug": "tec-mlb-nlchamp-2026-09-27-lad",
+          "marketSlug": "paccc-usse-midterms-2026-11-03-rep",
           "side": "ORDER_SIDE_BUY",
           "type": "ORDER_TYPE_LIMIT",
           "price": {
-            "value": "0.391",
+            "value": "0.273",
             "currency": "USD"
           },
           "quantity": 1,
@@ -34,48 +34,18 @@
           "goodTillTime": null,
           "intent": "ORDER_INTENT_BUY_LONG",
           "marketMetadata": {
-            "slug": "tec-mlb-nlchamp-2026-09-27-lad",
-            "icon": "https://static.polymarket.us/images/Random/Pennant-Winners-NL.png",
-            "title": "National League Champion",
+            "slug": "paccc-usse-midterms-2026-11-03-rep",
+            "icon": "https://polymarket-upload.s3.us-east-2.amazonaws.com/event-images/us-senate-midterm-winner.png",
+            "title": "U.S Senate Midterm Winner",
             "outcome": "Yes",
-            "eventSlug": "mlb-nlchamp-2026-09-27",
-            "teamId": 3014,
-            "team": {
-              "id": 3014,
-              "name": "Los Angeles Dodgers",
-              "abbreviation": "lad",
-              "league": "mlb",
-              "record": "",
-              "logo": "https://polymarket-upload.s3.us-east-2.amazonaws.com/los-angeles-dodgers-light-c8267be279.png",
-              "alias": "Los Angeles Dodgers",
-              "safeName": "Dodgers",
-              "homeIcon": "",
-              "awayIcon": "",
-              "colorPrimary": "#005A9C",
-              "providerId": 1,
-              "ordering": "away",
-              "longIcon": "https://polymarket-upload.s3.us-east-2.amazonaws.com/los-angeles-dodgers-light-c8267be279.png",
-              "shortIcon": "https://polymarket-upload.s3.us-east-2.amazonaws.com/los-angeles-dodgers-light-c8267be279.png",
-              "displayAbbreviation": "LAD",
-              "conference": "",
-              "providerIds": [
-                {
-                  "provider": "PROVIDER_SPORTRADAR",
-                  "providerId": "ef64da7f-cfaf-4300-87b0-9313386b977c"
-                },
-                {
-                  "provider": "PROVIDER_SPORTSDATAIO",
-                  "providerId": "1"
-                }
-              ],
-              "longIconDark": "https://polymarket-upload.s3.us-east-2.amazonaws.com/los-angeles-dodgers-light-c8267be279.png",
-              "shortIconDark": "https://polymarket-upload.s3.us-east-2.amazonaws.com/los-angeles-dodgers-light-c8267be279.png",
-              "color": {
-                "light": "#005A9C",
-                "dark": "#005A9C"
-              }
+            "eventSlug": "usse-midterms-2026-11-03",
+            "subject": {
+              "id": -1,
+              "name": "Republican Party",
+              "subjectType": "",
+              "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/event-images/republican.png"
             },
-            "eventId": "6435"
+            "eventId": "8350"
           },
           "state": "ORDER_STATE_PENDING_NEW",
           "commissionNotionalTotalCollected": {
@@ -93,7 +63,7 @@
             "currency": "USD"
           },
           "insertTime": null,
-          "createTime": "2026-10-04T07:29:35.349104901Z",
+          "createTime": "2026-10-27T02:42:24.684339558Z",
           "outcomeSide": "OUTCOME_SIDE_YES",
           "action": "ORDER_ACTION_BUY",
           "manualOrderIndicator": "MANUAL_ORDER_INDICATOR_AUTOMATIC",
@@ -102,17 +72,17 @@
       }
     },
     "buy_no_as_yes_terms": {
-      "no_price": 0.402,
-      "sent_yes_terms_price": 0.598,
+      "no_price": 0.526,
+      "sent_yes_terms_price": 0.474,
       "ok": true,
       "response": {
         "order": {
           "id": "",
-          "marketSlug": "tec-mlb-nlchamp-2026-09-27-lad",
+          "marketSlug": "paccc-usse-midterms-2026-11-03-rep",
           "side": "ORDER_SIDE_SELL",
           "type": "ORDER_TYPE_LIMIT",
           "price": {
-            "value": "0.598",
+            "value": "0.474",
             "currency": "USD"
           },
           "quantity": 1,
@@ -122,48 +92,18 @@
           "goodTillTime": null,
           "intent": "ORDER_INTENT_BUY_SHORT",
           "marketMetadata": {
-            "slug": "tec-mlb-nlchamp-2026-09-27-lad",
-            "icon": "https://static.polymarket.us/images/Random/Pennant-Winners-NL.png",
-            "title": "National League Champion",
+            "slug": "paccc-usse-midterms-2026-11-03-rep",
+            "icon": "https://polymarket-upload.s3.us-east-2.amazonaws.com/event-images/us-senate-midterm-winner.png",
+            "title": "U.S Senate Midterm Winner",
             "outcome": "No",
-            "eventSlug": "mlb-nlchamp-2026-09-27",
-            "teamId": 3014,
-            "team": {
-              "id": 3014,
-              "name": "Los Angeles Dodgers",
-              "abbreviation": "lad",
-              "league": "mlb",
-              "record": "",
-              "logo": "https://polymarket-upload.s3.us-east-2.amazonaws.com/los-angeles-dodgers-light-c8267be279.png",
-              "alias": "Los Angeles Dodgers",
-              "safeName": "Dodgers",
-              "homeIcon": "",
-              "awayIcon": "",
-              "colorPrimary": "#005A9C",
-              "providerId": 1,
-              "ordering": "away",
-              "longIcon": "https://polymarket-upload.s3.us-east-2.amazonaws.com/los-angeles-dodgers-light-c8267be279.png",
-              "shortIcon": "https://polymarket-upload.s3.us-east-2.amazonaws.com/los-angeles-dodgers-light-c8267be279.png",
-              "displayAbbreviation": "LAD",
-              "conference": "",
-              "providerIds": [
-                {
-                  "provider": "PROVIDER_SPORTRADAR",
-                  "providerId": "ef64da7f-cfaf-4300-87b0-9313386b977c"
-                },
-                {
-                  "provider": "PROVIDER_SPORTSDATAIO",
-                  "providerId": "1"
-                }
-              ],
-              "longIconDark": "https://polymarket-upload.s3.us-east-2.amazonaws.com/los-angeles-dodgers-light-c8267be279.png",
-              "shortIconDark": "https://polymarket-upload.s3.us-east-2.amazonaws.com/los-angeles-dodgers-light-c8267be279.png",
-              "color": {
-                "light": "#005A9C",
-                "dark": "#005A9C"
-              }
+            "eventSlug": "usse-midterms-2026-11-03",
+            "subject": {
+              "id": -1,
+              "name": "Republican Party",
+              "subjectType": "",
+              "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/event-images/republican.png"
             },
-            "eventId": "6435"
+            "eventId": "8350"
           },
           "state": "ORDER_STATE_PENDING_NEW",
           "commissionNotionalTotalCollected": {
@@ -181,7 +121,7 @@
             "currency": "USD"
           },
           "insertTime": null,
-          "createTime": "2026-10-04T07:29:35.446037572Z",
+          "createTime": "2026-10-27T02:42:24.795295310Z",
           "outcomeSide": "OUTCOME_SIDE_NO",
           "action": "ORDER_ACTION_BUY",
           "manualOrderIndicator": "MANUAL_ORDER_INDICATOR_AUTOMATIC",
@@ -190,17 +130,17 @@
       }
     },
     "buy_no_as_no_terms": {
-      "no_price": 0.402,
-      "sent_price": 0.402,
+      "no_price": 0.526,
+      "sent_price": 0.526,
       "ok": true,
       "response": {
         "order": {
           "id": "",
-          "marketSlug": "tec-mlb-nlchamp-2026-09-27-lad",
+          "marketSlug": "paccc-usse-midterms-2026-11-03-rep",
           "side": "ORDER_SIDE_SELL",
           "type": "ORDER_TYPE_LIMIT",
           "price": {
-            "value": "0.402",
+            "value": "0.526",
             "currency": "USD"
           },
           "quantity": 1,
@@ -210,48 +150,18 @@
           "goodTillTime": null,
           "intent": "ORDER_INTENT_BUY_SHORT",
           "marketMetadata": {
-            "slug": "tec-mlb-nlchamp-2026-09-27-lad",
-            "icon": "https://static.polymarket.us/images/Random/Pennant-Winners-NL.png",
-            "title": "National League Champion",
+            "slug": "paccc-usse-midterms-2026-11-03-rep",
+            "icon": "https://polymarket-upload.s3.us-east-2.amazonaws.com/event-images/us-senate-midterm-winner.png",
+            "title": "U.S Senate Midterm Winner",
             "outcome": "No",
-            "eventSlug": "mlb-nlchamp-2026-09-27",
-            "teamId": 3014,
-            "team": {
-              "id": 3014,
-              "name": "Los Angeles Dodgers",
-              "abbreviation": "lad",
-              "league": "mlb",
-              "record": "",
-              "logo": "https://polymarket-upload.s3.us-east-2.amazonaws.com/los-angeles-dodgers-light-c8267be279.png",
-              "alias": "Los Angeles Dodgers",
-              "safeName": "Dodgers",
-              "homeIcon": "",
-              "awayIcon": "",
-              "colorPrimary": "#005A9C",
-              "providerId": 1,
-              "ordering": "away",
-              "longIcon": "https://polymarket-upload.s3.us-east-2.amazonaws.com/los-angeles-dodgers-light-c8267be279.png",
-              "shortIcon": "https://polymarket-upload.s3.us-east-2.amazonaws.com/los-angeles-dodgers-light-c8267be279.png",
-              "displayAbbreviation": "LAD",
-              "conference": "",
-              "providerIds": [
-                {
-                  "provider": "PROVIDER_SPORTRADAR",
-                  "providerId": "ef64da7f-cfaf-4300-87b0-9313386b977c"
-                },
-                {
-                  "provider": "PROVIDER_SPORTSDATAIO",
-                  "providerId": "1"
-                }
-              ],
-              "longIconDark": "https://polymarket-upload.s3.us-east-2.amazonaws.com/los-angeles-dodgers-light-c8267be279.png",
-              "shortIconDark": "https://polymarket-upload.s3.us-east-2.amazonaws.com/los-angeles-dodgers-light-c8267be279.png",
-              "color": {
-                "light": "#005A9C",
-                "dark": "#005A9C"
-              }
+            "eventSlug": "usse-midterms-2026-11-03",
+            "subject": {
+              "id": -1,
+              "name": "Republican Party",
+              "subjectType": "",
+              "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/event-images/republican.png"
             },
-            "eventId": "6435"
+            "eventId": "8350"
           },
           "state": "ORDER_STATE_PENDING_NEW",
           "commissionNotionalTotalCollected": {
@@ -269,7 +179,7 @@
             "currency": "USD"
           },
           "insertTime": null,
-          "createTime": "2026-10-04T07:29:35.537898181Z",
+          "createTime": "2026-10-27T02:42:24.941648863Z",
           "outcomeSide": "OUTCOME_SIDE_NO",
           "action": "ORDER_ACTION_BUY",
           "manualOrderIndicator": "MANUAL_ORDER_INDICATOR_AUTOMATIC",
