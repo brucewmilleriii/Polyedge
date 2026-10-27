@@ -425,3 +425,11 @@
 {"ts": "2026-10-27T09:38:45+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-27T09:41:34+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "account", "cash": 86.41, "unpaid_value": 40.44, "unpaid_cost": 46.23, "unpaid_trades": 5}
 {"ts": "2026-10-27T09:43:14+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "crypto_skip", "slug": "cpcxrp-xrp-updown-5m-2026-10-27-0940z", "side": "no", "price": 0.91, "reason": "would bring total exposure to $55.33, max is $50.00"}
+{"ts": "2026-10-27T09:44:03+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "crypto_skip", "slug": "cpceth-eth-updown-5m-2026-10-27-0940z", "side": "no", "price": 0.95, "reason": "would bring total exposure to $55.73, max is $50.00"}
+{"ts": "2026-10-27T09:44:42+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "crypto_skip", "slug": "cpc-btc-updown-5m-2026-10-27-0940z", "side": "yes", "price": 0.94, "reason": "would bring total exposure to $55.63, max is $50.00"}
+{"ts": "2026-10-27T09:46:36+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "account", "cash": 86.41, "unpaid_value": 41.0, "unpaid_cost": 46.23, "unpaid_trades": 5}
+{"ts": "2026-10-27T09:48:01+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "crypto_skip", "slug": "cpceth-eth-updown-5m-2026-10-27-0945z", "side": "no", "price": 0.9, "reason": "would bring total exposure to $56.13, max is $50.00"}
+{"ts": "2026-10-27T09:48:12+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "crypto_skip", "slug": "cpcsol-sol-updown-5m-2026-10-27-0945z", "side": "no", "price": 0.96, "reason": "would bring total exposure to $55.83, max is $50.00"}
+{"ts": "2026-10-27T09:49:09+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "crypto_skip", "slug": "cpc-btc-updown-5m-2026-10-27-0945z", "side": "no", "price": 0.97, "reason": "would bring total exposure to $55.93, max is $50.00"}
+{"ts": "2026-10-27T09:49:47+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-27T09:51:40+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "account", "cash": 86.41, "unpaid_value": 41.0, "unpaid_cost": 46.23, "unpaid_trades": 5}
