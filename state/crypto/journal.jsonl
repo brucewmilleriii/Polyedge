@@ -507,3 +507,7 @@
 {"ts": "2026-10-27T13:43:51+00:00", "run": "20261027T131645Z", "mode": "live", "kind": "crypto_skip", "slug": "cpc-btc-updown-5m-2026-10-27-1340z", "side": "no", "price": 0.97, "reason": "would bring total exposure to $52.50, max is $50.00"}
 {"ts": "2026-10-27T13:44:02+00:00", "run": "20261027T131645Z", "mode": "live", "kind": "crypto_skip", "slug": "cpcxrp-xrp-updown-5m-2026-10-27-1340z", "side": "yes", "price": 0.97, "reason": "would bring total exposure to $52.50, max is $50.00"}
 {"ts": "2026-10-27T13:44:55+00:00", "run": "20261027T131645Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-27T13:47:00+00:00", "run": "20261027T131645Z", "mode": "live", "kind": "account", "cash": 388.17, "unpaid_value": 40.72, "unpaid_cost": 42.82, "unpaid_trades": 6}
+{"ts": "2026-10-27T13:48:40+00:00", "run": "20261027T131645Z", "mode": "live", "kind": "crypto_skip", "slug": "cpc-btc-updown-5m-2026-10-27-1345z", "side": "no", "price": 0.97, "reason": "would bring total exposure to $52.52, max is $50.00"}
+{"ts": "2026-10-27T13:48:40+00:00", "run": "20261027T131645Z", "mode": "live", "kind": "crypto_skip", "slug": "cpceth-eth-updown-5m-2026-10-27-1345z", "side": "no", "price": 0.96, "reason": "would bring total exposure to $52.42, max is $50.00"}
+{"ts": "2026-10-27T13:52:03+00:00", "run": "20261027T131645Z", "mode": "live", "kind": "account", "cash": 388.17, "unpaid_value": 31.0, "unpaid_cost": 33.1, "unpaid_trades": 5}
