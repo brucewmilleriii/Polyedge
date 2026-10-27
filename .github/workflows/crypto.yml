@@ -30,6 +30,7 @@ jobs:
       POLYEDGE_CRYPTO_HORIZONS: ${{ vars.POLYEDGE_CRYPTO_HORIZONS }}
       POLYEDGE_CRYPTO_MIN_PRICE: ${{ vars.POLYEDGE_CRYPTO_MIN_PRICE }}
       POLYEDGE_CRYPTO_MAX_PRICE: ${{ vars.POLYEDGE_CRYPTO_MAX_PRICE }}
+      POLYEDGE_CRYPTO_WINDOW_SECS: ${{ vars.POLYEDGE_CRYPTO_WINDOW_SECS }}
       POLYEDGE_CRYPTO_MAX_ORDER_USD: ${{ vars.POLYEDGE_CRYPTO_MAX_ORDER_USD }}
       POLYEDGE_CRYPTO_RUN_MINUTES: ${{ vars.POLYEDGE_CRYPTO_RUN_MINUTES }}
     steps:
@@ -49,6 +50,9 @@ jobs:
             git diff --cached --quiet || git commit -q -m "state: crypto run $(date -u +%Y-%m-%dT%H:%MZ) [skip ci]"
             for i in 1 2 3; do git pull -q --rebase --autostash origin main && git push -q && break; sleep 5; done
           }
+          # A queued run checks out the commit from when it was queued; catch up on the
+          # state the previous run saved since, or every save here would conflict.
+          git pull -q --rebase origin main
           python -u -m polyedge crypto & pid=$!
           while kill -0 $pid 2>/dev/null; do
             for _ in $(seq 60); do kill -0 $pid 2>/dev/null || break; sleep 10; done

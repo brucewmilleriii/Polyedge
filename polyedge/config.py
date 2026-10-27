@@ -67,12 +67,12 @@ class Settings:
     # buy the side priced between crypto_min_price and crypto_max_price and hold.
     crypto_assets: tuple[str, ...] = ("btc", "eth", "sol", "xrp")
     crypto_horizons: tuple[str, ...] = ("5m",)
-    crypto_min_price: float = 0.85
+    crypto_min_price: float = 0.90
     crypto_max_price: float = 0.97
     crypto_max_order_usd: float = 10.0
     # Skip when the opposite side is offered above this: both sides high means a wide, empty book.
     crypto_max_other_ask: float = 0.25
-    crypto_window_secs: float = 120.0
+    crypto_window_secs: float = 90.0
     crypto_min_secs_left: float = 5.0
     crypto_poll_secs: float = 4.0
     crypto_cancel_after_secs: float = 3.0

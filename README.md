@@ -30,7 +30,7 @@ These come from research into what persistently profitable Polymarket accounts d
 
 ## Crypto Up/Down closing-minutes strategy
 
-`python -m polyedge crypto` (`.github/workflows/crypto.yml`) is plain code with no Claude calls. It watches the current 5-minute "Up or Down" window for BTC, ETH, SOL and XRP. In the last 2 minutes it buys whichever side, Up or Down, has a best ask between 0.85 and 0.97, takes only what is offered right then (any unfilled remainder is cancelled after 3 seconds), and holds to settlement. One trade per window, $10 per trade. The daily and weekly loss stops, the total-exposure cap and the kill switch all apply. Its state lives in `state/crypto/`. Every watched market, traded or not, is written to `state/crypto/markets.jsonl` with its Up/Down prices 120, 90, 60, 30, 15 and 5 seconds before the close and how it settled.
+`python -m polyedge crypto` (`.github/workflows/crypto.yml`) is plain code with no Claude calls. It watches the current 5-minute "Up or Down" window for BTC, ETH, SOL and XRP. In the last 90 seconds it buys whichever side, Up or Down, has a best ask between 0.90 and 0.97, takes only what is offered right then (any unfilled remainder is cancelled after 3 seconds), and holds to settlement. One trade per window, $10 per trade. The daily and weekly loss stops, the total-exposure cap and the kill switch all apply. Its state lives in `state/crypto/`. Every market for every coin, traded or not, is watched from 2 minutes out and is written to `state/crypto/markets.jsonl` with its Up/Down prices 120, 90, 60, 30, 15 and 5 seconds before the close and how it settled.
 
 Each Actions job loops for about 5h45m, and the hourly schedule queues the next one. It trades live when `POLYEDGE_MODE` (or `POLYEDGE_CRYPTO_MODE`, which takes precedence) is `live`.
 
@@ -38,11 +38,11 @@ Each Actions job loops for about 5h45m, and the hourly schedule queues the next 
 |---|---|---|
 | `POLYEDGE_CRYPTO_ASSETS` | btc,eth,sol,xrp | Coins to watch and trade |
 | `POLYEDGE_CRYPTO_HORIZONS` | 5m | Comma-separated windows to trade: 5m, 15m, 1h |
-| `POLYEDGE_CRYPTO_MIN_PRICE` / `_MAX_PRICE` | 0.85 / 0.97 | Price band for the side bought |
+| `POLYEDGE_CRYPTO_MIN_PRICE` / `_MAX_PRICE` | 0.90 / 0.97 | Price band for the side bought |
 | `POLYEDGE_CRYPTO_MAX_ORDER_USD` | 10 | Dollars per trade |
-| `POLYEDGE_CRYPTO_WINDOW_SECS` | 120 | How close to the window's end it starts buying |
+| `POLYEDGE_CRYPTO_WINDOW_SECS` | 90 | How close to the window's end it starts buying |
 
-At 0.85–0.97 a loss costs several wins, so it only pays if the favorite wins more often than its price implies. Check `state/crypto/markets.jsonl` against outcomes.
+At 0.90–0.97 a loss costs several wins, so it only pays if the favorite wins more often than its price implies. Check `state/crypto/markets.jsonl` against outcomes.
 
 ## Risk limits (enforced in code)
 

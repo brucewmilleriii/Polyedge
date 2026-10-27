@@ -471,7 +471,7 @@ def test_crypto_skips_wide_books_and_reports(env):
 def test_new_loss_stop_defaults():
     s = Settings()
     assert (s.max_daily_loss_usd, s.max_weekly_loss_usd) == (100.0, 100.0)
-    assert s.crypto_max_order_usd == 10.0 and s.crypto_min_price == 0.85
+    assert s.crypto_max_order_usd == 10.0 and s.crypto_min_price == 0.90 and s.crypto_window_secs == 90
 
 
 def test_crypto_counts_settled_trades_awaiting_payout(env):
