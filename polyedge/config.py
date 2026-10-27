@@ -72,7 +72,7 @@ class Settings:
     crypto_max_order_usd: float = 10.0
     crypto_window_secs: float = 120.0
     crypto_min_secs_left: float = 5.0
-    crypto_poll_secs: float = 3.0
+    crypto_poll_secs: float = 4.0
     crypto_cancel_after_secs: float = 3.0
     crypto_run_minutes: float = 345.0
     # Minimum gap between Claude's probability and the price paid, after fees.

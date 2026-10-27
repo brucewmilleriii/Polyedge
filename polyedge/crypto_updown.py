@@ -33,8 +33,9 @@ CHECKPOINTS = (120, 90, 60, 30, 15, 5)
 
 
 def market_slug(asset: str, horizon: str, window_start: dt.datetime) -> str:
-    """e.g. cpc-btc-updown-5m-2026-10-27-0335z for the window starting 03:35 UTC."""
-    return f"cpc-{asset}-updown-{horizon}-{window_start:%Y-%m-%d-%H%M}z"
+    """e.g. cpc-btc-updown-5m-2026-10-27-0335z, or cpceth-eth-updown-5m-... for other coins."""
+    prefix = "cpc" if asset == "btc" else f"cpc{asset}"
+    return f"{prefix}-{asset}-updown-{horizon}-{window_start:%Y-%m-%d-%H%M}z"
 
 
 def current_window(horizon: str, now: float) -> tuple[dt.datetime, dt.datetime]:

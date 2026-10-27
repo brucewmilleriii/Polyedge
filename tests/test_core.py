@@ -391,6 +391,7 @@ def test_crypto_slug_and_window():
     start, end = current_window("5m", now)
     assert market_slug("btc", "5m", start) == "cpc-btc-updown-5m-2026-10-27-0335z"
     assert end.minute == 40
+    assert market_slug("eth", "5m", start) == "cpceth-eth-updown-5m-2026-10-27-0335z"
 
 
 def test_crypto_buys_up_when_up_is_the_favorite(env):
