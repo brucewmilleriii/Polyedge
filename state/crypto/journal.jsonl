@@ -689,3 +689,18 @@
 {"ts": "2026-10-27T16:54:43+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
 {"ts": "2026-10-27T16:55:46+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
 {"ts": "2026-10-27T16:58:58+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-27T17:00:48+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:05:48+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:08:02+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:08:07+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:08:12+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:08:17+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:08:23+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:08:28+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:08:33+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:08:38+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:08:43+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:08:48+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:08:53+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:08:58+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:09:03+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
