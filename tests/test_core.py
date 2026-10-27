@@ -375,7 +375,7 @@ def _crypto_env(env, yes_bid=0.88, yes_ask=0.90, secs_left=60):
         "bids": [{"px": px(yes_bid), "qty": "500"}],
         "offers": [{"px": px(yes_ask), "qty": "500"}],
     }
-    settings = replace(env.settings, crypto_max_order_usd=10, max_total_usd=50)
+    settings = replace(env.settings, crypto_max_order_usd=10, max_total_usd=50, crypto_assets=("btc",))
     journal = Journal(env.settings.state_dir, "t", "paper")
     risk = RiskManager(settings, env.broker, env.md)
     trader = CryptoTrader(settings, env.md, env.broker, risk, journal, clock=lambda: now, sleep=lambda s: None)
@@ -428,6 +428,21 @@ def test_crypto_respects_loss_stop(env):
     env.broker.state["cash"] -= 15  # down $15 today
     trader.step()
     assert not env.broker.positions()
+
+
+def test_crypto_records_closing_prices_and_outcome(env):
+    import json
+
+    trader, slug = _crypto_env(env, yes_bid=0.88, yes_ask=0.90)
+    trader.s = replace(trader.s, crypto_assets=("btc",))
+    trader.step()
+    env.client.settle[slug] = 1.0
+    end = trader.watch[slug]["end"]
+    trader.clock = lambda: end + 60
+    trader.record_outcomes()
+    (row,) = [json.loads(l) for l in trader.markets_path.read_text().splitlines()]
+    assert row["outcome"] == "up" and row["traded"] == "up"
+    assert {s["at"] for s in row["snaps"]} == {60} and row["snaps"][0]["up_ask"] == 0.90
 
 
 def test_new_loss_stop_defaults():

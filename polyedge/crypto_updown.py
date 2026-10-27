@@ -1,11 +1,15 @@
-"""BTC Up/Down closing-minutes strategy. Plain code, no Claude calls.
+"""Crypto Up/Down closing-minutes strategy. Plain code, no Claude calls.
 
-Polymarket US lists a BTC "Up or Down" market for every 5-minute window
-(also 15m, 1h and 1d). Each settles Up if the BRTI price at the window's end is
+Polymarket US lists "Up or Down" markets for BTC, ETH, SOL and XRP for every
+5-minute window (also 15m, 1h and 1d). Each settles Up if the BRTI price at the window's end is
 at or above the price at its start. In the last couple of minutes the side BTC
 is currently on is usually priced high. This loop watches the current window
 and, inside the final `window_secs`, buys whichever side's best ask is between
 `min_price` and `max_price`, then holds to settlement.
+
+Every watched market, traded or not, is also recorded to markets.jsonl with
+its prices at fixed points before the close and how it settled, so the
+thresholds can be checked against real outcomes.
 
     python -m polyedge crypto   # loops for POLYEDGE_CRYPTO_RUN_MINUTES
 """
@@ -13,6 +17,7 @@ and, inside the final `window_secs`, buys whichever side's best ask is between
 from __future__ import annotations
 
 import datetime as dt
+import json
 import time
 from typing import Any, Callable
 
@@ -23,6 +28,8 @@ from polyedge.market_data import MarketData, side_book, taker_fee_per_contract
 from polyedge.risk import RiskManager
 
 HORIZON_SECS = {"5m": 300, "15m": 900, "1h": 3600}
+# Seconds before the close at which each watched market's prices are recorded.
+CHECKPOINTS = (120, 90, 60, 30, 15, 5)
 
 
 def market_slug(asset: str, horizon: str, window_start: dt.datetime) -> str:
@@ -73,20 +80,68 @@ class CryptoTrader:
         self.sleep = sleep
         self.done: set[str] = set()  # markets already traded or skipped for good
         self.trades: list[dict[str, Any]] = []
+        # slug -> {"asset", "end", "snaps", "side"} until its outcome is recorded.
+        self.watch: dict[str, dict[str, Any]] = {}
+        self.markets_path = settings.state_dir / "markets.jsonl"
         self._last_halt = ""
 
     def step(self) -> None:
         """Check each horizon's current window once."""
         now = self.clock()
-        for horizon in self.s.crypto_horizons:
-            start, end = current_window(horizon, now)
-            slug = market_slug(self.s.crypto_asset, horizon, start)
-            if slug in self.done:
+        for asset in self.s.crypto_assets:
+            for horizon in self.s.crypto_horizons:
+                start, end = current_window(horizon, now)
+                slug = market_slug(asset, horizon, start)
+                secs_left = end.timestamp() - now
+                if 0 < secs_left <= max(self.s.crypto_window_secs, CHECKPOINTS[0]):
+                    self.snapshot(slug, asset, end, secs_left)
+                if slug in self.done:
+                    continue
+                if not self.s.crypto_min_secs_left < secs_left <= self.s.crypto_window_secs:
+                    continue
+                trade = self.try_trade(slug, end)
+                if trade and slug in self.watch:
+                    self.watch[slug]["side"] = trade["side"]
+        self.record_outcomes()
+
+    def snapshot(self, slug: str, asset: str, end: dt.datetime, secs_left: float) -> None:
+        w = self.watch.setdefault(slug, {"asset": asset, "end": end.timestamp(), "snaps": [], "side": None})
+        # Only the nearest checkpoint: one seen late is not back-filled with today's prices.
+        due = [c for c in CHECKPOINTS if secs_left <= c]
+        if not due or min(due) in {s["at"] for s in w["snaps"]}:
+            return
+        due = [min(due)]
+        try:
+            raw = self.md.book(slug)
+        except Exception:
+            return
+        up, down = side_book(raw, "yes"), side_book(raw, "no")
+        for c in due:
+            w["snaps"].append(
+                {"at": c, "secs_left": round(secs_left, 1), "up_bid": up.best_bid, "up_ask": up.best_ask,
+                 "down_ask": down.best_ask}
+            )
+
+    def record_outcomes(self, give_up_after: float = 900) -> None:
+        """Write each watched market to markets.jsonl once it has settled."""
+        now = self.clock()
+        for slug, w in list(self.watch.items()):
+            if now < w["end"] + 30:
                 continue
-            secs_left = end.timestamp() - now
-            if not self.s.crypto_min_secs_left < secs_left <= self.s.crypto_window_secs:
+            settle = self.md.settlement(slug)
+            if settle is None and now < w["end"] + give_up_after:
                 continue
-            self.try_trade(slug, end)
+            outcome = None if settle is None else ("up" if settle >= 0.5 else "down")
+            row = {
+                "slug": slug, "asset": w["asset"],
+                "window_end": dt.datetime.fromtimestamp(w["end"], dt.timezone.utc).isoformat(),
+                "outcome": outcome, "traded": w["side"] and ("up" if w["side"] == "yes" else "down"),
+                "snaps": sorted(w["snaps"], key=lambda x: -x["at"]),
+            }
+            self.markets_path.parent.mkdir(parents=True, exist_ok=True)
+            with self.markets_path.open("a") as f:
+                f.write(json.dumps(row) + "\n")
+            del self.watch[slug]
 
     def try_trade(self, slug: str, expected_end: dt.datetime) -> dict[str, Any] | None:
         s = self.s
@@ -177,4 +232,5 @@ class CryptoTrader:
             self.sleep(self.s.crypto_poll_secs)
         for e in self.broker.sync():
             self.journal.log("sync", event=e)
+        self.record_outcomes(give_up_after=0)
         return self.trades

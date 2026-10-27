@@ -1,6 +1,6 @@
 name: crypto
 
-# BTC Up/Down closing-minutes strategy. Each job loops for about 5h45m; the
+# Crypto Up/Down closing-minutes strategy. Each job loops for about 5h45m; the
 # hourly schedule queues the next job so coverage is close to continuous.
 on:
   schedule:
@@ -26,6 +26,7 @@ jobs:
       POLYEDGE_MAX_TOTAL_USD: ${{ vars.POLYEDGE_MAX_TOTAL_USD }}
       POLYEDGE_MAX_DAILY_LOSS_USD: ${{ vars.POLYEDGE_MAX_DAILY_LOSS_USD }}
       POLYEDGE_MAX_WEEKLY_LOSS_USD: ${{ vars.POLYEDGE_MAX_WEEKLY_LOSS_USD }}
+      POLYEDGE_CRYPTO_ASSETS: ${{ vars.POLYEDGE_CRYPTO_ASSETS }}
       POLYEDGE_CRYPTO_HORIZONS: ${{ vars.POLYEDGE_CRYPTO_HORIZONS }}
       POLYEDGE_CRYPTO_MIN_PRICE: ${{ vars.POLYEDGE_CRYPTO_MIN_PRICE }}
       POLYEDGE_CRYPTO_MAX_PRICE: ${{ vars.POLYEDGE_CRYPTO_MAX_PRICE }}

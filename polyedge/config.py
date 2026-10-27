@@ -63,9 +63,9 @@ class Settings:
     fav_max_order_usd: float = 5.0
     fav_max_orders_per_run: int = 2
     fav_max_total_usd: float = 30.0
-    # "crypto_updown": in the last crypto_window_secs of each BTC Up/Down window,
+    # "crypto_updown": in the last crypto_window_secs of each crypto Up/Down window,
     # buy the side priced between crypto_min_price and crypto_max_price and hold.
-    crypto_asset: str = "btc"
+    crypto_assets: tuple[str, ...] = ("btc", "eth", "sol", "xrp")
     crypto_horizons: tuple[str, ...] = ("5m",)
     crypto_min_price: float = 0.85
     crypto_max_price: float = 0.97
@@ -121,7 +121,7 @@ class Settings:
             max_price=_float("POLYEDGE_MAX_PRICE", cls.max_price),
             min_edge=_float("POLYEDGE_MIN_EDGE", cls.min_edge),
             categories=_list("POLYEDGE_CATEGORIES"),
-            crypto_asset=os.environ.get("POLYEDGE_CRYPTO_ASSET", cls.crypto_asset).strip().lower() or cls.crypto_asset,
+            crypto_assets=_list("POLYEDGE_CRYPTO_ASSETS") or cls.crypto_assets,
             crypto_horizons=_list("POLYEDGE_CRYPTO_HORIZONS") or cls.crypto_horizons,
             crypto_min_price=_float("POLYEDGE_CRYPTO_MIN_PRICE", cls.crypto_min_price),
             crypto_max_price=_float("POLYEDGE_CRYPTO_MAX_PRICE", cls.crypto_max_price),
