@@ -484,7 +484,7 @@ def test_new_loss_stop_defaults():
     s = Settings()
     assert (s.max_daily_loss_usd, s.max_weekly_loss_usd) == (200.0, 200.0)
     assert s.crypto_max_order_usd == 20.0 and s.crypto_window_secs == 120
-    assert (s.crypto_min_price, s.crypto_max_price, s.crypto_min_fair) == (0.80, 0.99, 0.98)
+    assert (s.crypto_min_price, s.crypto_max_price, s.crypto_min_fair) == (0.80, 0.99, 0.95)
 
 
 def test_crypto_counts_settled_trades_awaiting_payout(env):

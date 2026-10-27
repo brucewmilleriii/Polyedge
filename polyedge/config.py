@@ -76,7 +76,7 @@ class Settings:
     # Spot gate (polyedge/spot.py): only buy when the spot-price fair value of the side
     # is at least crypto_min_fair and beats the ask plus fee by crypto_min_fair_edge.
     # 0 turns the gate off.
-    crypto_min_fair: float = 0.98
+    crypto_min_fair: float = 0.95
     crypto_min_fair_edge: float = 0.0
     crypto_min_secs_left: float = 5.0
     crypto_poll_secs: float = 4.0
