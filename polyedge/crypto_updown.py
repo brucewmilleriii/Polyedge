@@ -97,6 +97,28 @@ class CryptoTrader:
         self._last_halt = ""
         self._markets: dict[str, dict[str, Any]] = {}  # slug -> market, loaded once per window
         self._next_settle_check: dict[str, float] = {}
+        # Filled trades until paid out. Settled Up/Down positions drop out of
+        # broker.positions() before the payout reaches cash (about 30 min later),
+        # so without this both the loss stop and the exposure cap would miss them.
+        self.inflight: list[dict[str, Any]] = []
+        self.outcomes: dict[str, str | None] = {}  # slug -> "up"/"down" once settled
+        self._last_account_log = 0.0
+
+    def inflight_value(self, held: set[str] | None = None) -> tuple[float, float]:
+        """(value, cost) of filled trades not shown in broker positions and not yet paid."""
+        now = self.clock()
+        self.inflight = [t for t in self.inflight if now < t["pay_at"] + 120]
+        if held is None:
+            held = {p.slug for p in self.broker.positions()}
+        value = cost = 0.0
+        for t in self.inflight:
+            if t["slug"] in held:
+                continue
+            outcome = self.outcomes.get(t["slug"])
+            won = outcome == ("up" if t["side"] == "yes" else "down")
+            value += t["qty"] if won else (0.0 if outcome else t["cost"])
+            cost += t["cost"]
+        return value, cost
 
     def step(self) -> None:
         """Check each horizon's current window once."""
@@ -150,6 +172,7 @@ class CryptoTrader:
             if settle is None and now < w["end"] + give_up_after:
                 continue
             outcome = None if settle is None else ("up" if settle >= 0.5 else "down")
+            self.outcomes[slug] = outcome
             row = {
                 "slug": slug, "asset": w["asset"],
                 "window_end": dt.datetime.fromtimestamp(w["end"], dt.timezone.utc).isoformat(),
@@ -184,7 +207,9 @@ class CryptoTrader:
             return None  # keep watching this window; the price may still cross the threshold
         side, ask = pick
 
-        halt = self.risk.halted()
+        held = {p.slug for p in self.broker.positions()}
+        pending_value, pending_cost = self.inflight_value(held)
+        halt = self.risk.halted(extra=pending_value)
         if not halt.ok:
             if halt.reason != self._last_halt:
                 self.journal.log("halted", reason=halt.reason)
@@ -194,7 +219,9 @@ class CryptoTrader:
         contracts = int(s.crypto_max_order_usd // ask)
         notional = ask * contracts
         fee = taker_fee_per_contract(ask) * contracts
-        exposure = sum(p.cost for p in self.broker.positions()) + self.broker.pending_buy_notional()
+        exposure = (
+            sum(p.cost for p in self.broker.positions()) + self.broker.pending_buy_notional() + pending_cost
+        )
         reason = None
         if contracts < 1:
             reason = f"${s.crypto_max_order_usd:.2f} buys no contracts at {ask}"
@@ -229,7 +256,8 @@ class CryptoTrader:
                 try:
                     status = self.broker.order_status(result["order_id"])
                     self.journal.log("order_status", slug=slug, order_id=result["order_id"], **status)
-                    result = {**result, "filled": status["filled"], "resting": status["leaves"]}
+                    result = {**result, "filled": status["filled"], "resting": status["leaves"],
+                              "avg_price": status.get("avg_price")}
                 except Exception as e:
                     self.journal.log("status_error", slug=slug, order_id=result["order_id"], error=str(e))
             if result.get("resting"):
@@ -238,10 +266,41 @@ class CryptoTrader:
                     self.journal.log("order_cancelled", slug=slug, order_id=result["order_id"])
                 except Exception as e:
                     self.journal.log("cancel_error", slug=slug, order_id=result["order_id"], error=str(e))
+        filled = float(result.get("filled") or 0)
+        if filled > 0:
+            fill_px = ask
+            if result.get("avg_price") is not None:
+                fill_px = result["avg_price"] if side == "yes" else 1 - result["avg_price"]
+            pay_at = self._pay_at(self._markets.get(slug, {}), expected_end)
+            self.inflight.append({
+                "slug": slug, "side": side, "qty": filled, "pay_at": pay_at,
+                "cost": filled * (fill_px + taker_fee_per_contract(fill_px)),
+            })
         trade = {"slug": slug, "side": side, "price": ask, "contracts": contracts, **result}
         self.trades.append(trade)
         print(f"{dt.datetime.now(dt.timezone.utc):%H:%M:%S} bought {side} {slug} @ {ask} x{contracts}: {result}")
         return trade
+
+    @staticmethod
+    def _pay_at(market: dict[str, Any], expected_end: dt.datetime) -> float:
+        raw = market.get("endDate")
+        if raw:
+            try:
+                return dt.datetime.fromisoformat(str(raw).replace("Z", "+00:00")).timestamp()
+            except ValueError:
+                pass
+        return window_end(market, expected_end).timestamp() + 1800
+
+    def log_account(self, every: float = 300) -> None:
+        """Journal cash and unpaid trades now and then, so payouts can be checked."""
+        if self.clock() - self._last_account_log < every:
+            return
+        self._last_account_log = self.clock()
+        value, cost = self.inflight_value()
+        self.journal.log(
+            "account", cash=round(self.broker.total_cash(), 2), unpaid_value=round(value, 2),
+            unpaid_cost=round(cost, 2), unpaid_trades=len(self.inflight),
+        )
 
     def run(self, minutes: float) -> list[dict[str, Any]]:
         until = self.clock() + minutes * 60
@@ -249,6 +308,7 @@ class CryptoTrader:
         while self.clock() < until:
             try:
                 self.step()
+                self.log_account()
                 if self.clock() - last_sync > 60:
                     for e in self.broker.sync():
                         self.journal.log("sync", event=e)

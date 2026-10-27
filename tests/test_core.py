@@ -472,3 +472,27 @@ def test_new_loss_stop_defaults():
     s = Settings()
     assert (s.max_daily_loss_usd, s.max_weekly_loss_usd) == (100.0, 100.0)
     assert s.crypto_max_order_usd == 10.0 and s.crypto_min_price == 0.85
+
+
+def test_crypto_counts_settled_trades_awaiting_payout(env):
+    trader, slug = _crypto_env(env, yes_bid=0.88, yes_ask=0.90)
+    trader.step()
+    assert len(trader.inflight) == 1
+    # Live: the position vanishes at settlement but the payout reaches cash later.
+    env.broker.state["positions"] = {}
+    value, cost = trader.inflight_value()
+    assert value == cost and 9.9 < cost < 10.1  # outcome unknown: counted at cost
+    trader.outcomes[slug] = "up"
+    assert trader.inflight_value()[0] == 11  # won: worth $1 per contract
+    trader.outcomes[slug] = "down"
+    assert trader.inflight_value()[0] == 0
+    # Unpaid cost still counts toward the $50 cap.
+    trader.s = replace(trader.s, max_total_usd=15)
+    trader2, slug2 = _crypto_env(env, yes_bid=0.88, yes_ask=0.90)
+    trader2.inflight, trader2.s = trader.inflight, trader.s
+    trader2.done.clear()
+    trader2.step()
+    assert not trader2.trades
+    # Dropped once the payout time has passed.
+    trader.clock = lambda: trader.inflight[0]["pay_at"] + 121
+    assert trader.inflight_value() == (0.0, 0.0) and not trader.inflight

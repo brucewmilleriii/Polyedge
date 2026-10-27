@@ -317,7 +317,7 @@ class LiveBroker:
             "state": o.get("state"),
             "filled": float(o.get("cumQuantity") or 0),
             "leaves": float(o.get("leavesQuantity") or 0),
-            "avg_price": (o.get("avgPx") or {}).get("value"),
+            "avg_price": float(v) if (v := (o.get("avgPx") or {}).get("value")) is not None else None,
         }
 
     def cancel(self, order_id: str, slug: str) -> None:

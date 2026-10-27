@@ -89,10 +89,11 @@ class RiskManager:
         year, week, _ = dt.datetime.now(dt.timezone.utc).date().isocalendar()
         return self._period_start("week", f"{year}-W{week:02d}", equity_now)
 
-    def halted(self) -> Decision:
+    def halted(self, extra: float = 0.0) -> Decision:
+        """`extra` is value the broker does not report yet, e.g. settled trades awaiting payout."""
         if self.s.kill_switch_on():
             return Decision(False, "kill switch is on")
-        eq = self.equity()
+        eq = self.equity() + extra
         day_start = self.start_of_day_equity(eq)
         if day_start - eq >= self.s.max_daily_loss_usd:
             return Decision(False, f"daily loss limit hit (down ${day_start - eq:.2f} today)")
