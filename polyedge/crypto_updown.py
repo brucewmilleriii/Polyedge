@@ -84,6 +84,8 @@ class CryptoTrader:
         self.watch: dict[str, dict[str, Any]] = {}
         self.markets_path = settings.state_dir / "markets.jsonl"
         self._last_halt = ""
+        self._markets: dict[str, dict[str, Any]] = {}  # slug -> market, loaded once per window
+        self._next_settle_check: dict[str, float] = {}
 
     def step(self) -> None:
         """Check each horizon's current window once."""
@@ -93,28 +95,32 @@ class CryptoTrader:
                 start, end = current_window(horizon, now)
                 slug = market_slug(asset, horizon, start)
                 secs_left = end.timestamp() - now
-                if 0 < secs_left <= max(self.s.crypto_window_secs, CHECKPOINTS[0]):
-                    self.snapshot(slug, asset, end, secs_left)
+                if not 0 < secs_left <= max(self.s.crypto_window_secs, CHECKPOINTS[0]):
+                    continue
+                # One book read per market per step, shared by the snapshot and the trade check.
+                try:
+                    raw = self.md.book(slug)
+                except Exception as e:
+                    if "rate limited" in str(e) or "1015" in str(e):
+                        raise
+                    continue  # this coin has no market for the window; the others still run
+                self.snapshot(slug, asset, end, secs_left, raw)
                 if slug in self.done:
                     continue
                 if not self.s.crypto_min_secs_left < secs_left <= self.s.crypto_window_secs:
                     continue
-                trade = self.try_trade(slug, end)
+                trade = self.try_trade(slug, end, raw)
                 if trade and slug in self.watch:
                     self.watch[slug]["side"] = trade["side"]
         self.record_outcomes()
 
-    def snapshot(self, slug: str, asset: str, end: dt.datetime, secs_left: float) -> None:
+    def snapshot(self, slug: str, asset: str, end: dt.datetime, secs_left: float, raw: dict[str, Any]) -> None:
         w = self.watch.setdefault(slug, {"asset": asset, "end": end.timestamp(), "snaps": [], "side": None})
         # Only the nearest checkpoint: one seen late is not back-filled with today's prices.
         due = [c for c in CHECKPOINTS if secs_left <= c]
         if not due or min(due) in {s["at"] for s in w["snaps"]}:
             return
         due = [min(due)]
-        try:
-            raw = self.md.book(slug)
-        except Exception:
-            return
         up, down = side_book(raw, "yes"), side_book(raw, "no")
         for c in due:
             w["snaps"].append(
@@ -126,8 +132,9 @@ class CryptoTrader:
         """Write each watched market to markets.jsonl once it has settled."""
         now = self.clock()
         for slug, w in list(self.watch.items()):
-            if now < w["end"] + 30:
+            if now < max(w["end"] + 30, self._next_settle_check.get(slug, 0)):
                 continue
+            self._next_settle_check[slug] = now + 20
             settle = self.md.settlement(slug)
             if settle is None and now < w["end"] + give_up_after:
                 continue
@@ -142,27 +149,26 @@ class CryptoTrader:
             with self.markets_path.open("a") as f:
                 f.write(json.dumps(row) + "\n")
             del self.watch[slug]
+            self._next_settle_check.pop(slug, None)
+            self._markets.pop(slug, None)
 
-    def try_trade(self, slug: str, expected_end: dt.datetime) -> dict[str, Any] | None:
+    def try_trade(self, slug: str, expected_end: dt.datetime, raw: dict[str, Any]) -> dict[str, Any] | None:
         s = self.s
-        try:
-            market = self.md.market(slug)
-        except Exception as e:
-            self.journal.log("crypto_skip", slug=slug, reason=f"could not load market: {e}")
-            self.done.add(slug)
-            return None
-        if not market or market.get("closed") or not market.get("active", True):
-            self.done.add(slug)
-            return None
-        secs_left = window_end(market, expected_end).timestamp() - self.clock()
+        if slug not in self._markets:
+            market = self.md.market(slug)  # an error here is retried on the next step
+            if not market or market.get("closed") or not market.get("active", True):
+                self.done.add(slug)
+                return None
+            if any(p.slug == slug for p in self.broker.positions()):
+                self.done.add(slug)  # already holding it, e.g. after a restart
+                return None
+            self._markets[slug] = market
+        secs_left = window_end(self._markets[slug], expected_end).timestamp() - self.clock()
         if secs_left <= s.crypto_min_secs_left:
             self.done.add(slug)
             return None
-        if any(p.slug == slug for p in self.broker.positions()):
-            self.done.add(slug)
-            return None
 
-        pick = pick_side(self.md.book(slug), s.crypto_min_price, s.crypto_max_price)
+        pick = pick_side(raw, s.crypto_min_price, s.crypto_max_price)
         if pick is None:
             return None  # keep watching this window; the price may still cross the threshold
         side, ask = pick
@@ -228,7 +234,11 @@ class CryptoTrader:
                         self.journal.log("sync", event=e)
                     last_sync = self.clock()
             except Exception as e:  # keep the loop alive through API hiccups
-                self.journal.log("crypto_error", error=str(e))
+                msg = str(e)
+                limited = "rate limited" in msg or "1015" in msg or "429" in msg
+                self.journal.log("crypto_error", error="rate limited" if limited else msg[:500])
+                if limited:
+                    self.sleep(20)
             self.sleep(self.s.crypto_poll_secs)
         for e in self.broker.sync():
             self.journal.log("sync", event=e)
