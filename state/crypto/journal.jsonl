@@ -732,3 +732,10 @@
 {"ts": "2026-10-27T17:23:46+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_skip", "slug": "cpcsol-sol-updown-5m-2026-10-27-1720z", "side": "yes", "price": 0.97, "reason": "would bring total exposure to $165.70, max is $100.00"}
 {"ts": "2026-10-27T17:25:59+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "account", "cash": 8.84, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-27T17:28:40+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-27T17:34:21+00:00", "run": "20261027T173421Z", "mode": "live", "kind": "crypto_start", "horizons": ["5m"], "minutes": 345.0}
+{"ts": "2026-10-27T17:34:35+00:00", "run": "20261027T173421Z", "mode": "live", "kind": "crypto_skip", "slug": "cpceth-eth-updown-5m-2026-10-27-1730z", "side": "yes", "price": 0.87, "reason": "would bring total exposure to $387.18, max is $100.00"}
+{"ts": "2026-10-27T17:34:46+00:00", "run": "20261027T173421Z", "mode": "live", "kind": "crypto_skip", "slug": "cpcsol-sol-updown-5m-2026-10-27-1730z", "side": "yes", "price": 0.99, "reason": "would bring total exposure to $387.84, max is $100.00"}
+{"ts": "2026-10-27T17:34:48+00:00", "run": "20261027T173421Z", "mode": "live", "kind": "account", "cash": 37.97, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-27T17:38:33+00:00", "run": "20261027T173421Z", "mode": "live", "kind": "crypto_skip", "slug": "cpceth-eth-updown-5m-2026-10-27-1735z", "side": "no", "price": 0.99, "reason": "would bring total exposure to $423.32, max is $100.00"}
+{"ts": "2026-10-27T17:38:55+00:00", "run": "20261027T173421Z", "mode": "live", "kind": "crypto_skip", "slug": "cpcsol-sol-updown-5m-2026-10-27-1735z", "side": "no", "price": 0.92, "reason": "would bring total exposure to $422.84, max is $100.00"}
+{"ts": "2026-10-27T17:39:51+00:00", "run": "20261027T173421Z", "mode": "live", "kind": "account", "cash": 1.99, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
