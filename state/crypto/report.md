@@ -1,10 +1,9 @@
 # Crypto Up/Down report
 
-Live fills: 62 (54 settled, 41 won, 13 lost). Settled P&L after fees: $-101.01.
+Live fills: 63 (57 settled, 43 won, 14 lost). Settled P&L after fees: $-109.04.
 
 | Market | Side | Price | Qty | Secs left | Outcome | P&L |
 |---|---|---|---|---|---|---|
-| cpc-btc-updown-5m-2026-10-27-0730z | up | 0.92 | 10 | 119.4 | down | -9.25 |
 | cpceth-eth-updown-5m-2026-10-27-0735z | up | 0.91 | 10 | 67.9 | down | -9.16 |
 | cpcsol-sol-updown-5m-2026-10-27-0740z | up | 0.86 | 7 | 115.6 | up | +0.92 |
 | cpceth-eth-updown-5m-2026-10-27-0750z | up | 0.85 | 11 | 78.9 | up | +1.55 |
@@ -31,9 +30,10 @@ Live fills: 62 (54 settled, 41 won, 13 lost). Settled P&L after fees: $-101.01.
 | cpceth-eth-updown-5m-2026-10-27-1015z | up | 0.92 | 10 | 113.4 | up | +0.75 |
 | cpcxrp-xrp-updown-5m-2026-10-27-1025z | up | 0.96 | 7.66 | 109.2 | up | +0.29 |
 | cpc-btc-updown-5m-2026-10-27-1315z | down | 0.97 | 10 | 43.3 | down | +0.28 |
-| cpc-btc-updown-5m-2026-10-27-1320z | down | 0.9 | 11 | 79.8 | open |  |
-| cpcxrp-xrp-updown-5m-2026-10-27-1320z | down | 0.94 | 10 | 75.3 | open |  |
-| cpceth-eth-updown-5m-2026-10-27-1320z | up | 0.96 | 10 | 18.7 | open |  |
+| cpc-btc-updown-5m-2026-10-27-1320z | down | 0.9 | 11 | 79.8 | down | +1.03 |
+| cpcxrp-xrp-updown-5m-2026-10-27-1320z | down | 0.94 | 10 | 75.3 | down | +0.56 |
+| cpceth-eth-updown-5m-2026-10-27-1320z | up | 0.96 | 10 | 18.7 | down | -9.63 |
+| cpceth-eth-updown-5m-2026-10-27-1330z | down | 0.95 | 10 | 24.6 | open |  |
 
 ## What if: every recorded market
 
@@ -41,9 +41,9 @@ Win rate of the side priced in each band at each checkpoint (seconds before clos
 
 | Secs left | 0.85–0.90 | 0.90–0.95 | 0.95–0.98 |
 |---|---|---|---|
-| 120 | 11/13 (85%) | 26/28 (93%) | 35/36 (97%) |
-| 90 | 6/7 (86%) | 17/22 (77%) | 30/32 (94%) |
-| 60 | 3/3 (100%) | 5/8 (62%) | 31/32 (97%) |
-| 30 | – | 2/2 (100%) | 1/1 (100%) |
+| 120 | 11/13 (85%) | 27/29 (93%) | 35/36 (97%) |
+| 90 | 6/7 (86%) | 19/24 (79%) | 30/32 (94%) |
+| 60 | 3/3 (100%) | 6/9 (67%) | 31/32 (97%) |
+| 30 | – | 2/2 (100%) | 1/2 (50%) |
 | 15 | 0/1 (0%) | 1/1 (100%) | 1/1 (100%) |
 | 5 | – | – | 1/1 (100%) |
