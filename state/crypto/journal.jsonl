@@ -669,3 +669,9 @@
 {"ts": "2026-10-27T16:35:37+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "account", "cash": 364.07, "unpaid_value": 20.0, "unpaid_cost": 19.81, "unpaid_trades": 1}
 {"ts": "2026-10-27T16:38:17+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_skip", "slug": "cpcsol-sol-updown-5m-2026-10-27-1635z", "side": "no", "price": 0.99, "reason": "would bring total exposure to $407.39, max is $100.00"}
 {"ts": "2026-10-27T16:38:52+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_skip", "slug": "cpceth-eth-updown-5m-2026-10-27-1635z", "side": "no", "price": 0.98, "reason": "would bring total exposure to $407.19, max is $100.00"}
+{"ts": "2026-10-27T16:40:40+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "account", "cash": 360.18, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-27T16:43:22+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T16:43:28+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_request", "slug": "cpc-btc-updown-5m-2026-10-27-1640z", "action": "buy", "side": "no", "price": 0.98, "contracts": 20, "category": "crypto", "strategy": "crypto_updown", "probability": 0.98, "approved": true, "secs_left": 92.7, "fair": 0.9902, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-27T16:43:28+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_error", "slug": "cpc-btc-updown-5m-2026-10-27-1640z", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T16:43:55+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-27T16:45:41+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
