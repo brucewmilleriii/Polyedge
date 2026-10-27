@@ -358,7 +358,7 @@ def test_dashboard_renders_from_state(tmp_path):
 
 # -- BTC Up/Down closing-minutes strategy ---------------------------------------
 
-def _crypto_env(env, yes_bid=0.88, yes_ask=0.90, secs_left=60):
+def _crypto_env(env, yes_bid=0.88, yes_ask=0.90, secs_left=60, fair_up=None):
     import datetime as dt
 
     from polyedge.crypto_updown import CryptoTrader, current_window, market_slug
@@ -375,11 +375,23 @@ def _crypto_env(env, yes_bid=0.88, yes_ask=0.90, secs_left=60):
         "bids": [{"px": px(yes_bid), "qty": "500"}],
         "offers": [{"px": px(yes_ask), "qty": "500"}],
     }
-    settings = replace(env.settings, crypto_max_order_usd=10, max_total_usd=50, crypto_assets=("btc",))
+    settings = replace(env.settings, crypto_max_order_usd=10, max_total_usd=50, crypto_assets=("btc",),
+                       crypto_min_price=0.90, crypto_max_price=0.97, crypto_min_fair=0.0)
     journal = Journal(env.settings.state_dir, "t", "paper")
     risk = RiskManager(settings, env.broker, env.md)
-    trader = CryptoTrader(settings, env.md, env.broker, risk, journal, clock=lambda: now, sleep=lambda s: None)
+    spot = FakeSpot(fair_up)
+    trader = CryptoTrader(
+        settings, env.md, env.broker, risk, journal, clock=lambda: now, sleep=lambda s: None, spot=spot
+    )
     return trader, slug
+
+
+class FakeSpot:
+    def __init__(self, up):
+        self.up = up
+
+    def fair_up(self, coin, start, end):
+        return self.up
 
 
 def test_crypto_slug_and_window():
@@ -471,7 +483,8 @@ def test_crypto_skips_wide_books_and_reports(env):
 def test_new_loss_stop_defaults():
     s = Settings()
     assert (s.max_daily_loss_usd, s.max_weekly_loss_usd) == (200.0, 200.0)
-    assert s.crypto_max_order_usd == 10.0 and s.crypto_min_price == 0.90 and s.crypto_window_secs == 90
+    assert s.crypto_max_order_usd == 10.0 and s.crypto_window_secs == 120
+    assert (s.crypto_min_price, s.crypto_max_price, s.crypto_min_fair) == (0.80, 0.99, 0.98)
 
 
 def test_crypto_counts_settled_trades_awaiting_payout(env):
@@ -496,3 +509,39 @@ def test_crypto_counts_settled_trades_awaiting_payout(env):
     # Dropped once the payout time has passed.
     trader.clock = lambda: trader.inflight[0]["pay_at"] + 121
     assert trader.inflight_value() == (0.0, 0.0) and not trader.inflight
+
+
+def _gated(env, fair_up, **kw):
+    trader, _ = _crypto_env(env, fair_up=fair_up, **kw)
+    trader.s = replace(trader.s, crypto_min_fair=0.98)
+    trader.step()
+    return bool(trader.trades)
+
+
+def test_crypto_spot_gate_blocks(env):
+    assert not _gated(env, 0.95)                               # below the 0.98 floor: keep watching
+    assert not _gated(env, None)                               # no spot view: no trade
+    assert not _gated(env, 0.995, yes_bid=0.08, yes_ask=0.10)  # spot disagrees with the book
+
+
+def test_crypto_spot_gate_allows_up(env):
+    assert _gated(env, 0.995)  # spot backs Up at 0.90
+
+
+def test_crypto_spot_gate_allows_down(env):
+    assert _gated(env, 0.003, yes_bid=0.08, yes_ask=0.10)  # Down at 0.92, spot says 99.7% Down
+
+
+def test_spot_fair_value_uses_the_60s_average():
+    from polyedge.spot import fair_up
+
+    start, end = 1_000_200, 1_000_500
+    prices = {t: 100.0 for t in range(start - 1000, start)}
+    prices.update({t: 100.0 + 0.001 * ((t * 7919) % 11 - 5) for t in range(start, end - 20)})
+    now = end - 20  # 20s left, 40s of the settle average already seen
+    up = fair_up({**prices, **{t: 100.05 for t in range(end - 60, end - 20)}}, start, end, now)
+    assert up > 0.99
+    # Price just dipped below the strike, but the 40s already averaged above it still win.
+    dip = {**prices, **{t: 100.05 for t in range(end - 60, end - 21)}, end - 21: 99.99}
+    assert fair_up(dip, start, end, now) > 0.98
+    assert fair_up(prices, start, end, now + 30) is None  # stale feed
