@@ -108,9 +108,6 @@ class CryptoTrader:
         self.inflight: list[dict[str, Any]] = []
         self.outcomes: dict[str, str | None] = {}  # slug -> "up"/"down" once settled
         self._last_account_log = 0.0
-        # slug -> resting buy left up for up to crypto_rest_secs while spot still backs it.
-        self.resting: dict[str, dict[str, Any]] = {}
-        self._fair: dict[str, float | None] = {}  # slug -> latest spot fair value of Up
 
     def inflight_value(self, held: set[str] | None = None) -> tuple[float, float]:
         """(value, cost) of filled trades not shown in broker positions and not yet paid."""
@@ -146,7 +143,6 @@ class CryptoTrader:
                         raise
                     continue  # this coin has no market for the window; the others still run
                 fair = self.spot.fair_up(asset, int(start.timestamp()), int(end.timestamp()))
-                self._fair[slug] = fair
                 self.snapshot(slug, asset, end, secs_left, raw, fair)
                 if slug in self.done:
                     continue
@@ -155,52 +151,7 @@ class CryptoTrader:
                 trade = self.try_trade(slug, end, raw, fair)
                 if trade and slug in self.watch:
                     self.watch[slug]["side"] = trade["side"]
-        self.manage_resting()
         self.record_outcomes()
-
-    def manage_resting(self) -> None:
-        """Fill-or-cancel each resting buy: keep it while spot still backs it, for up to crypto_rest_secs."""
-        s = self.s
-        now = self.clock()
-        for slug, o in list(self.resting.items()):
-            try:
-                status = self.broker.order_status(o["order_id"])
-            except Exception as e:
-                self.journal.log("status_error", slug=slug, order_id=o["order_id"], error=str(e))
-                status = None
-            if status and status["leaves"] <= 0:
-                self.journal.log("order_status", slug=slug, order_id=o["order_id"], **status)
-                self._finish_resting(slug, status)
-                continue
-            fair_up = self._fair.get(slug)
-            fair = None if fair_up is None else (fair_up if o["side"] == "yes" else 1 - fair_up)
-            reason = None
-            if now - o["placed_at"] >= s.crypto_rest_secs:
-                reason = "timeout"
-            elif o["end"] - now <= s.crypto_cancel_secs_left:
-                reason = "close"
-            elif s.crypto_min_fair > 0 and (fair is None or fair < s.crypto_min_fair):
-                reason = f"fair {fair}"
-            if reason is None:
-                continue
-            try:
-                self.broker.cancel(o["order_id"], slug)
-                self.journal.log("order_cancelled", slug=slug, order_id=o["order_id"], reason=reason)
-            except Exception as e:
-                self.journal.log("cancel_error", slug=slug, order_id=o["order_id"], error=str(e))
-                continue  # try again next step
-            try:
-                status = self.broker.order_status(o["order_id"])  # fills that landed before the cancel
-                self.journal.log("order_status", slug=slug, order_id=o["order_id"], **status)
-            except Exception as e:
-                self.journal.log("status_error", slug=slug, order_id=o["order_id"], error=str(e))
-            self._finish_resting(slug, status)
-
-    def _finish_resting(self, slug: str, status: dict[str, Any] | None) -> None:
-        o = self.resting.pop(slug)
-        if status:
-            self._record_fill(slug, o["side"], o["ask"], o["expected_end"],
-                              {"filled": status["filled"], "avg_price": status.get("avg_price")})
 
     def snapshot(
         self, slug: str, asset: str, end: dt.datetime, secs_left: float, raw: dict[str, Any],
@@ -305,7 +256,6 @@ class CryptoTrader:
         self.journal.log(
             "order_request", **{k: v for k, v in vars(req).items()}, approved=True,
             secs_left=round(secs_left, 1), fair=None if fair is None else round(fair, 4),
-            rest_secs=s.crypto_rest_secs,
             strategy_note="closing-minutes favorite",
         )
         self.done.add(slug)
@@ -315,18 +265,6 @@ class CryptoTrader:
             self.journal.log("order_error", slug=slug, error=str(e))
             return None
         self.journal.log("order_result", slug=slug, **result)
-        if result.get("resting") and result.get("order_id") and s.crypto_rest_secs > 0 \
-                and hasattr(self.broker, "order_status"):
-            # Leave the bid up while spot still backs it; manage_resting() fills or cancels it.
-            if result.get("filled"):
-                self._record_fill(slug, side, ask, expected_end, result)
-            self.resting[slug] = {
-                "order_id": result["order_id"], "side": side, "ask": ask, "expected_end": expected_end,
-                "end": window_end(self._markets[slug], expected_end).timestamp(), "placed_at": self.clock(),
-            }
-            trade = {"slug": slug, "side": side, "price": ask, "contracts": contracts, **result}
-            self.trades.append(trade)
-            return trade
         if result.get("resting") and result.get("order_id"):
             # Only take what is on offer now; never leave a bid behind near the close.
             self.sleep(s.crypto_cancel_after_secs)
@@ -345,27 +283,20 @@ class CryptoTrader:
                     self.journal.log("order_cancelled", slug=slug, order_id=result["order_id"])
                 except Exception as e:
                     self.journal.log("cancel_error", slug=slug, order_id=result["order_id"], error=str(e))
-        self._record_fill(slug, side, ask, expected_end, result)
+        filled = float(result.get("filled") or 0)
+        if filled > 0:
+            fill_px = ask
+            if result.get("avg_price") is not None:
+                fill_px = result["avg_price"] if side == "yes" else 1 - result["avg_price"]
+            pay_at = self._pay_at(self._markets.get(slug, {}), expected_end)
+            self.inflight.append({
+                "slug": slug, "side": side, "qty": filled, "pay_at": pay_at,
+                "cost": filled * (fill_px + taker_fee_per_contract(fill_px)),
+            })
         trade = {"slug": slug, "side": side, "price": ask, "contracts": contracts, **result}
         self.trades.append(trade)
         print(f"{dt.datetime.now(dt.timezone.utc):%H:%M:%S} bought {side} {slug} @ {ask} x{contracts}: {result}")
         return trade
-
-    def _record_fill(
-        self, slug: str, side: str, ask: float, expected_end: dt.datetime, result: dict[str, Any]
-    ) -> None:
-        """Track filled contracts until paid (see inflight). Replaces any earlier record for slug."""
-        filled = float(result.get("filled") or 0)
-        self.inflight = [t for t in self.inflight if t["slug"] != slug]
-        if filled <= 0:
-            return
-        fill_px = ask
-        if result.get("avg_price"):
-            fill_px = result["avg_price"] if side == "yes" else 1 - result["avg_price"]
-        self.inflight.append({
-            "slug": slug, "side": side, "qty": filled, "pay_at": self._pay_at(self._markets.get(slug, {}), expected_end),
-            "cost": filled * (fill_px + taker_fee_per_contract(fill_px)),
-        })
 
     @staticmethod
     def _pay_at(market: dict[str, Any], expected_end: dt.datetime) -> float:
@@ -406,9 +337,6 @@ class CryptoTrader:
                 if limited:
                     self.sleep(20)
             self.sleep(self.s.crypto_poll_secs)
-        for o in self.resting.values():
-            o["placed_at"] = -1e18  # past its time: cancel now
-        self.manage_resting()
         for e in self.broker.sync():
             self.journal.log("sync", event=e)
         self.record_outcomes(give_up_after=0)

@@ -68,7 +68,7 @@ class Settings:
     crypto_assets: tuple[str, ...] = ("btc", "eth", "sol", "xrp")
     crypto_horizons: tuple[str, ...] = ("5m",)
     crypto_min_price: float = 0.80
-    crypto_max_price: float = 0.98
+    crypto_max_price: float = 0.99
     crypto_max_order_usd: float = 20.0
     # Skip when the opposite side is offered above this: both sides high means a wide, empty book.
     crypto_max_other_ask: float = 0.25
@@ -76,15 +76,11 @@ class Settings:
     # Spot gate (polyedge/spot.py): only buy when the spot-price fair value of the side
     # is at least crypto_min_fair and beats the ask plus fee by crypto_min_fair_edge.
     # 0 turns the gate off.
-    crypto_min_fair: float = 0.98
+    crypto_min_fair: float = 0.95
     crypto_min_fair_edge: float = 0.0
     crypto_min_secs_left: float = 5.0
     crypto_poll_secs: float = 4.0
     crypto_cancel_after_secs: float = 3.0
-    # Leave an unfilled buy up this long while spot still backs it (0: cancel after
-    # crypto_cancel_after_secs, blocking); always cancel once crypto_cancel_secs_left remain.
-    crypto_rest_secs: float = 30.0
-    crypto_cancel_secs_left: float = 10.0
     crypto_run_minutes: float = 345.0
     # Minimum gap between Claude's probability and the price paid, after fees.
     min_edge: float = 0.05
@@ -139,7 +135,6 @@ class Settings:
             crypto_max_order_usd=_float("POLYEDGE_CRYPTO_MAX_ORDER_USD", cls.crypto_max_order_usd),
             crypto_max_other_ask=_float("POLYEDGE_CRYPTO_MAX_OTHER_ASK", cls.crypto_max_other_ask),
             crypto_window_secs=_float("POLYEDGE_CRYPTO_WINDOW_SECS", cls.crypto_window_secs),
-            crypto_rest_secs=_float("POLYEDGE_CRYPTO_REST_SECS", cls.crypto_rest_secs),
             crypto_min_fair=_float("POLYEDGE_CRYPTO_MIN_FAIR", cls.crypto_min_fair),
             crypto_min_fair_edge=_float("POLYEDGE_CRYPTO_MIN_FAIR_EDGE", cls.crypto_min_fair_edge),
             crypto_min_secs_left=_float("POLYEDGE_CRYPTO_MIN_SECS_LEFT", cls.crypto_min_secs_left),
