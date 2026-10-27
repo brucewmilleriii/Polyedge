@@ -1,10 +1,9 @@
 # Crypto Up/Down report
 
-Live fills: 50 (42 settled, 30 won, 12 lost). Settled P&L after fees: $-98.03.
+Live fills: 51 (45 settled, 32 won, 13 lost). Settled P&L after fees: $-105.88.
 
 | Market | Side | Price | Qty | Secs left | Outcome | P&L |
 |---|---|---|---|---|---|---|
-| cpcsol-sol-updown-5m-2026-10-27-0535z | up | 0.97 | 10 | 108.0 | up | +0.28 |
 | cpceth-eth-updown-5m-2026-10-27-0540z | down | 0.89 | 11 | 115.6 | up | -9.86 |
 | cpcxrp-xrp-updown-5m-2026-10-27-0550z | down | 0.95 | 10 | 106.5 | down | +0.47 |
 | cpceth-eth-updown-5m-2026-10-27-0550z | down | 0.92 | 10 | 84.3 | down | +0.75 |
@@ -31,9 +30,10 @@ Live fills: 50 (42 settled, 30 won, 12 lost). Settled P&L after fees: $-98.03.
 | cpc-btc-updown-5m-2026-10-27-0845z | up | 0.97 | 10 | 118.2 | up | +0.28 |
 | cpcxrp-xrp-updown-5m-2026-10-27-0855z | up | 0.9 | 5.34 | 104.0 | up | +0.50 |
 | cpcxrp-xrp-updown-5m-2026-10-27-0900z | down | 0.95 | 10 | 106.4 | down | +0.47 |
-| cpcsol-sol-updown-5m-2026-10-27-0915z | down | 0.97 | 10 | 83.2 | open |  |
-| cpceth-eth-updown-5m-2026-10-27-0920z | up | 0.91 | 10 | 117.7 | open |  |
-| cpcsol-sol-updown-5m-2026-10-27-0920z | up | 0.9 | 11 | 113.8 | open |  |
+| cpcsol-sol-updown-5m-2026-10-27-0915z | down | 0.97 | 10 | 83.2 | up | -9.72 |
+| cpceth-eth-updown-5m-2026-10-27-0920z | up | 0.91 | 10 | 117.7 | up | +0.84 |
+| cpcsol-sol-updown-5m-2026-10-27-0920z | up | 0.9 | 11 | 113.8 | up | +1.03 |
+| cpc-btc-updown-5m-2026-10-27-0930z | up | 0.92 | 10 | 116.1 | open |  |
 
 ## What if: every recorded market
 
@@ -41,9 +41,9 @@ Win rate of the side priced in each band at each checkpoint (seconds before clos
 
 | Secs left | 0.85–0.90 | 0.90–0.95 | 0.95–0.98 |
 |---|---|---|---|
-| 120 | 10/12 (83%) | 14/16 (88%) | 28/29 (97%) |
-| 90 | 4/5 (80%) | 14/19 (74%) | 22/23 (96%) |
-| 60 | 1/1 (100%) | 3/6 (50%) | 20/21 (95%) |
+| 120 | 10/12 (83%) | 16/18 (89%) | 28/29 (97%) |
+| 90 | 5/6 (83%) | 14/19 (74%) | 23/25 (92%) |
+| 60 | 2/2 (100%) | 4/7 (57%) | 23/24 (96%) |
 | 30 | – | 1/1 (100%) | – |
-| 15 | 0/1 (0%) | – | 1/1 (100%) |
+| 15 | 0/1 (0%) | 1/1 (100%) | 1/1 (100%) |
 | 5 | – | – | 1/1 (100%) |
