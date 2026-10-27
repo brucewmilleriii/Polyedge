@@ -34,7 +34,7 @@ class Settings:
     # Hard limits, enforced in code before any order is sent.
     max_order_usd: float = 5.0
     max_market_usd: float = 10.0
-    max_total_usd: float = 50.0
+    max_total_usd: float = 100.0
     max_daily_loss_usd: float = 200.0
     max_weekly_loss_usd: float = 200.0
     # Percentage caps from the PolyEdge prompt; the stricter of these and the
@@ -69,7 +69,7 @@ class Settings:
     crypto_horizons: tuple[str, ...] = ("5m",)
     crypto_min_price: float = 0.80
     crypto_max_price: float = 0.99
-    crypto_max_order_usd: float = 10.0
+    crypto_max_order_usd: float = 20.0
     # Skip when the opposite side is offered above this: both sides high means a wide, empty book.
     crypto_max_other_ask: float = 0.25
     crypto_window_secs: float = 120.0

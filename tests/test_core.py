@@ -307,7 +307,7 @@ def test_favorite_exposure_is_capped_separately(env):
 
 def test_new_defaults_cap_price_at_85_cents(env):
     s = Settings()
-    assert (s.max_order_usd, s.max_market_usd, s.max_total_usd) == (5.0, 10.0, 50.0)
+    assert (s.max_order_usd, s.max_market_usd, s.max_total_usd) == (5.0, 10.0, 100.0)
     assert s.paper_starting_cash == 200.0 and not s.fav_enabled
     risk = RiskManager(replace(env.settings, max_price=0.85), env.broker, env.md)
     assert "at most 0.85" in risk.check(OrderRequest("atl", "buy", "yes", 0.86, 5), 0.99, "high").reason
@@ -483,7 +483,7 @@ def test_crypto_skips_wide_books_and_reports(env):
 def test_new_loss_stop_defaults():
     s = Settings()
     assert (s.max_daily_loss_usd, s.max_weekly_loss_usd) == (200.0, 200.0)
-    assert s.crypto_max_order_usd == 10.0 and s.crypto_window_secs == 120
+    assert s.crypto_max_order_usd == 20.0 and s.crypto_window_secs == 120
     assert (s.crypto_min_price, s.crypto_max_price, s.crypto_min_fair) == (0.80, 0.99, 0.98)
 
 
