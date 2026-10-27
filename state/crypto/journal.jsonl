@@ -621,3 +621,8 @@
 {"ts": "2026-10-27T15:29:10+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_cancelled", "slug": "cpcsol-sol-updown-5m-2026-10-27-1525z", "order_id": "DBV8M1P011KJ"}
 {"ts": "2026-10-27T15:30:12+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "account", "cash": 390.23, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-27T15:35:16+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "account", "cash": 390.23, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-27T15:40:18+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "account", "cash": 390.23, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-27T15:44:06+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_request", "slug": "cpc-btc-updown-5m-2026-10-27-1540z", "action": "buy", "side": "yes", "price": 0.99, "contracts": 20, "category": "crypto", "strategy": "crypto_updown", "probability": 0.99, "approved": true, "secs_left": 54.2, "fair": 0.9999, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-27T15:44:06+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-27-1540z", "order_id": "DBVFFR7G51TB", "filled": 0, "resting": 20, "paper": false}
+{"ts": "2026-10-27T15:44:09+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-27-1540z", "order_id": "DBVFFR7G51TB", "state": "ORDER_STATE_FILLED", "filled": 20.0, "leaves": 0.0, "avg_price": 0.99}
+{"ts": "2026-10-27T15:45:19+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "account", "cash": 390.42, "unpaid_value": 19.81, "unpaid_cost": 19.81, "unpaid_trades": 1}
