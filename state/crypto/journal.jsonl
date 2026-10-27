@@ -198,3 +198,8 @@
 {"ts": "2026-10-27T06:28:53+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "order_result", "slug": "cpcxrp-xrp-updown-5m-2026-10-27-0625z", "order_id": "DBKHAMKG11R3", "filled": 0, "resting": 10, "paper": false}
 {"ts": "2026-10-27T06:28:56+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "order_status", "slug": "cpcxrp-xrp-updown-5m-2026-10-27-0625z", "order_id": "DBKHAMKG11R3", "state": "ORDER_STATE_FILLED", "filled": 10.0, "leaves": 0.0, "avg_price": 0.97}
 {"ts": "2026-10-27T06:30:25+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "account", "cash": 123.18, "unpaid_value": 19.72, "unpaid_cost": 19.35, "unpaid_trades": 2}
+{"ts": "2026-10-27T06:35:26+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "account", "cash": 123.18, "unpaid_value": 10.0, "unpaid_cost": 9.72, "unpaid_trades": 1}
+{"ts": "2026-10-27T06:39:54+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-27T06:40:26+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "account", "cash": 123.18, "unpaid_value": 10.0, "unpaid_cost": 9.72, "unpaid_trades": 1}
+{"ts": "2026-10-27T06:43:04+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "order_request", "slug": "cpcsol-sol-updown-5m-2026-10-27-0640z", "action": "buy", "side": "yes", "price": 0.86, "contracts": 11, "category": "crypto", "strategy": "crypto_updown", "probability": 0.86, "approved": true, "secs_left": 116.4, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-27T06:43:04+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "order_result", "slug": "cpcsol-sol-updown-5m-2026-10-27-0640z", "order_id": "DBKQTD2G11N2", "filled": 0, "resting": 11, "paper": false}
