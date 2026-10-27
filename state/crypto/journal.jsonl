@@ -289,3 +289,6 @@
 {"ts": "2026-10-27T07:43:05+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "order_result", "slug": "cpcsol-sol-updown-5m-2026-10-27-0740z", "order_id": "DBMK9E8011TB", "filled": 0, "resting": 11, "paper": false}
 {"ts": "2026-10-27T07:43:08+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "order_status", "slug": "cpcsol-sol-updown-5m-2026-10-27-0740z", "order_id": "DBMK9E8011TB", "state": "ORDER_STATE_PARTIALLY_FILLED", "filled": 7.0, "leaves": 4.0, "avg_price": 0.86}
 {"ts": "2026-10-27T07:43:08+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "order_cancelled", "slug": "cpcsol-sol-updown-5m-2026-10-27-0740z", "order_id": "DBMK9E8011TB"}
+{"ts": "2026-10-27T07:45:47+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "account", "cash": 100.34, "unpaid_value": 16.08, "unpaid_cost": 33.54, "unpaid_trades": 4}
+{"ts": "2026-10-27T07:49:41+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-27T07:50:49+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "account", "cash": 100.34, "unpaid_value": 17.0, "unpaid_cost": 33.54, "unpaid_trades": 4}
