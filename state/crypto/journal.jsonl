@@ -469,3 +469,6 @@
 {"ts": "2026-10-27T10:31:53+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "account", "cash": 89.86, "unpaid_value": 47.37, "unpaid_cost": 44.57, "unpaid_trades": 5}
 {"ts": "2026-10-27T10:33:02+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "crypto_skip", "slug": "cpcsol-sol-updown-5m-2026-10-27-1030z", "side": "yes", "price": 0.88, "reason": "would bring total exposure to $54.25, max is $50.00"}
 {"ts": "2026-10-27T10:33:41+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "crypto_skip", "slug": "cpceth-eth-updown-5m-2026-10-27-1030z", "side": "yes", "price": 0.96, "reason": "would bring total exposure to $54.17, max is $50.00"}
+{"ts": "2026-10-27T10:33:46+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "crypto_skip", "slug": "cpc-btc-updown-5m-2026-10-27-1030z", "side": "yes", "price": 0.85, "reason": "would bring total exposure to $53.92, max is $50.00"}
+{"ts": "2026-10-27T10:36:57+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "account", "cash": 89.86, "unpaid_value": 47.66, "unpaid_cost": 44.57, "unpaid_trades": 5}
+{"ts": "2026-10-27T10:37:53+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "crypto_end", "trades": 71}
