@@ -1,47 +1,42 @@
-# Run 20261004T152821Z (paper)
+# Run 20261027T033413Z (live)
 
-# Run 20261004T1528Z (paper)
+No orders this run. The account is now in live mode with $200 cash, no positions and no open orders. The three paper MLB spread bids from the last run don't exist on this account, so there was nothing to check or cancel.
 
-I placed three resting buy orders on MLB Game 3 "+1.5 run" spread markets. None has filled yet. Paper cash is $500, I hold no positions, and $28.78 is committed in open orders.
-
-### Changes since last run
-- **Alaska Senate (Dem):** price unchanged (Dem 0.71 / Rep 0.29). I'm still watching only.
-- **New mispricing found:** in all four division series Game 3s, the "+1.5 runs" spread markets are mispriced. The only bids sit at roughly the moneyline price (the chance the team wins outright). The asks are fixed at 0.93, which looks like a placeholder from a market maker. A team covers +1.5 if it wins outright or loses by exactly one run, so +1.5 has to be worth more than the moneyline. About 30% of MLB losses are by one run, so fair value is about the moneyline plus 0.30 × (1 − moneyline).
+### What changed since last run
+- **Account:** last run was paper with $500. This run is live with $200 equity and tighter limits: $5 per order, $10 per market, $50 total, and a $10 daily loss stop. Order prices must be between 0.15 and 0.85, and the favorite strategy is still off.
+- **MLB:** last run's plans are out of date. The Game 3 spreads have settled, and TB and MIL are now playing the World Series. Milwaukee leads 3–0 after a 10–0 win in Game 3 (Yahoo/ESPN). Game 4 is tonight at 00:00 UTC in Tampa, with MIL at 0.555 on a deep book.
+- **Alaska Senate:** Democrat is at 0.73, up from 0.71. That moves away from my NO entry level of 0.25 or lower, so it stays on watch.
 
 ### Quick Scan Table
-| Market | Mid | My Prob | Net Edge (after shrink and fee) | Liq Score | Action | Size | Confidence |
+| Market | Mid | My Prob | Net Edge (after shrink and fee) | Liq | Action | Size | Conf |
 |---|---|---|---|---|---|---|---|
-| LAD +1.5 vs ATL (G3, Oct 6) | 0.74 (0.55/0.93) | 0.68 | +9.6 pts at 0.60 | Low (placeholder ask) | BUY YES limit 0.60, resting | 16 ($9.60) | Med |
-| CLE +1.5 vs CWS (G3, Oct 7) | 0.715 | 0.645 | +9.6 pts at 0.565 | Low | BUY YES limit 0.565, resting | 17 ($9.61) | Med |
-| MIL +1.5 vs SD (G3, Oct 6) | 0.695 | 0.615 | +9.3 pts at 0.535 | Low | BUY YES limit 0.535, resting | 18 ($9.63) | Med |
-| TB +1.5 vs NYY (G3) | 0.69 | ~0.61 | ~+10 pts at 0.53 | Low | None (out of order slots) | 0 | Med |
-| Texas Senate Dem (Talarico) | 0.64 | ~0.58 (0.50–0.66) | <0 | High | None | 0 | Med |
-| TX county markets (Tarrant D 0.88, Collin D 0.64, Denton D 0.57) | — | ~fair compared with statewide | <3 pts | Thin | None | 0 | Low |
-| ME Senate margin and turnout ladders | — | — | — | No real book | None | 0 | — |
-| WS champion vs. pennant ladder (LAD 0.364/0.497) | — | LAD ~0.31 to win the WS | ~2.5 pts | Medium | None | 0 | Low |
+| WS goes 6+ games (NO) | 0.695 NO | 0.79 NO | +2.6 pts taking 0.70 | Thin (16 contracts at the best price) | None | 0 | High |
+| WS goes 7 games (YES) | 0.025 | ~0.10 | Large on paper | Thin | None: below the 0.15 price floor | 0 | Med |
+| WS exact result MIL 4-0 vs. Game 4 moneyline | 0.54 vs 0.555 | Same event | No arbitrage after the spread | Mixed | None | 0 | — |
+| Dem Senate ≥49 (NO) vs. GOP seat buckets | 0.145 NO | ~0.20 NO | +1.4 pts | Medium | None | 0 | Med |
+| Dem Senate ≥53 (NO) vs. GOP ≤47 buckets | 0.565 NO | ~0.64 NO | +1.5 pts taking 0.57 | NO side thin | None | 0 | Med |
+| Blue Tsunami (NO) | 0.455 NO | ~0.49 NO | ~0 | Medium | None | 0 | Low |
+| Dem House ≥240 vs. the rest of the House ladder | 0.55 | ~0.47 | ~4 pts before fees | Wide spread (0.52/0.58) | None | 0 | Low |
+| Alaska Senate Dem NO | 0.27 NO | — | Below 8 pts | High | Watch | 0 | Med |
 
-### Full Trade Thesis: MLB Game 3 +1.5 run spreads (3 orders, same reasoning)
-- **Settlement rule:** settles YES "if the [team] cover a +1.5 run spread", extra innings count, and the outcome comes from MLB. Game 3 is played regardless of the series score, and the postponement fallback is standard. The wording is clear.
-- **How I get my probability:** P(+1.5) = P(team wins) + P(team loses by exactly 1). I take P(win) from the deep moneyline books: LAD's is 0.545/0.555 with 500+ contracts at each level. About 30% of MLB losses are by one run, and the playoff share is similar or a bit higher. That gives fair values of LAD 0.68, CLE 0.645 and MIL 0.615.
-- **Case against:** a late starting-pitcher change could move the moneyline. Anyone who sells into my bid may know something I don't. And if one-run games are less common than I assume (25%), each fair value drops about 2 points.
-- **Book:** the bids are 0.55, 0.50 and 0.46 with about 660–780 contracts each, and every ask is 0.93. Every price I could take now is overpriced: the opposite side of each spread asks about 0.45–0.55, against a fair value near 0.31–0.39. So the only trade is to rest a bid myself.
-- **Edge:** using LAD as the example, p_used = 0.74 + 0.5 × (0.68 − 0.74) = 0.71, and 0.71 − 0.60 − 0.017 fee = **+9.6 points**. That clears the 8-point minimum for medium confidence. The other two orders come to +9.6 and +9.3 points.
-- **Sizing:** quarter Kelly works out to about $35 per order, so the $10 per-order cap applies. Total is $28.84. All three are in the MLB cluster, which allows up to $75.
-- **Orders:** limit buys at 0.60, 0.565 and 0.535. They stay open until each game starts.
-- **When I'd cancel:** if a team's moneyline moves more than 5 points before the game, or the starting pitcher changes, I'll re-price and cancel any bid that no longer has 8 points of edge. If filled, I hold to settlement.
-- **Portfolio:** if all three fill, total exposure is $28.84 of the $100 cap. Their outcomes are close to independent of each other.
+### Linked-market checks
+- **Senate seat ladders:** the Dem "≥N seats" ladder and the GOP exact-seat buckets disagree, even though the wording lines up (independents who caucus with a party count for that party). The GOP buckets put about 0.76 on Dem ≥49 (GOP ≤51), but the Dem ladder trades it at 0.855. They put about 0.375 on Dem ≥53 (GOP ≤47), against 0.435 on the Dem ladder. A Nebraska independent who won and caucused with neither party would widen both gaps. Buying both sides of either gap costs about 0.96 plus about 4¢ in fees, so there is no free money. Taking one side clears only about 1.5 points after the shrink.
+- **House ladder:** ≥215 trades just below ≥218, and ≥240 trades at the same bid as ≥235. The ≥235 book is 0.52/0.96, which looks like leftover quotes rather than real prices. No trade.
+- **Blue Wave (D House ≥218 and D Senate ≥49) at 0.82:** consistent with Dem Senate ≥49 at 0.855 and the House/Senate control markets.
+- **Blue Tsunami (D House ≥235 and D Senate ≥51) at 0.545:** under the most it can be (about 0.61 from the House ladder). My estimate assumes the House and Senate results move together; across a range of how closely they move, I get 0.47–0.58.
 
 ### No-Trade Declarations
-- **Texas Senate Dem at 0.64:** No trade. Reason: no edge. James Talarico leads Ken Paxton 47% to 46% in the TSU poll, and TPOR has Talarico's lead over Paxton narrowed by one point (net +6 to +5). Texas polls have overstated Democrats before, so my 0.58 is at or below the market.
-- **TB +1.5:** No trade this run. Reason: I'd used all three order slots. It's the first candidate for next run if the book hasn't changed.
-- **TX county markets, ME ladders, Alaska turnout:** No trade. Reason: the books are thin or just leftover quotes, or the edge is under 3 points.
-- **WS champion vs. pennant ladder:** No trade. Reason: the Dodgers' WS price implies about a 74% chance of winning the WS if they take the pennant, which looks rich. But after the shrink the edge on LAD WS NO is only about 2.5 points.
-- **Alaska Senate Dem NO:** No trade. Reason: unchanged since last run, with about 3.8 points of edge against 8 needed.
+- **WS 6+ games, buy NO:** No trade. Reason: edge too small and the book is thin. Fair value for 6+ is P(TB wins Game 4) × P(TB wins Game 5) ≈ 0.445 × 0.48 ≈ 0.21. Game 4's price comes from the deep moneyline; Game 5 is also in Tampa. So NO is worth about 0.79. After the shrink I use 0.74. Paying 0.70 plus a 1.5¢ fee leaves 2.6 points, against 5 needed. A resting bid at 0.67 would mostly fill only if TB wins Game 4, and then NO is worth about 0.52. That's adverse selection, so I'm not posting one.
+- **WS 7 games, buy YES at 0.02–0.03:** No trade. Reason: the price is below the 0.15 hard floor. Fair value is about 0.10, so it really is mispriced, but I can't trade it.
+- **Senate ladder legs (Dem ≥49 NO, Dem ≥53 NO):** No trade. Reason: about 1.5 points of edge after the shrink, against 8 needed. Also, Dem ≥49 NO at 0.15 sits right at the price floor.
+- **Blue Tsunami NO, House ≥240 NO:** No trade. Reason: edge is roughly zero or uncertain, and the House ≥240 book is wide.
+- **WS MVP and the WS spread markets:** No trade. Reason: an award decided by voters, and last prices that look stale.
+- **Alaska Senate Dem NO:** No trade. Reason: the price moved away from my entry.
 
 ### Risk state
-I have $28.84 in resting orders against the $100 cap, with no positions and nothing filled. The loss stops haven't been touched. I used all three orders this run.
+$0 deployed out of the $50 cap. No positions or orders, and the loss stops are untouched. This is the first live run, so there's no track record yet. I'm deliberately conservative until I have one.
 
 ### Next run
-1. Check fills on the three spread bids. Re-check the moneylines and probable starters, and cancel any bid whose edge falls below 8 points.
-2. Post TB +1.5 at 0.53 if the book is still the same.
-3. Look at the midterm races I haven't covered (MI, NC, GA, NH). Alaska stays on watch for NO at 0.25 or lower.
+1. **After Game 4:** if TB wins, re-check the series markets. 6+ becomes P(TB wins Game 5), and 7 games may move into the tradable range.
+2. **Before Nov 3:** re-check the Senate ladder gaps. If the Dem ≥53 NO side builds real depth at 0.57 or lower, or the gaps widen past about 15 points, re-evaluate.
+3. **Single races:** look at the Senate races I haven't covered (MI, NC, GA, NH, NE) using polling averages, and check each state market against the combo market.
