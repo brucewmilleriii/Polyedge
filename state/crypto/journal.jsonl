@@ -156,3 +156,8 @@
 {"ts": "2026-10-27T05:39:12+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "order_cancelled", "slug": "cpceth-eth-updown-5m-2026-10-27-0535z", "order_id": "DBJTJ59011MQ"}
 {"ts": "2026-10-27T05:39:23+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "account", "cash": 120.66, "unpaid_value": 10.0, "unpaid_cost": 18.69, "unpaid_trades": 3}
 {"ts": "2026-10-27T05:40:05+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-27T05:43:04+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "order_request", "slug": "cpceth-eth-updown-5m-2026-10-27-0540z", "action": "buy", "side": "no", "price": 0.89, "contracts": 11, "category": "crypto", "strategy": "crypto_updown", "probability": 0.89, "approved": true, "secs_left": 115.6, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-27T05:43:05+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "order_result", "slug": "cpceth-eth-updown-5m-2026-10-27-0540z", "order_id": "DBJWBN8G11N2", "filled": 0, "resting": 11, "paper": false}
+{"ts": "2026-10-27T05:43:08+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "order_status", "slug": "cpceth-eth-updown-5m-2026-10-27-0540z", "order_id": "DBJWBN8G11N2", "state": "ORDER_STATE_FILLED", "filled": 11.0, "leaves": 0.0, "avg_price": 0.11}
+{"ts": "2026-10-27T05:44:35+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "account", "cash": 131.8, "unpaid_value": 19.72, "unpaid_cost": 28.41, "unpaid_trades": 4}
+{"ts": "2026-10-27T05:49:50+00:00", "run": "20261027T045249Z", "mode": "live", "kind": "account", "cash": 120.8, "unpaid_value": 19.86, "unpaid_cost": 28.55, "unpaid_trades": 3}
