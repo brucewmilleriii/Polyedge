@@ -1,0 +1,19 @@
+name: crypto-smoke
+on:
+  push:
+    branches: [claude/btc-updown-strategy]
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      POLYEDGE_MODE: paper
+      POLYEDGE_CRYPTO_RUN_MINUTES: "7"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python -u -m polyedge crypto
+      - run: cat state/crypto/journal.jsonl; cat state/crypto/paper.json

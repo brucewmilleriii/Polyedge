@@ -28,6 +28,21 @@ These come from research into what persistently profitable Polymarket accounts d
 - **Track record.** Every order is tagged with a category and a strategy. Paper P&L, hit rate and Brier score are written to `state/performance.json` on every run, shown to Claude through `get_portfolio`, and printed by `python -m polyedge status`.
 - **Favorites strategy (`strategy: "favorite"`, off by default, paper only, tracked separately).** Set `POLYEDGE_FAV_ENABLED=1` and raise `POLYEDGE_MAX_PRICE` to 0.97 to turn it back on. It buys YES or NO priced 0.90 to 0.97 that resolves within 48 hours, with at least $500 offered within 2¢ of the best ask. It needs at least 2 points of edge after fees on `p_used`. Limits: $5 per order, 2 orders per run, $30 total, and every other cap still applies. Live in-game sports markets are excluded.
 
+## BTC Up/Down closing-minutes strategy
+
+`python -m polyedge crypto` (`.github/workflows/crypto.yml`) is plain code with no Claude calls. It watches the current BTC "Up or Down" window (5 minutes by default). In the last 2 minutes it buys whichever side, Up or Down, has a best ask between 0.85 and 0.97, takes only what is offered right then (any unfilled remainder is cancelled after 3 seconds), and holds to settlement. One trade per window, $10 per trade. The daily and weekly loss stops, the total-exposure cap and the kill switch all apply. Its state lives in `state/crypto/`.
+
+Each Actions job loops for about 5h45m, and the hourly schedule queues the next one. It trades live when `POLYEDGE_MODE` (or `POLYEDGE_CRYPTO_MODE`, which takes precedence) is `live`.
+
+| Variable | Default | What it does |
+|---|---|---|
+| `POLYEDGE_CRYPTO_HORIZONS` | 5m | Comma-separated windows to trade: 5m, 15m, 1h |
+| `POLYEDGE_CRYPTO_MIN_PRICE` / `_MAX_PRICE` | 0.85 / 0.97 | Price band for the side bought |
+| `POLYEDGE_CRYPTO_MAX_ORDER_USD` | 10 | Dollars per trade |
+| `POLYEDGE_CRYPTO_WINDOW_SECS` | 120 | How close to the window's end it starts buying |
+
+At 0.85–0.97 a loss costs several wins, so it only pays if the favorite wins more often than its price implies. Check `state/crypto/journal.jsonl` against outcomes.
+
 ## Risk limits (enforced in code)
 
 | Variable | Default | What it does |
@@ -39,8 +54,8 @@ These come from research into what persistently profitable Polymarket accounts d
 | `POLYEDGE_MAX_CLUSTER_PCT` | 0.15 | Cap on everything in one event (correlated markets), as a share of equity |
 | `POLYEDGE_KELLY_MULTIPLIER` | 0.25 | A buy can't exceed this fraction of full Kelly (computed with the fee included) |
 | `POLYEDGE_SHRINK` | 0.5 | Weight on Claude's probability versus the market mid for every edge and sizing check (0 = market only, 1 = Claude only) |
-| `POLYEDGE_MAX_DAILY_LOSS_USD` | 10 | Stop the run once equity is this far below today's open (UTC) |
-| `POLYEDGE_MAX_WEEKLY_LOSS_USD` | 20 | Stop the run once equity is this far below this week's open |
+| `POLYEDGE_MAX_DAILY_LOSS_USD` | 100 | Stop the run once equity is this far below today's open (UTC) |
+| `POLYEDGE_MAX_WEEKLY_LOSS_USD` | 100 | Stop the run once equity is this far below this week's open |
 | `POLYEDGE_MAX_ORDERS_PER_RUN` | 3 | Max orders per run |
 | `POLYEDGE_MIN_EDGE` | 0.05 | Floor on edge after fees on the shrunk probability; the stated confidence raises it to 5 / 8 / 12 points for high / medium / low |
 | `POLYEDGE_LONGSHOT_MIN_EDGE` | 0.15 | Edge needed to buy below the entry-price floor |

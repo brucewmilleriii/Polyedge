@@ -308,7 +308,6 @@ def test_favorite_exposure_is_capped_separately(env):
 def test_new_defaults_cap_price_at_85_cents(env):
     s = Settings()
     assert (s.max_order_usd, s.max_market_usd, s.max_total_usd) == (5.0, 10.0, 50.0)
-    assert (s.max_daily_loss_usd, s.max_weekly_loss_usd) == (10.0, 20.0)
     assert s.paper_starting_cash == 200.0 and not s.fav_enabled
     risk = RiskManager(replace(env.settings, max_price=0.85), env.broker, env.md)
     assert "at most 0.85" in risk.check(OrderRequest("atl", "buy", "yes", 0.86, 5), 0.99, "high").reason
@@ -355,3 +354,83 @@ def test_dashboard_renders_from_state(tmp_path):
     assert "/*__POLYEDGE_DATA__*/" not in html
     assert '"est_cost_usd"' not in html and '"cost": 0.3' in html
     assert "123" not in html
+
+
+# -- BTC Up/Down closing-minutes strategy ---------------------------------------
+
+def _crypto_env(env, yes_bid=0.88, yes_ask=0.90, secs_left=60):
+    import datetime as dt
+
+    from polyedge.crypto_updown import CryptoTrader, current_window, market_slug
+
+    now = dt.datetime(2026, 10, 27, 3, 40, tzinfo=dt.timezone.utc).timestamp() - secs_left
+    start, end = current_window("5m", now)
+    slug = market_slug("btc", "5m", start)
+    env.client.meta[slug] = {
+        "slug": slug, "category": "crypto", "active": True, "closed": False,
+        "assetPriceTerms": {"windowEnd": end.isoformat().replace("+00:00", "Z")},
+    }
+    env.client.books[slug] = {
+        "marketSlug": slug,
+        "bids": [{"px": px(yes_bid), "qty": "500"}],
+        "offers": [{"px": px(yes_ask), "qty": "500"}],
+    }
+    settings = replace(env.settings, crypto_max_order_usd=10, max_total_usd=50)
+    journal = Journal(env.settings.state_dir, "t", "paper")
+    risk = RiskManager(settings, env.broker, env.md)
+    trader = CryptoTrader(settings, env.md, env.broker, risk, journal, clock=lambda: now, sleep=lambda s: None)
+    return trader, slug
+
+
+def test_crypto_slug_and_window():
+    import datetime as dt
+
+    from polyedge.crypto_updown import current_window, market_slug
+
+    now = dt.datetime(2026, 10, 27, 3, 37, 19, tzinfo=dt.timezone.utc).timestamp()
+    start, end = current_window("5m", now)
+    assert market_slug("btc", "5m", start) == "cpc-btc-updown-5m-2026-10-27-0335z"
+    assert end.minute == 40
+
+
+def test_crypto_buys_up_when_up_is_the_favorite(env):
+    trader, slug = _crypto_env(env, yes_bid=0.88, yes_ask=0.90)
+    trader.step()
+    (pos,) = env.broker.positions()
+    assert (pos.slug, pos.side, pos.qty) == (slug, "yes", 11)  # $10 at 0.90
+    trader.step()  # one trade per window
+    assert len(trader.trades) == 1
+
+
+def test_crypto_buys_down_when_down_is_the_favorite(env):
+    trader, slug = _crypto_env(env, yes_bid=0.08, yes_ask=0.10)  # Down asks 0.92
+    trader.step()
+    (pos,) = env.broker.positions()
+    assert pos.side == "no" and pos.qty == 10
+
+
+def test_crypto_waits_outside_window_or_price_band(env):
+    trader, _ = _crypto_env(env, secs_left=200)  # before the last 2 minutes
+    trader.step()
+    assert not env.broker.positions()
+    trader, _ = _crypto_env(env, yes_bid=0.60, yes_ask=0.62)  # neither side at 85+
+    trader.step()
+    assert not env.broker.positions() and not trader.done
+    trader, _ = _crypto_env(env, yes_bid=0.98, yes_ask=0.99)  # above the 0.97 ceiling
+    trader.step()
+    assert not env.broker.positions()
+
+
+def test_crypto_respects_loss_stop(env):
+    trader, _ = _crypto_env(env)
+    trader.s = trader.risk.s = replace(trader.s, max_daily_loss_usd=10)
+    trader.risk.start_of_day_equity(env.broker.total_cash())
+    env.broker.state["cash"] -= 15  # down $15 today
+    trader.step()
+    assert not env.broker.positions()
+
+
+def test_new_loss_stop_defaults():
+    s = Settings()
+    assert (s.max_daily_loss_usd, s.max_weekly_loss_usd) == (100.0, 100.0)
+    assert s.crypto_max_order_usd == 10.0 and s.crypto_min_price == 0.85
