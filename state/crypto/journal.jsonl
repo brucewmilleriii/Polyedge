@@ -704,3 +704,23 @@
 {"ts": "2026-10-27T17:08:53+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
 {"ts": "2026-10-27T17:08:58+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
 {"ts": "2026-10-27T17:09:03+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:09:08+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:09:13+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:09:18+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:09:24+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:09:29+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:09:34+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:09:39+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:09:44+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:09:49+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:09:54+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T17:10:51+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "account", "cash": 365.46, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-27T17:14:18+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_request", "slug": "cpcxrp-xrp-updown-5m-2026-10-27-1710z", "action": "buy", "side": "no", "price": 0.99, "contracts": 20, "category": "crypto", "strategy": "crypto_updown", "probability": 0.99, "approved": true, "secs_left": 52.1, "fair": 1.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-27T17:14:19+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_result", "slug": "cpcxrp-xrp-updown-5m-2026-10-27-1710z", "order_id": "DBWRS3V011TB", "filled": 0, "resting": 20, "paper": false}
+{"ts": "2026-10-27T17:14:22+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_status", "slug": "cpcxrp-xrp-updown-5m-2026-10-27-1710z", "order_id": "DBWRS3V011TB", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 20.0, "avg_price": 0.0}
+{"ts": "2026-10-27T17:14:22+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_cancelled", "slug": "cpcxrp-xrp-updown-5m-2026-10-27-1710z", "order_id": "DBWRS3V011TB"}
+{"ts": "2026-10-27T17:14:36+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_request", "slug": "cpc-btc-updown-5m-2026-10-27-1710z", "action": "buy", "side": "no", "price": 0.98, "contracts": 20, "category": "crypto", "strategy": "crypto_updown", "probability": 0.98, "approved": true, "secs_left": 32.5, "fair": 1.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-27T17:14:36+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-27-1710z", "order_id": "DBWRXDTG51MV", "filled": 0, "resting": 20, "paper": false}
+{"ts": "2026-10-27T17:14:39+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-27-1710z", "order_id": "DBWRXDTG51MV", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 20.0, "avg_price": 0.0}
+{"ts": "2026-10-27T17:14:39+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-27-1710z", "order_id": "DBWRXDTG51MV"}
+{"ts": "2026-10-27T17:15:54+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "account", "cash": 365.46, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
