@@ -925,3 +925,10 @@
 {"ts": "2026-10-27T23:18:41+00:00", "run": "20261027T173421Z", "mode": "live", "kind": "crypto_skip", "slug": "cpc-btc-updown-5m-2026-10-27-2315z", "side": "no", "price": 0.94, "reason": "would bring total exposure to $237.91, max is $100.00"}
 {"ts": "2026-10-27T23:19:02+00:00", "run": "20261027T173421Z", "mode": "live", "kind": "crypto_skip", "slug": "cpceth-eth-updown-5m-2026-10-27-2315z", "side": "no", "price": 0.97, "reason": "would bring total exposure to $237.57, max is $100.00"}
 {"ts": "2026-10-27T23:19:35+00:00", "run": "20261027T173421Z", "mode": "live", "kind": "crypto_end", "trades": 0}
+{"ts": "2026-10-27T23:20:02+00:00", "run": "20261027T232002Z", "mode": "live", "kind": "crypto_start", "horizons": ["5m"], "minutes": 345.0}
+{"ts": "2026-10-27T23:20:03+00:00", "run": "20261027T232002Z", "mode": "live", "kind": "account", "cash": 514.43, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-27T23:24:04+00:00", "run": "20261027T232002Z", "mode": "live", "kind": "crypto_skip", "slug": "cpcxrp-xrp-updown-5m-2026-10-27-2320z", "side": "no", "price": 0.99, "reason": "would bring total exposure to $237.97, max is $100.00"}
+{"ts": "2026-10-27T23:24:21+00:00", "run": "20261027T232002Z", "mode": "live", "kind": "crypto_skip", "slug": "cpceth-eth-updown-5m-2026-10-27-2320z", "side": "no", "price": 0.99, "reason": "would bring total exposure to $237.97, max is $100.00"}
+{"ts": "2026-10-27T23:25:04+00:00", "run": "20261027T232002Z", "mode": "live", "kind": "account", "cash": 514.43, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-27T23:28:32+00:00", "run": "20261027T232002Z", "mode": "live", "kind": "crypto_skip", "slug": "cpceth-eth-updown-5m-2026-10-27-2325z", "side": "yes", "price": 0.99, "reason": "would bring total exposure to $237.97, max is $100.00"}
+{"ts": "2026-10-27T23:28:54+00:00", "run": "20261027T232002Z", "mode": "live", "kind": "crypto_skip", "slug": "cpcsol-sol-updown-5m-2026-10-27-2325z", "side": "yes", "price": 0.99, "reason": "would bring total exposure to $237.97, max is $100.00"}
