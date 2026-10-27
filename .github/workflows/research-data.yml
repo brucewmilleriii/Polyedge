@@ -1,0 +1,28 @@
+name: research-data
+
+# One-off: fetch spot price history for strategy research and commit it to this branch.
+on:
+  push:
+    branches: [claude/project-thread-gpeyr0]
+    paths: [research/fetch_spot.py, .github/workflows/research-data.yml]
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install numpy
+      - run: python -u research/fetch_spot.py 30
+      - run: |
+          git config user.name "polyedge-bot"
+          git config user.email "polyedge-bot@users.noreply.github.com"
+          git add research/data
+          git commit -q -m "research: spot 1s data [skip ci]"
+          git push -q
