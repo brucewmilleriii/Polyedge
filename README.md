@@ -26,26 +26,28 @@ These come from research into what persistently profitable Polymarket accounts d
 - **Hold to resolution.** A sell is rejected unless Claude marks `thesis_broken`.
 - **No single-decision markets.** The prompt tells Claude to skip markets settled by one person's decision or a secret announcement (strikes, arrests, appointments, awards).
 - **Track record.** Every order is tagged with a category and a strategy. Paper P&L, hit rate and Brier score are written to `state/performance.json` on every run, shown to Claude through `get_portfolio`, and printed by `python -m polyedge status`.
-- **Favorites strategy (`strategy: "favorite"`, paper only, tracked separately).** It buys YES or NO priced 0.90 to 0.97 that resolves within 48 hours, with at least $500 offered within 2¢ of the best ask. It needs at least 2 points of edge after fees on `p_used`. Limits: $5 per order, 2 orders per run, $30 total, and every other cap still applies. Live in-game sports markets are excluded.
+- **Favorites strategy (`strategy: "favorite"`, off by default, paper only, tracked separately).** Set `POLYEDGE_FAV_ENABLED=1` and raise `POLYEDGE_MAX_PRICE` to 0.97 to turn it back on. It buys YES or NO priced 0.90 to 0.97 that resolves within 48 hours, with at least $500 offered within 2¢ of the best ask. It needs at least 2 points of edge after fees on `p_used`. Limits: $5 per order, 2 orders per run, $30 total, and every other cap still applies. Live in-game sports markets are excluded.
 
 ## Risk limits (enforced in code)
 
 | Variable | Default | What it does |
 |---|---|---|
-| `POLYEDGE_MAX_ORDER_USD` | 10 | Max cost of a single buy |
-| `POLYEDGE_MAX_MARKET_USD` | 25 | Max cost basis plus resting buys in any one market |
-| `POLYEDGE_MAX_TOTAL_USD` | 100 | Max total cost basis plus resting buys |
+| `POLYEDGE_MAX_ORDER_USD` | 5 | Max cost of a single buy |
+| `POLYEDGE_MAX_MARKET_USD` | 10 | Max cost basis plus resting buys in any one market |
+| `POLYEDGE_MAX_TOTAL_USD` | 50 | Max total cost basis plus resting buys |
 | `POLYEDGE_MAX_MARKET_PCT` | 0.05 | Per-market cap as a share of equity; the stricter of this and the dollar cap applies |
 | `POLYEDGE_MAX_CLUSTER_PCT` | 0.15 | Cap on everything in one event (correlated markets), as a share of equity |
 | `POLYEDGE_KELLY_MULTIPLIER` | 0.25 | A buy can't exceed this fraction of full Kelly (computed with the fee included) |
 | `POLYEDGE_SHRINK` | 0.5 | Weight on Claude's probability versus the market mid for every edge and sizing check (0 = market only, 1 = Claude only) |
-| `POLYEDGE_MAX_DAILY_LOSS_USD` | 25 | Stop the run once equity is this far below today's open (UTC) |
-| `POLYEDGE_MAX_WEEKLY_LOSS_USD` | 50 | Stop the run once equity is this far below this week's open |
+| `POLYEDGE_MAX_DAILY_LOSS_USD` | 10 | Stop the run once equity is this far below today's open (UTC) |
+| `POLYEDGE_MAX_WEEKLY_LOSS_USD` | 20 | Stop the run once equity is this far below this week's open |
 | `POLYEDGE_MAX_ORDERS_PER_RUN` | 3 | Max orders per run |
 | `POLYEDGE_MIN_EDGE` | 0.05 | Floor on edge after fees on the shrunk probability; the stated confidence raises it to 5 / 8 / 12 points for high / medium / low |
 | `POLYEDGE_LONGSHOT_MIN_EDGE` | 0.15 | Edge needed to buy below the entry-price floor |
-| `POLYEDGE_MIN_PRICE` / `POLYEDGE_MAX_PRICE` | 0.15 / 0.97 | Entry-price floor for the edge strategy, and the highest price anything can be bought at |
+| `POLYEDGE_MIN_PRICE` / `POLYEDGE_MAX_PRICE` | 0.15 / 0.85 | Entry-price floor for the edge strategy, and the highest price anything can be bought at |
 | `POLYEDGE_FAV_MIN_PRICE`, `_FAV_MAX_HOURS`, `_FAV_MIN_EDGE`, `_FAV_MIN_DEPTH_USD`, `_FAV_MAX_ORDER_USD`, `_FAV_MAX_ORDERS_PER_RUN`, `_FAV_MAX_TOTAL_USD` | 0.90, 48, 0.02, 500, 5, 2, 30 | Favorites strategy rules |
+| `POLYEDGE_FAV_ENABLED` | off | Set to 1 to allow the favorites strategy |
+| `POLYEDGE_PAPER_STARTING_CASH` | 200 | Cash a new paper ledger starts with |
 | `POLYEDGE_CATEGORIES` | all | Comma-separated allowlist, for example `sports` |
 | `POLYEDGE_KILL` or a `KILL` file in the repo root | off | Blocks all buys |
 

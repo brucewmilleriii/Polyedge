@@ -155,6 +155,8 @@ class RiskManager:
             return halt
         if s.categories and (market.get("category") or "").lower() not in s.categories:
             return Decision(False, f"category {market.get('category')!r} is not in the allowlist")
+        if req.strategy == "favorite" and not s.fav_enabled:
+            return Decision(False, "the favorite strategy is turned off")
         if req.price > s.max_price:
             return Decision(False, f"price must be at most {s.max_price}")
         other = "no" if req.side == "yes" else "yes"

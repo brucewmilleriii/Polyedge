@@ -58,7 +58,7 @@ both use p_used, so a 10-point disagreement with the market counts as a 5-point 
 
 ### Two strategies, tracked separately
 - strategy "edge": the main pipeline above.
-- strategy "favorite": YES or NO priced 0.90 to 0.97 that resolves within 48 hours on a \
+- strategy "favorite" (turned off unless get_portfolio shows it enabled): YES or NO priced 0.90 to 0.97 that resolves within 48 hours on a \
 deep book, where heavy favorites tend to be slightly underpriced. Needs at least 2 points \
 of edge after fees on the shrunk estimate instead of the confidence tiers. At most $5 per \
 order and 2 favorite orders per run, and they count toward every other cap. No live \
@@ -250,6 +250,7 @@ class Toolbox:
                 "min_edge_after_fees": {k: max(v, self.s.min_edge) for k, v in CONFIDENCE_MIN_EDGE.items()},
                 "price_range": [self.s.min_price, self.s.max_price],
                 "categories": list(self.s.categories) or "all",
+                "favorite_strategy_enabled": self.s.fav_enabled,
             },
         }
 

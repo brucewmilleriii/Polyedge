@@ -48,6 +48,10 @@ def env(tmp_path):
         max_order_usd=10,
         max_market_usd=25,
         max_total_usd=100,
+        max_daily_loss_usd=25,
+        max_weekly_loss_usd=50,
+        max_price=0.97,
+        paper_starting_cash=500.0,
     )
     broker = PaperBroker(md, tmp_path, settings.paper_starting_cash)
     risk = RiskManager(settings, broker, md)
@@ -263,6 +267,10 @@ def test_favorite_strategy_rules(env):
     import datetime as dt
 
     _favorite_market(env)
+    assert "turned off" in env.risk.check(
+        OrderRequest("atl", "buy", "yes", 0.94, 5, strategy="favorite"), 0.995, "high"
+    ).reason
+    env.risk.s = replace(env.settings, fav_enabled=True, max_price=0.97)
     fav = lambda n, price=0.94: OrderRequest("atl", "buy", "yes", price, n, strategy="favorite")
     # Mid 0.935: 0.995 shrinks to 0.965, about 2.1 points over price plus fee.
     assert env.risk.check(fav(5), 0.995, "high").ok
@@ -290,11 +298,20 @@ def test_favorite_strategy_rules(env):
 
 def test_favorite_exposure_is_capped_separately(env):
     _favorite_market(env)
-    s = replace(env.settings, fav_max_total_usd=8)
+    s = replace(env.settings, fav_max_total_usd=8, fav_enabled=True, max_price=0.97)
     risk = RiskManager(s, env.broker, env.md)
     env.broker.place(OrderRequest("atl", "buy", "yes", 0.94, 5, strategy="favorite"))
     d = risk.check(OrderRequest("atl", "buy", "yes", 0.94, 5, strategy="favorite"), 0.995, "high")
     assert not d.ok and "favorite strategy exposure" in d.reason
+
+
+def test_new_defaults_cap_price_at_85_cents(env):
+    s = Settings()
+    assert (s.max_order_usd, s.max_market_usd, s.max_total_usd) == (5.0, 10.0, 50.0)
+    assert (s.max_daily_loss_usd, s.max_weekly_loss_usd) == (10.0, 20.0)
+    assert s.paper_starting_cash == 200.0 and not s.fav_enabled
+    risk = RiskManager(replace(env.settings, max_price=0.85), env.broker, env.md)
+    assert "at most 0.85" in risk.check(OrderRequest("atl", "buy", "yes", 0.86, 5), 0.99, "high").reason
 
 
 def test_settlement_records_category_strategy_and_probability(env):
