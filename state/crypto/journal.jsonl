@@ -675,3 +675,17 @@
 {"ts": "2026-10-27T16:43:28+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_error", "slug": "cpc-btc-updown-5m-2026-10-27-1640z", "error": "The server was unable to process your request."}
 {"ts": "2026-10-27T16:43:55+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-27T16:45:41+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T16:49:05+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_request", "slug": "cpc-btc-updown-5m-2026-10-27-1645z", "action": "buy", "side": "no", "price": 0.99, "contracts": 20, "category": "crypto", "strategy": "crypto_updown", "probability": 0.99, "approved": true, "secs_left": 55.4, "fair": 0.9957, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-27T16:49:05+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-27-1645z", "order_id": "DBWD7N5011KJ", "filled": 0, "resting": 20, "paper": false}
+{"ts": "2026-10-27T16:49:08+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-27-1645z", "order_id": "DBWD7N5011KJ", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 20.0, "avg_price": 0.0}
+{"ts": "2026-10-27T16:49:09+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-27-1645z", "order_id": "DBWD7N5011KJ"}
+{"ts": "2026-10-27T16:50:43+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T16:54:11+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T16:54:16+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T16:54:21+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T16:54:26+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T16:54:31+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T16:54:37+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T16:54:43+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T16:55:46+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-27T16:58:58+00:00", "run": "20261027T142830Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
