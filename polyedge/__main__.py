@@ -2,6 +2,7 @@
 
     python -m polyedge run      # one trading run (paper unless POLYEDGE_MODE=live)
     python -m polyedge crypto   # BTC Up/Down closing-minutes loop (no Claude calls)
+    python -m polyedge crypto-report  # stats for the crypto loop, from state/crypto/
     python -m polyedge status   # print portfolio, P&L and recent decisions
     python -m polyedge dashboard [--out FILE]  # write the dashboard page from state/
 """
@@ -131,10 +132,15 @@ def cmd_status(settings: Settings) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(prog="polyedge")
-    parser.add_argument("command", choices=["run", "crypto", "status", "dashboard"])
+    parser.add_argument("command", choices=["run", "crypto", "crypto-report", "status", "dashboard"])
     parser.add_argument("--out", default="dashboard.html", help="dashboard output file")
     args = parser.parse_args()
     settings = Settings.from_env()
+    if args.command == "crypto-report":
+        from polyedge.crypto_report import render
+
+        print(render(settings.state_dir / "crypto"), end="")
+        return
     if args.command == "dashboard":
         from pathlib import Path
 
