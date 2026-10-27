@@ -32,11 +32,11 @@ class Settings:
     max_agent_turns: int = 30
 
     # Hard limits, enforced in code before any order is sent.
-    max_order_usd: float = 10.0
-    max_market_usd: float = 25.0
-    max_total_usd: float = 100.0
-    max_daily_loss_usd: float = 25.0
-    max_weekly_loss_usd: float = 50.0
+    max_order_usd: float = 5.0
+    max_market_usd: float = 10.0
+    max_total_usd: float = 50.0
+    max_daily_loss_usd: float = 10.0
+    max_weekly_loss_usd: float = 20.0
     # Percentage caps from the PolyEdge prompt; the stricter of these and the
     # dollar caps applies.
     max_market_pct: float = 0.05
@@ -50,9 +50,12 @@ class Settings:
     min_price: float = 0.15
     # Below the floor, a buy needs at least this much edge on the shrunk estimate.
     longshot_min_edge: float = 0.15
-    max_price: float = 0.97
+    # Nothing is bought above this: near-certain contracts risk a lot to win a little.
+    max_price: float = 0.85
 
     # "favorite" strategy: quick-resolving heavy favorites, tracked separately.
+    # Off by default; it buys at 0.90+, above the max_price ceiling.
+    fav_enabled: bool = False
     fav_min_price: float = 0.90
     fav_max_hours: float = 48.0
     fav_min_edge: float = 0.02
@@ -65,7 +68,7 @@ class Settings:
     # Empty means every category is allowed.
     categories: tuple[str, ...] = field(default_factory=tuple)
 
-    paper_starting_cash: float = 500.0
+    paper_starting_cash: float = 200.0
     state_dir: Path = Path("state")
     kill_file: Path = Path("KILL")
 
@@ -92,6 +95,7 @@ class Settings:
             max_cluster_pct=_float("POLYEDGE_MAX_CLUSTER_PCT", cls.max_cluster_pct),
             kelly_multiplier=_float("POLYEDGE_KELLY_MULTIPLIER", cls.kelly_multiplier),
             shrink=_float("POLYEDGE_SHRINK", cls.shrink),
+            fav_enabled=os.environ.get("POLYEDGE_FAV_ENABLED", "") == "1",
             fav_min_price=_float("POLYEDGE_FAV_MIN_PRICE", cls.fav_min_price),
             longshot_min_edge=_float("POLYEDGE_LONGSHOT_MIN_EDGE", cls.longshot_min_edge),
             fav_max_hours=_float("POLYEDGE_FAV_MAX_HOURS", cls.fav_max_hours),
