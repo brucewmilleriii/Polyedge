@@ -52,12 +52,22 @@ def window_end(market: dict[str, Any], fallback: dt.datetime) -> dt.datetime:
     return dt.datetime.fromisoformat(raw.replace("Z", "+00:00"))
 
 
-def pick_side(raw_book: dict[str, Any], min_price: float, max_price: float) -> tuple[str, float] | None:
-    """The side ("yes" = Up, "no" = Down) whose best ask is in [min_price, max_price]."""
-    for side in ("yes", "no"):
+def pick_side(
+    raw_book: dict[str, Any], min_price: float, max_price: float, max_other_ask: float = 1.0
+) -> tuple[str, float] | None:
+    """The side ("yes" = Up, "no" = Down) whose best ask is in [min_price, max_price].
+
+    The other side must be cheap too (its ask at most max_other_ask, or no offers at
+    all): when both sides are offered high the book is just wide quotes, not a favorite.
+    """
+    for side, other in (("yes", "no"), ("no", "yes")):
         ask = side_book(raw_book, side).best_ask
-        if ask is not None and min_price <= ask <= max_price:
-            return side, ask
+        other_ask = side_book(raw_book, other).best_ask
+        if ask is None or not min_price <= ask <= max_price:
+            continue
+        if other_ask is not None and other_ask > max_other_ask:
+            continue
+        return side, ask
     return None
 
 
@@ -169,7 +179,7 @@ class CryptoTrader:
             self.done.add(slug)
             return None
 
-        pick = pick_side(raw, s.crypto_min_price, s.crypto_max_price)
+        pick = pick_side(raw, s.crypto_min_price, s.crypto_max_price, s.crypto_max_other_ask)
         if pick is None:
             return None  # keep watching this window; the price may still cross the threshold
         side, ask = pick

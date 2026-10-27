@@ -70,6 +70,8 @@ class Settings:
     crypto_min_price: float = 0.85
     crypto_max_price: float = 0.97
     crypto_max_order_usd: float = 10.0
+    # Skip when the opposite side is offered above this: both sides high means a wide, empty book.
+    crypto_max_other_ask: float = 0.25
     crypto_window_secs: float = 120.0
     crypto_min_secs_left: float = 5.0
     crypto_poll_secs: float = 4.0
@@ -126,6 +128,7 @@ class Settings:
             crypto_min_price=_float("POLYEDGE_CRYPTO_MIN_PRICE", cls.crypto_min_price),
             crypto_max_price=_float("POLYEDGE_CRYPTO_MAX_PRICE", cls.crypto_max_price),
             crypto_max_order_usd=_float("POLYEDGE_CRYPTO_MAX_ORDER_USD", cls.crypto_max_order_usd),
+            crypto_max_other_ask=_float("POLYEDGE_CRYPTO_MAX_OTHER_ASK", cls.crypto_max_other_ask),
             crypto_window_secs=_float("POLYEDGE_CRYPTO_WINDOW_SECS", cls.crypto_window_secs),
             crypto_min_secs_left=_float("POLYEDGE_CRYPTO_MIN_SECS_LEFT", cls.crypto_min_secs_left),
             crypto_poll_secs=_float("POLYEDGE_CRYPTO_POLL_SECS", cls.crypto_poll_secs),

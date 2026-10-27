@@ -44,6 +44,7 @@ jobs:
           git config user.name "polyedge-bot"
           git config user.email "polyedge-bot@users.noreply.github.com"
           save() {
+            python -m polyedge crypto-report > state/crypto/report.md || true
             git add state/crypto
             git diff --cached --quiet || git commit -q -m "state: crypto run $(date -u +%Y-%m-%dT%H:%MZ) [skip ci]"
             for i in 1 2 3; do git pull -q --rebase --autostash origin main && git push -q && break; sleep 5; done

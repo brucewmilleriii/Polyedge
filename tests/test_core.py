@@ -446,6 +446,28 @@ def test_crypto_records_closing_prices_and_outcome(env):
     assert {s["at"] for s in row["snaps"]} == {60} and row["snaps"][0]["up_ask"] == 0.90
 
 
+def test_crypto_skips_wide_books_and_reports(env):
+    import json
+
+    from polyedge.crypto_report import render
+    from polyedge.crypto_updown import pick_side
+
+    wide = {"bids": [{"px": px(0.03), "qty": "10"}], "offers": [{"px": px(0.97), "qty": "10"}]}
+    assert pick_side(wide, 0.85, 0.97, 0.25) is None  # Up asks 0.97 and Down asks 0.97
+    tight = {"bids": [{"px": px(0.88), "qty": "10"}], "offers": [{"px": px(0.90), "qty": "10"}]}
+    assert pick_side(tight, 0.85, 0.97, 0.25) == ("yes", 0.90)
+
+    d = env.settings.state_dir
+    (d / "journal.jsonl").write_text("\n".join(json.dumps(r) for r in [
+        {"kind": "order_request", "slug": "m1", "side": "no", "price": 0.9, "secs_left": 100},
+        {"kind": "order_status", "slug": "m1", "filled": 10.0},
+    ]) + "\n")
+    (d / "markets.jsonl").write_text(json.dumps(
+        {"slug": "m1", "outcome": "down", "snaps": [{"at": 120, "up_ask": 0.11, "down_ask": 0.9}]}) + "\n")
+    out = render(d)
+    assert "1 won, 0 lost" in out and "| 120 | – | 1/1 (100%) | – |" in out
+
+
 def test_new_loss_stop_defaults():
     s = Settings()
     assert (s.max_daily_loss_usd, s.max_weekly_loss_usd) == (100.0, 100.0)
