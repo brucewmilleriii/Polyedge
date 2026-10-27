@@ -299,8 +299,26 @@ class LiveBroker:
                 "manualOrderIndicator": "MANUAL_ORDER_INDICATOR_AUTOMATIC",
             }
         )
-        filled = sum(float(e.get("lastShares") or 0) for e in resp.get("executions", []) or [])
-        return {"order_id": resp.get("id"), "filled": filled, "resting": req.contracts - filled, "paper": False}
+        execs = resp.get("executions", []) or []
+        filled = sum(float(e.get("lastShares") or 0) for e in execs)
+        out = {"order_id": resp.get("id"), "filled": filled, "resting": req.contracts - filled, "paper": False}
+        # Keep the exchange's own words on each execution (rejections, partial fills) for the journal.
+        notes = [
+            {k: e.get(k) for k in ("type", "text", "orderRejectReason") if e.get(k)}
+            for e in execs
+        ]
+        if any(notes):
+            out["executions"] = notes
+        return out
+
+    def order_status(self, order_id: str) -> dict[str, Any]:
+        o = self.client.orders.retrieve(order_id).get("order", {}) or {}
+        return {
+            "state": o.get("state"),
+            "filled": float(o.get("cumQuantity") or 0),
+            "leaves": float(o.get("leavesQuantity") or 0),
+            "avg_price": (o.get("avgPx") or {}).get("value"),
+        }
 
     def cancel(self, order_id: str, slug: str) -> None:
         self.client.orders.cancel(order_id, {"marketSlug": slug})
