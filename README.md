@@ -55,8 +55,8 @@ At 0.90–0.97 a loss costs several wins, so it only pays if the favorite wins m
 | `POLYEDGE_MAX_CLUSTER_PCT` | 0.15 | Cap on everything in one event (correlated markets), as a share of equity |
 | `POLYEDGE_KELLY_MULTIPLIER` | 0.25 | A buy can't exceed this fraction of full Kelly (computed with the fee included) |
 | `POLYEDGE_SHRINK` | 0.5 | Weight on Claude's probability versus the market mid for every edge and sizing check (0 = market only, 1 = Claude only) |
-| `POLYEDGE_MAX_DAILY_LOSS_USD` | 100 | Stop the run once equity is this far below today's open (UTC) |
-| `POLYEDGE_MAX_WEEKLY_LOSS_USD` | 100 | Stop the run once equity is this far below this week's open |
+| `POLYEDGE_MAX_DAILY_LOSS_USD` | 200 | Stop the run once equity is this far below today's open (UTC) |
+| `POLYEDGE_MAX_WEEKLY_LOSS_USD` | 200 | Stop the run once equity is this far below this week's open |
 | `POLYEDGE_MAX_ORDERS_PER_RUN` | 3 | Max orders per run |
 | `POLYEDGE_MIN_EDGE` | 0.05 | Floor on edge after fees on the shrunk probability; the stated confidence raises it to 5 / 8 / 12 points for high / medium / low |
 | `POLYEDGE_LONGSHOT_MIN_EDGE` | 0.15 | Edge needed to buy below the entry-price floor |

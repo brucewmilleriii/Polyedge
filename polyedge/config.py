@@ -35,8 +35,8 @@ class Settings:
     max_order_usd: float = 5.0
     max_market_usd: float = 10.0
     max_total_usd: float = 50.0
-    max_daily_loss_usd: float = 100.0
-    max_weekly_loss_usd: float = 100.0
+    max_daily_loss_usd: float = 200.0
+    max_weekly_loss_usd: float = 200.0
     # Percentage caps from the PolyEdge prompt; the stricter of these and the
     # dollar caps applies.
     max_market_pct: float = 0.05
