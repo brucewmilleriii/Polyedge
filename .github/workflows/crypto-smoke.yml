@@ -15,6 +15,6 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python scripts/probe_btc.py
+      - run: python scripts/probe_updown.py
       - run: python -u -m polyedge crypto
       - run: cat state/crypto/journal.jsonl; cat state/crypto/paper.json; cat state/crypto/markets.jsonl || true
