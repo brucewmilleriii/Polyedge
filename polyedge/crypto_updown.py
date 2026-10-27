@@ -5,7 +5,9 @@ Polymarket US lists "Up or Down" markets for BTC, ETH, SOL and XRP for every
 at or above the price at its start. In the last couple of minutes the side BTC
 is currently on is usually priced high. This loop watches the current window
 and, inside the final `window_secs`, buys whichever side's best ask is between
-`min_price` and `max_price`, then holds to settlement.
+`min_price` and `max_price`, then holds to settlement. With the spot gate on
+(`crypto_min_fair` > 0) it buys only when the spot-price fair value of that side
+(polyedge/spot.py) is at least `crypto_min_fair` and above the ask plus fee.
 
 Every watched market, traded or not, is also recorded to markets.jsonl with
 its prices at fixed points before the close and how it settled, so the
@@ -26,6 +28,7 @@ from polyedge.config import Settings
 from polyedge.journal import Journal
 from polyedge.market_data import MarketData, side_book, taker_fee_per_contract
 from polyedge.risk import RiskManager
+from polyedge.spot import SpotFeed
 
 HORIZON_SECS = {"5m": 300, "15m": 900, "1h": 3600}
 # Seconds before the close at which each watched market's prices are recorded.
@@ -81,6 +84,7 @@ class CryptoTrader:
         journal: Journal,
         clock: Callable[[], float] = time.time,
         sleep: Callable[[float], None] = time.sleep,
+        spot: Any | None = None,
     ) -> None:
         self.s = settings
         self.md = md
@@ -89,6 +93,7 @@ class CryptoTrader:
         self.journal = journal
         self.clock = clock
         self.sleep = sleep
+        self.spot = spot if spot is not None else SpotFeed(clock=clock)
         self.done: set[str] = set()  # markets already traded or skipped for good
         self.trades: list[dict[str, Any]] = []
         # slug -> {"asset", "end", "snaps", "side"} until its outcome is recorded.
@@ -137,17 +142,21 @@ class CryptoTrader:
                     if "rate limited" in str(e) or "1015" in str(e):
                         raise
                     continue  # this coin has no market for the window; the others still run
-                self.snapshot(slug, asset, end, secs_left, raw)
+                fair = self.spot.fair_up(asset, int(start.timestamp()), int(end.timestamp()))
+                self.snapshot(slug, asset, end, secs_left, raw, fair)
                 if slug in self.done:
                     continue
                 if not self.s.crypto_min_secs_left < secs_left <= self.s.crypto_window_secs:
                     continue
-                trade = self.try_trade(slug, end, raw)
+                trade = self.try_trade(slug, end, raw, fair)
                 if trade and slug in self.watch:
                     self.watch[slug]["side"] = trade["side"]
         self.record_outcomes()
 
-    def snapshot(self, slug: str, asset: str, end: dt.datetime, secs_left: float, raw: dict[str, Any]) -> None:
+    def snapshot(
+        self, slug: str, asset: str, end: dt.datetime, secs_left: float, raw: dict[str, Any],
+        fair_up: float | None = None,
+    ) -> None:
         w = self.watch.setdefault(slug, {"asset": asset, "end": end.timestamp(), "snaps": [], "side": None})
         # Only the nearest checkpoint: one seen late is not back-filled with today's prices.
         due = [c for c in CHECKPOINTS if secs_left <= c]
@@ -158,7 +167,7 @@ class CryptoTrader:
         for c in due:
             w["snaps"].append(
                 {"at": c, "secs_left": round(secs_left, 1), "up_bid": up.best_bid, "up_ask": up.best_ask,
-                 "down_ask": down.best_ask}
+                 "down_ask": down.best_ask, "fair_up": None if fair_up is None else round(fair_up, 4)}
             )
 
     def record_outcomes(self, give_up_after: float = 900) -> None:
@@ -186,7 +195,9 @@ class CryptoTrader:
             self._next_settle_check.pop(slug, None)
             self._markets.pop(slug, None)
 
-    def try_trade(self, slug: str, expected_end: dt.datetime, raw: dict[str, Any]) -> dict[str, Any] | None:
+    def try_trade(
+        self, slug: str, expected_end: dt.datetime, raw: dict[str, Any], fair_up: float | None = None
+    ) -> dict[str, Any] | None:
         s = self.s
         if slug not in self._markets:
             market = self.md.market(slug)  # an error here is retried on the next step
@@ -206,6 +217,11 @@ class CryptoTrader:
         if pick is None:
             return None  # keep watching this window; the price may still cross the threshold
         side, ask = pick
+        fair = None if fair_up is None else (fair_up if side == "yes" else 1 - fair_up)
+        if s.crypto_min_fair > 0 and (
+            fair is None or fair < s.crypto_min_fair or fair - ask - taker_fee_per_contract(ask) < s.crypto_min_fair_edge
+        ):
+            return None  # spot does not back the favorite (yet); keep watching
 
         held = {p.slug for p in self.broker.positions()}
         pending_value, pending_cost = self.inflight_value(held)
@@ -239,7 +255,8 @@ class CryptoTrader:
         )
         self.journal.log(
             "order_request", **{k: v for k, v in vars(req).items()}, approved=True,
-            secs_left=round(secs_left, 1), strategy_note="closing-minutes favorite",
+            secs_left=round(secs_left, 1), fair=None if fair is None else round(fair, 4),
+            strategy_note="closing-minutes favorite",
         )
         self.done.add(slug)
         try:
