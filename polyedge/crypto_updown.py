@@ -214,11 +214,20 @@ class CryptoTrader:
         if result.get("resting") and result.get("order_id"):
             # Only take what is on offer now; never leave a bid behind near the close.
             self.sleep(s.crypto_cancel_after_secs)
-            try:
-                self.broker.cancel(result["order_id"], slug)
-                self.journal.log("order_cancelled", slug=slug, order_id=result["order_id"])
-            except Exception as e:
-                self.journal.log("cancel_error", slug=slug, order_id=result["order_id"], error=str(e))
+            if hasattr(self.broker, "order_status"):
+                # Fills can arrive after the create call returns; record what actually happened.
+                try:
+                    status = self.broker.order_status(result["order_id"])
+                    self.journal.log("order_status", slug=slug, order_id=result["order_id"], **status)
+                    result = {**result, "filled": status["filled"], "resting": status["leaves"]}
+                except Exception as e:
+                    self.journal.log("status_error", slug=slug, order_id=result["order_id"], error=str(e))
+            if result.get("resting"):
+                try:
+                    self.broker.cancel(result["order_id"], slug)
+                    self.journal.log("order_cancelled", slug=slug, order_id=result["order_id"])
+                except Exception as e:
+                    self.journal.log("cancel_error", slug=slug, order_id=result["order_id"], error=str(e))
         trade = {"slug": slug, "side": side, "price": ask, "contracts": contracts, **result}
         self.trades.append(trade)
         print(f"{dt.datetime.now(dt.timezone.utc):%H:%M:%S} bought {side} {slug} @ {ask} x{contracts}: {result}")
