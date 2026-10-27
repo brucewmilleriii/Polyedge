@@ -29,8 +29,6 @@ def build(settings: Settings):
         if not key_id or not secret:
             sys.exit("Live mode needs POLYMARKET_KEY_ID and POLYMARKET_SECRET_KEY.")
         broker = LiveBroker(md, key_id, secret)
-        # Read market data with the signed client too, rather than as an anonymous caller.
-        md.client = broker.client
     else:
         broker = PaperBroker(md, settings.state_dir, settings.paper_starting_cash)
     return md, broker, RiskManager(settings, broker, md)
