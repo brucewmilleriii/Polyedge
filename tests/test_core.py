@@ -545,3 +545,13 @@ def test_spot_fair_value_uses_the_60s_average():
     dip = {**prices, **{t: 100.05 for t in range(end - 60, end - 21)}, end - 21: 99.99}
     assert fair_up(dip, start, end, now) > 0.98
     assert fair_up(prices, start, end, now + 30) is None  # stale feed
+
+
+def test_crypto_exposure_cap_ignores_positions_bought_by_hand(env):
+    trader, slug = _crypto_env(env)
+    trader.s = replace(trader.s, max_total_usd=50)
+    env.broker.state["positions"] = {
+        "someone-elses-market|yes": {"qty": 400, "cost": 300.0},
+    }
+    trader.step()
+    assert len(trader.trades) == 1 and slug in trader.own_slugs
