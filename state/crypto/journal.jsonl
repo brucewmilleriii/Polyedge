@@ -1280,3 +1280,10 @@
 {"ts": "2026-10-28T06:14:18+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-28T06:14:46+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_cancelled", "slug": "cpceth-eth-updown-5m-2026-10-28-0610z", "order_id": "DC7XPKFG51N6", "reason": "timeout"}
 {"ts": "2026-10-28T06:14:46+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_status", "slug": "cpceth-eth-updown-5m-2026-10-28-0610z", "order_id": "DC7XPKFG51N6", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 21.0, "avg_price": 0.0}
+{"ts": "2026-10-28T06:16:25+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 477.33, "unpaid_value": 51.58, "unpaid_cost": 47.13, "unpaid_trades": 2}
+{"ts": "2026-10-28T06:19:06+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_request", "slug": "cpc-btc-updown-5m-2026-10-28-0615z", "action": "buy", "side": "yes", "price": 0.95, "contracts": 31, "category": "crypto", "strategy": "crypto_updown", "probability": 0.95, "approved": true, "secs_left": 53.9, "fair": 0.9935, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-28T06:19:07+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-28-0615z", "order_id": "DC80171011N6", "filled": 0, "resting": 31, "paper": false}
+{"ts": "2026-10-28T06:19:47+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-28-0615z", "order_id": "DC80171011N6", "reason": "timeout"}
+{"ts": "2026-10-28T06:19:47+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-28-0615z", "order_id": "DC80171011N6", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 31.0, "avg_price": 0.0}
+{"ts": "2026-10-28T06:21:26+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 477.33, "unpaid_value": 20.58, "unpaid_cost": 17.28, "unpaid_trades": 1}
+{"ts": "2026-10-28T06:23:58+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
