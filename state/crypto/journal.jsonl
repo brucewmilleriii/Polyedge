@@ -1767,3 +1767,6 @@
 {"ts": "2026-10-28T19:48:48+00:00", "run": "20261028T181327Z", "mode": "live", "kind": "order_cancelled", "slug": "cpcxrp-xrp-updown-5m-2026-10-28-1945z", "order_id": "DCKJM3DG11MC", "reason": "fair 0.9410035941754833"}
 {"ts": "2026-10-28T19:48:48+00:00", "run": "20261028T181327Z", "mode": "live", "kind": "order_status", "slug": "cpcxrp-xrp-updown-5m-2026-10-28-1945z", "order_id": "DCKJM3DG11MC", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 22.0, "avg_price": 0.0}
 {"ts": "2026-10-28T19:50:52+00:00", "run": "20261028T181327Z", "mode": "live", "kind": "account", "cash": 313.25, "unpaid_value": 81.43, "unpaid_cost": 78.13, "unpaid_trades": 4}
+{"ts": "2026-10-28T19:53:57+00:00", "run": "20261028T181327Z", "mode": "live", "kind": "crypto_skip", "slug": "cpc-btc-updown-5m-2026-10-28-1950z", "side": "yes", "price": 0.96, "reason": "would bring total exposure to $107.89, max is $100.00"}
+{"ts": "2026-10-28T19:55:53+00:00", "run": "20261028T181327Z", "mode": "live", "kind": "account", "cash": 313.25, "unpaid_value": 83.0, "unpaid_cost": 78.13, "unpaid_trades": 4}
+{"ts": "2026-10-28T20:00:55+00:00", "run": "20261028T181327Z", "mode": "live", "kind": "account", "cash": 313.25, "unpaid_value": 83.0, "unpaid_cost": 78.13, "unpaid_trades": 4}
