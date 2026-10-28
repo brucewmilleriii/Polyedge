@@ -99,6 +99,9 @@ class CryptoTrader:
         # slug -> {"asset", "end", "snaps", "side"} until its outcome is recorded.
         self.watch: dict[str, dict[str, Any]] = {}
         self.markets_path = settings.state_dir / "markets.jsonl"
+        # Markets this loop has ordered in. The exposure cap counts only these, so
+        # positions bought by hand in the same account do not block the bot.
+        self.own_slugs = self._load_own_slugs()
         self._last_halt = ""
         self._markets: dict[str, dict[str, Any]] = {}  # slug -> market, loaded once per window
         self._next_settle_check: dict[str, float] = {}
@@ -236,7 +239,9 @@ class CryptoTrader:
         notional = ask * contracts
         fee = taker_fee_per_contract(ask) * contracts
         exposure = (
-            sum(p.cost for p in self.broker.positions()) + self.broker.pending_buy_notional() + pending_cost
+            sum(p.cost for p in self.broker.positions() if p.slug in self.own_slugs)
+            + self.broker.pending_buy_notional(slug)  # the loop's other bids are cancelled within seconds
+            + pending_cost
         )
         reason = None
         if contracts < 1:
@@ -259,6 +264,7 @@ class CryptoTrader:
             strategy_note="closing-minutes favorite",
         )
         self.done.add(slug)
+        self.own_slugs.add(slug)
         try:
             result = self.broker.place(req)
         except Exception as e:
@@ -297,6 +303,19 @@ class CryptoTrader:
         self.trades.append(trade)
         print(f"{dt.datetime.now(dt.timezone.utc):%H:%M:%S} bought {side} {slug} @ {ask} x{contracts}: {result}")
         return trade
+
+    def _load_own_slugs(self) -> set[str]:
+        slugs: set[str] = set()
+        path = getattr(self.journal, "path", None)
+        if path and path.exists():
+            for line in path.read_text().splitlines():
+                try:
+                    row = json.loads(line)
+                except ValueError:
+                    continue
+                if row.get("kind") == "order_request" and row.get("strategy") == "crypto_updown":
+                    slugs.add(row["slug"])
+        return slugs
 
     @staticmethod
     def _pay_at(market: dict[str, Any], expected_end: dt.datetime) -> float:
