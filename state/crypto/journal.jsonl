@@ -1646,3 +1646,8 @@
 {"ts": "2026-10-28T16:31:52+00:00", "run": "20261028T153633Z", "mode": "live", "kind": "account", "cash": 397.61, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-28T16:36:53+00:00", "run": "20261028T153633Z", "mode": "live", "kind": "account", "cash": 227.54, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-28T16:41:56+00:00", "run": "20261028T153633Z", "mode": "live", "kind": "account", "cash": 227.54, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T16:47:00+00:00", "run": "20261028T153633Z", "mode": "live", "kind": "account", "cash": 175.54, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T16:48:55+00:00", "run": "20261028T153633Z", "mode": "live", "kind": "halted", "reason": "daily loss limit hit (down $263.52 today)"}
+{"ts": "2026-10-28T16:52:01+00:00", "run": "20261028T153633Z", "mode": "live", "kind": "account", "cash": 347.21, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T16:53:41+00:00", "run": "20261028T153633Z", "mode": "live", "kind": "halted", "reason": "daily loss limit hit (down $256.57 today)"}
+{"ts": "2026-10-28T16:55:10+00:00", "run": "20261028T153633Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
