@@ -1194,3 +1194,11 @@
 {"ts": "2026-10-28T04:34:10+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "status_error", "slug": "cpcxrp-xrp-updown-5m-2026-10-28-0430z", "order_id": "DC6FZV9G11R3", "error": "Order not found"}
 {"ts": "2026-10-28T04:34:43+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_cancelled", "slug": "cpcxrp-xrp-updown-5m-2026-10-28-0430z", "order_id": "DC6FZV9G11R3", "reason": "timeout"}
 {"ts": "2026-10-28T04:34:43+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_status", "slug": "cpcxrp-xrp-updown-5m-2026-10-28-0430z", "order_id": "DC6FZV9G11R3", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 31.0, "avg_price": 0.0}
+{"ts": "2026-10-28T04:35:43+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 468.48, "unpaid_value": 23.0, "unpaid_cost": 19.75, "unpaid_trades": 1}
+{"ts": "2026-10-28T04:38:12+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T04:39:06+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T04:39:33+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_request", "slug": "cpceth-eth-updown-5m-2026-10-28-0435z", "action": "buy", "side": "no", "price": 0.96, "contracts": 31, "category": "crypto", "strategy": "crypto_updown", "probability": 0.96, "approved": true, "secs_left": 27.8, "fair": 0.99, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-28T04:39:33+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_result", "slug": "cpceth-eth-updown-5m-2026-10-28-0435z", "order_id": "DC6JESP011MM", "filled": 0, "resting": 31, "paper": false}
+{"ts": "2026-10-28T04:39:44+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T04:40:08+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_status", "slug": "cpceth-eth-updown-5m-2026-10-28-0435z", "order_id": "DC6JESP011MM", "state": "ORDER_STATE_EXPIRED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
+{"ts": "2026-10-28T04:40:44+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 468.48, "unpaid_value": 23.0, "unpaid_cost": 19.75, "unpaid_trades": 1}
