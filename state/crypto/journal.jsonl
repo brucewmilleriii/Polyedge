@@ -1202,3 +1202,11 @@
 {"ts": "2026-10-28T04:39:44+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-28T04:40:08+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_status", "slug": "cpceth-eth-updown-5m-2026-10-28-0435z", "order_id": "DC6JESP011MM", "state": "ORDER_STATE_EXPIRED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
 {"ts": "2026-10-28T04:40:44+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 468.48, "unpaid_value": 23.0, "unpaid_cost": 19.75, "unpaid_trades": 1}
+{"ts": "2026-10-28T04:45:47+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 468.48, "unpaid_value": 23.0, "unpaid_cost": 19.75, "unpaid_trades": 1}
+{"ts": "2026-10-28T04:49:12+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T04:50:50+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 468.48, "unpaid_value": 23.0, "unpaid_cost": 19.75, "unpaid_trades": 1}
+{"ts": "2026-10-28T04:53:57+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T04:54:23+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_request", "slug": "cpc-btc-updown-5m-2026-10-28-0450z", "action": "buy", "side": "no", "price": 0.96, "contracts": 31, "category": "crypto", "strategy": "crypto_updown", "probability": 0.96, "approved": true, "secs_left": 37.3, "fair": 0.9943, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-28T04:54:23+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-28-0450z", "order_id": "DC6S85W011R3", "filled": 0, "resting": 31, "paper": false}
+{"ts": "2026-10-28T04:54:35+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T04:55:03+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-28-0450z", "order_id": "DC6S85W011R3", "state": "ORDER_STATE_EXPIRED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
