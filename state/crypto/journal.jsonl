@@ -1059,3 +1059,15 @@
 {"ts": "2026-10-28T02:25:00+00:00", "run": "20261028T020202Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-28T02:27:15+00:00", "run": "20261028T020202Z", "mode": "live", "kind": "account", "cash": 514.43, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-28T02:28:10+00:00", "run": "20261028T020202Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T02:32:16+00:00", "run": "20261028T020202Z", "mode": "live", "kind": "account", "cash": 514.43, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T02:34:25+00:00", "run": "20261028T020202Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T02:34:53+00:00", "run": "20261028T020202Z", "mode": "live", "kind": "order_request", "slug": "cpceth-eth-updown-5m-2026-10-28-0230z", "action": "buy", "side": "yes", "price": 0.98, "contracts": 20, "category": "crypto", "strategy": "crypto_updown", "probability": 0.98, "approved": true, "secs_left": 8.5, "fair": 1.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-28T02:34:53+00:00", "run": "20261028T020202Z", "mode": "live", "kind": "order_result", "slug": "cpceth-eth-updown-5m-2026-10-28-0230z", "order_id": "DC4SCKWG11MM", "filled": 0, "resting": 20, "paper": false}
+{"ts": "2026-10-28T02:34:56+00:00", "run": "20261028T020202Z", "mode": "live", "kind": "order_status", "slug": "cpceth-eth-updown-5m-2026-10-28-0230z", "order_id": "DC4SCKWG11MM", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 20.0, "avg_price": 0.0}
+{"ts": "2026-10-28T02:34:56+00:00", "run": "20261028T020202Z", "mode": "live", "kind": "order_cancelled", "slug": "cpceth-eth-updown-5m-2026-10-28-0230z", "order_id": "DC4SCKWG11MM"}
+{"ts": "2026-10-28T02:35:07+00:00", "run": "20261028T020202Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T02:37:18+00:00", "run": "20261028T020202Z", "mode": "live", "kind": "account", "cash": 514.43, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T02:39:26+00:00", "run": "20261028T020202Z", "mode": "live", "kind": "order_request", "slug": "cpcxrp-xrp-updown-5m-2026-10-28-0235z", "action": "buy", "side": "no", "price": 0.99, "contracts": 20, "category": "crypto", "strategy": "crypto_updown", "probability": 0.99, "approved": true, "secs_left": 34.3, "fair": 0.9923, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-28T02:39:26+00:00", "run": "20261028T020202Z", "mode": "live", "kind": "order_result", "slug": "cpcxrp-xrp-updown-5m-2026-10-28-0235z", "order_id": "DC4VFCPG11MC", "filled": 0, "resting": 20, "paper": false}
+{"ts": "2026-10-28T02:39:29+00:00", "run": "20261028T020202Z", "mode": "live", "kind": "order_status", "slug": "cpcxrp-xrp-updown-5m-2026-10-28-0235z", "order_id": "DC4VFCPG11MC", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 20.0, "avg_price": 0.0}
+{"ts": "2026-10-28T02:39:30+00:00", "run": "20261028T020202Z", "mode": "live", "kind": "order_cancelled", "slug": "cpcxrp-xrp-updown-5m-2026-10-28-0235z", "order_id": "DC4VFCPG11MC"}
