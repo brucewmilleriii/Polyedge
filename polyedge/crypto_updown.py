@@ -27,7 +27,7 @@ from polyedge.brokers import OrderRequest
 from polyedge.config import Settings
 from polyedge.journal import Journal
 from polyedge.market_data import MarketData, side_book, taker_fee_per_contract
-from polyedge.risk import RiskManager
+from polyedge.risk import Decision, RiskManager
 from polyedge.spot import SpotFeed
 
 HORIZON_SECS = {"5m": 300, "15m": 900, "1h": 3600}
@@ -53,6 +53,13 @@ def window_end(market: dict[str, Any], fallback: dt.datetime) -> dt.datetime:
     if not raw:
         return fallback
     return dt.datetime.fromisoformat(raw.replace("Z", "+00:00"))
+
+
+def _parse_ts(raw: Any) -> dt.datetime | None:
+    try:
+        return dt.datetime.fromisoformat(str(raw).replace("Z", "+00:00"))
+    except ValueError:
+        return None
 
 
 def pick_side(
@@ -276,8 +283,8 @@ class CryptoTrader:
             return None  # spot does not back the favorite (yet); keep watching
 
         held = {p.slug for p in self.broker.positions()}
-        pending_value, pending_cost = self.inflight_value(held)
-        halt = self.risk.halted(extra=pending_value)
+        _, pending_cost = self.inflight_value(held)
+        halt = self.own_loss_halt()
         if not halt.ok:
             if halt.reason != self._last_halt:
                 self.journal.log("halted", reason=halt.reason)
@@ -361,6 +368,69 @@ class CryptoTrader:
         self.trades.append(trade)
         print(f"{dt.datetime.now(dt.timezone.utc):%H:%M:%S} bought {side} {slug} @ {ask} x{contracts}: {result}")
         return trade
+
+    def own_pnl(self, since: dt.datetime) -> float:
+        """Profit of this loop's own fills ordered at or after `since`, from the journal.
+
+        Each fill costs its limit price plus the taker fee and pays $1 a contract if
+        its side won. A fill whose market has not settled yet counts as a full loss
+        until it does, so the figure never runs ahead of the truth.
+        """
+        path = getattr(self.journal, "path", None)
+        if not path or not path.exists():
+            return 0.0
+        outcomes = dict(self.outcomes)
+        if self.markets_path.exists():
+            for line in self.markets_path.read_text().splitlines():
+                try:
+                    row = json.loads(line)
+                except ValueError:
+                    continue
+                if row.get("outcome"):
+                    outcomes[row["slug"]] = row["outcome"]
+        requests: dict[str, dict[str, Any]] = {}  # slug -> latest crypto order_request
+        orders: dict[str, dict[str, Any]] = {}  # order_id -> {"req", "filled"}
+        for line in path.read_text().splitlines():
+            try:
+                row = json.loads(line)
+            except ValueError:
+                continue
+            kind, slug = row.get("kind"), row.get("slug")
+            if kind == "order_request" and row.get("strategy") == "crypto_updown":
+                requests[slug] = row
+            elif kind in ("order_result", "order_status") and row.get("order_id") and slug in requests:
+                o = orders.setdefault(row["order_id"], {"req": requests[slug], "filled": 0.0})
+                o["filled"] = max(o["filled"], float(row.get("filled") or 0))
+        pnl = 0.0
+        for o in orders.values():
+            req, filled = o["req"], o["filled"]
+            ts = _parse_ts(req.get("ts"))
+            if filled <= 0 or ts is None or ts < since:
+                continue
+            price = float(req["price"])
+            pnl -= filled * (price + taker_fee_per_contract(price))
+            if outcomes.get(req["slug"]) == ("up" if req["side"] == "yes" else "down"):
+                pnl += filled
+        return pnl
+
+    def own_loss_halt(self) -> Decision:
+        """The daily and weekly loss stops, counted on this loop's own trades only, so
+        manual trades and withdrawals in the same account do not pause the bot."""
+        if self.s.kill_switch_on():
+            return Decision(False, "kill switch is on")
+        now = dt.datetime.fromtimestamp(self.clock(), dt.timezone.utc)
+        day = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        week = day - dt.timedelta(days=day.weekday())
+        floor = _parse_ts(self.s.crypto_loss_since)
+        if floor is not None:
+            day, week = max(day, floor), max(week, floor)
+        lost_day = -self.own_pnl(day)
+        if lost_day >= self.s.max_daily_loss_usd:
+            return Decision(False, f"daily loss limit hit (bot down ${lost_day:.2f} today)")
+        lost_week = -self.own_pnl(week)
+        if lost_week >= self.s.max_weekly_loss_usd:
+            return Decision(False, f"weekly loss limit hit (bot down ${lost_week:.2f} this week)")
+        return Decision(True)
 
     def _load_own_slugs(self) -> set[str]:
         slugs: set[str] = set()
