@@ -1,12 +1,9 @@
 # Crypto Up/Down report
 
-Live fills: 98 (92 settled, 75 won, 17 lost). Settled P&L after fees: $-115.81.
+Live fills: 101 (94 settled, 77 won, 17 lost). Settled P&L after fees: $-113.88.
 
 | Market | Side | Price | Qty | Secs left | Outcome | P&L |
 |---|---|---|---|---|---|---|
-| cpcxrp-xrp-updown-5m-2026-10-27-1600z | down | 0.99 | 20 | 38.3 | down | +0.19 |
-| cpceth-eth-updown-5m-2026-10-28-0315z | down | 0.97 | 20 | 32.1 | down | +0.56 |
-| cpc-btc-updown-5m-2026-10-28-0415z | down | 0.85 | 23 | 36.2 | down | +3.25 |
 | cpc-btc-updown-5m-2026-10-28-0500z | down | 0.93 | 21 | 115.0 | down | +1.37 |
 | cpceth-eth-updown-5m-2026-10-28-0510z | down | 0.88 | 22 | 39.1 | down | +2.48 |
 | cpc-btc-updown-5m-2026-10-28-0540z | up | 0.96 | 31 | 89.8 | up | +1.16 |
@@ -34,6 +31,9 @@ Live fills: 98 (92 settled, 75 won, 17 lost). Settled P&L after fees: $-115.81.
 | cpcxrp-xrp-updown-5m-2026-10-28-2045z | down | 0.92 | 19.73 | 70.1 | down | +1.48 |
 | cpceth-eth-updown-5m-2026-10-28-2105z | down | 0.96 | 20 | 64.5 | down | +0.75 |
 | cpcsol-sol-updown-5m-2026-10-28-2250z | down | 0.9 | 2.59 | 44.7 | down | +0.24 |
+| cpceth-eth-updown-5m-2026-10-28-2315z | down | 0.94 | 21 | 116.6 | down | +1.18 |
+| cpc-btc-updown-5m-2026-10-28-2315z | down | 0.96 | 20 | 73.6 | down | +0.75 |
+| cpc-btc-updown-5m-2026-10-28-2320z | up | 0.92 | 21 | 99.8 | open |  |
 
 ## What if: every recorded market
 
@@ -41,9 +41,9 @@ Win rate of the side priced in each band at each checkpoint (seconds before clos
 
 | Secs left | 0.85–0.90 | 0.90–0.95 | 0.95–0.98 |
 |---|---|---|---|
-| 120 | 92/108 (85%) | 160/181 (88%) | 235/244 (96%) |
-| 90 | 71/82 (87%) | 109/126 (87%) | 186/192 (97%) |
-| 60 | 38/45 (84%) | 49/58 (84%) | 144/153 (94%) |
+| 120 | 92/108 (85%) | 162/183 (89%) | 235/244 (96%) |
+| 90 | 71/82 (87%) | 109/126 (87%) | 187/193 (97%) |
+| 60 | 38/45 (84%) | 49/58 (84%) | 145/154 (94%) |
 | 30 | 8/10 (80%) | 15/15 (100%) | 24/26 (92%) |
 | 15 | 4/5 (80%) | 2/2 (100%) | 4/6 (67%) |
 | 5 | 1/1 (100%) | 1/1 (100%) | 2/2 (100%) |
