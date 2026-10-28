@@ -1607,3 +1607,7 @@
 {"ts": "2026-10-28T14:38:44+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-28-1435z", "order_id": "DCF4GD8011MV", "reason": "timeout"}
 {"ts": "2026-10-28T14:38:44+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-28-1435z", "order_id": "DCF4GD8011MV", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 20.0, "avg_price": 0.0}
 {"ts": "2026-10-28T14:39:52+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T14:42:58+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 447.6, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T14:44:44+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T14:48:06+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 397.61, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T14:48:52+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "halted", "reason": "daily loss limit hit (down $200.22 today)"}
