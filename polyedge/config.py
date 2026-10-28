@@ -68,7 +68,7 @@ class Settings:
     crypto_assets: tuple[str, ...] = ("btc", "eth", "sol", "xrp")
     crypto_horizons: tuple[str, ...] = ("5m",)
     crypto_min_price: float = 0.80
-    crypto_max_price: float = 0.99
+    crypto_max_price: float = 0.95
     crypto_max_order_usd: float = 20.0
     # Skip when the opposite side is offered above this: both sides high means a wide, empty book.
     crypto_max_other_ask: float = 0.25
