@@ -68,8 +68,11 @@ class Settings:
     crypto_assets: tuple[str, ...] = ("btc", "eth", "sol", "xrp")
     crypto_horizons: tuple[str, ...] = ("5m",)
     crypto_min_price: float = 0.80
-    crypto_max_price: float = 0.97
+    crypto_max_price: float = 0.96
     crypto_max_order_usd: float = 20.0
+    # Order size when the spot fair value of the side is at least crypto_sure_fair.
+    crypto_sure_order_usd: float = 30.0
+    crypto_sure_fair: float = 0.99
     # Skip when the opposite side is offered above this: both sides high means a wide, empty book.
     crypto_max_other_ask: float = 0.25
     crypto_window_secs: float = 120.0
@@ -137,6 +140,7 @@ class Settings:
             crypto_min_price=_float("POLYEDGE_CRYPTO_MIN_PRICE", cls.crypto_min_price),
             crypto_max_price=_float("POLYEDGE_CRYPTO_MAX_PRICE", cls.crypto_max_price),
             crypto_max_order_usd=_float("POLYEDGE_CRYPTO_MAX_ORDER_USD", cls.crypto_max_order_usd),
+            crypto_sure_order_usd=_float("POLYEDGE_CRYPTO_SURE_ORDER_USD", cls.crypto_sure_order_usd),
             crypto_max_other_ask=_float("POLYEDGE_CRYPTO_MAX_OTHER_ASK", cls.crypto_max_other_ask),
             crypto_window_secs=_float("POLYEDGE_CRYPTO_WINDOW_SECS", cls.crypto_window_secs),
             crypto_rest_secs=_float("POLYEDGE_CRYPTO_REST_SECS", cls.crypto_rest_secs),

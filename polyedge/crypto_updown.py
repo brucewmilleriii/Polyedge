@@ -284,7 +284,10 @@ class CryptoTrader:
                 self._last_halt = halt.reason
             return None
 
-        contracts = int(s.crypto_max_order_usd // ask)
+        size_usd = s.crypto_max_order_usd
+        if s.crypto_min_fair > 0 and fair is not None and fair >= s.crypto_sure_fair:
+            size_usd = max(size_usd, s.crypto_sure_order_usd)
+        contracts = int(size_usd // ask)
         notional = ask * contracts
         fee = taker_fee_per_contract(ask) * contracts
         exposure = (
@@ -295,7 +298,7 @@ class CryptoTrader:
         )
         reason = None
         if contracts < 1:
-            reason = f"${s.crypto_max_order_usd:.2f} buys no contracts at {ask}"
+            reason = f"${size_usd:.2f} buys no contracts at {ask}"
         elif exposure + notional > s.max_total_usd:
             reason = f"would bring total exposure to ${exposure + notional:.2f}, max is ${s.max_total_usd:.2f}"
         elif notional + fee > self.broker.cash():

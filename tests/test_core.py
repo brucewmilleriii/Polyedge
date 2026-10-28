@@ -484,7 +484,7 @@ def test_new_loss_stop_defaults():
     s = Settings()
     assert (s.max_daily_loss_usd, s.max_weekly_loss_usd) == (200.0, 200.0)
     assert s.crypto_max_order_usd == 20.0 and s.crypto_window_secs == 120
-    assert (s.crypto_min_price, s.crypto_max_price, s.crypto_min_fair) == (0.80, 0.97, 0.95)
+    assert (s.crypto_min_price, s.crypto_max_price, s.crypto_min_fair) == (0.80, 0.96, 0.95)
 
 
 def test_crypto_counts_settled_trades_awaiting_payout(env):
@@ -602,7 +602,7 @@ def test_crypto_resting_buy_fills_while_spot_backs_it(env):
     trader.broker.fill("o0", 0.90)
     t[0] += 4
     trader.step()
-    assert slug not in trader.resting and trader.inflight[0]["qty"] == 11
+    assert slug not in trader.resting and trader.inflight[0]["qty"] == 33  # $30: spot is 99.5% sure
     assert len(trader.broker.orders) == 1  # no second order for the same window
 
 
@@ -619,3 +619,19 @@ def test_crypto_resting_buy_cancelled_when_spot_turns_or_times_out(env):
     t[0] += 31
     trader.manage_resting()
     assert trader.broker.cancelled == ["o0"] and not trader.resting
+
+
+def test_crypto_sizes_up_when_spot_is_very_sure(env):
+    trader, _ = _crypto_env(env, fair_up=0.995)  # Up at 0.90
+    trader.s = replace(trader.s, crypto_min_fair=0.95, crypto_max_order_usd=20, crypto_sure_order_usd=30,
+                       crypto_sure_fair=0.99, max_total_usd=100)
+    trader.step()
+    assert trader.trades[0]["contracts"] == 33  # $30 at 0.90
+
+
+def test_crypto_normal_size_below_sure_threshold(env):
+    trader, _ = _crypto_env(env, fair_up=0.97)
+    trader.s = replace(trader.s, crypto_min_fair=0.95, crypto_max_order_usd=20, crypto_sure_order_usd=30,
+                       crypto_sure_fair=0.99, max_total_usd=100)
+    trader.step()
+    assert trader.trades[0]["contracts"] == 22  # $20 at 0.90
