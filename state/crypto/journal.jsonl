@@ -1440,3 +1440,10 @@
 {"ts": "2026-10-28T10:29:26+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-28T10:29:53+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-28-1025z", "order_id": "DCBJHB7G11R3", "reason": "timeout"}
 {"ts": "2026-10-28T10:29:53+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-28-1025z", "order_id": "DCBJHB7G11R3", "state": "ORDER_STATE_CANCELED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
+{"ts": "2026-10-28T10:31:20+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 488.12, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T10:36:23+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 488.12, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T10:38:47+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T10:39:13+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_request", "slug": "cpc-btc-updown-5m-2026-10-28-1035z", "action": "buy", "side": "no", "price": 0.95, "contracts": 31, "category": "crypto", "strategy": "crypto_updown", "probability": 0.95, "approved": true, "secs_left": 47.1, "fair": 0.9994, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-28T10:39:13+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-28-1035z", "order_id": "DCBQ3F6G11MQ", "filled": 0, "resting": 31, "paper": false}
+{"ts": "2026-10-28T10:39:43+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T10:40:07+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-28-1035z", "order_id": "DCBQ3F6G11MQ", "state": "ORDER_STATE_EXPIRED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
