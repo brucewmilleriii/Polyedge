@@ -1464,3 +1464,7 @@
 {"ts": "2026-10-28T10:54:38+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_cancelled", "slug": "cpceth-eth-updown-5m-2026-10-28-1050z", "order_id": "DCBXSWV011R3", "reason": "timeout"}
 {"ts": "2026-10-28T10:54:39+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_status", "slug": "cpceth-eth-updown-5m-2026-10-28-1050z", "order_id": "DCBXSWV011R3", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 32.0, "avg_price": 0.0}
 {"ts": "2026-10-28T10:56:29+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 490.29, "unpaid_value": 18.83, "unpaid_cost": 18.83, "unpaid_trades": 1}
+{"ts": "2026-10-28T11:01:31+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 490.29, "unpaid_value": 21.0, "unpaid_cost": 18.83, "unpaid_trades": 1}
+{"ts": "2026-10-28T11:03:14+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T11:04:04+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T11:06:34+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 490.29, "unpaid_value": 21.0, "unpaid_cost": 18.83, "unpaid_trades": 1}
