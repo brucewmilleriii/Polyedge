@@ -1311,3 +1311,6 @@
 {"ts": "2026-10-28T07:03:05+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-28-0700z", "order_id": "DC8M5FEG11N6", "filled": 0, "resting": 20, "paper": false}
 {"ts": "2026-10-28T07:03:19+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-28-0700z", "order_id": "DC8M5FEG11N6", "state": "ORDER_STATE_FILLED", "filled": 20.0, "leaves": 0.0, "avg_price": 0.96}
 {"ts": "2026-10-28T07:05:04+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T07:06:43+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 479.32, "unpaid_value": 50.25, "unpaid_cost": 49.1, "unpaid_trades": 2}
+{"ts": "2026-10-28T07:08:47+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T07:11:45+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 479.32, "unpaid_value": 51.0, "unpaid_cost": 49.1, "unpaid_trades": 2}
