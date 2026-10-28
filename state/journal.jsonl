@@ -46,3 +46,4 @@
 {"ts": "2026-10-28T12:55:30+00:00", "run": "20261028T125530Z", "mode": "live", "kind": "halted", "reason": "daily loss limit hit (down $215.91 today)"}
 {"ts": "2026-10-28T14:56:38+00:00", "run": "20261028T145638Z", "mode": "live", "kind": "halted", "reason": "daily loss limit hit (down $204.79 today)"}
 {"ts": "2026-10-28T16:53:58+00:00", "run": "20261028T165358Z", "mode": "live", "kind": "halted", "reason": "daily loss limit hit (down $258.10 today)"}
+{"ts": "2026-10-28T18:50:31+00:00", "run": "20261028T185030Z", "mode": "live", "kind": "halted", "reason": "daily loss limit hit (down $295.63 today)"}
