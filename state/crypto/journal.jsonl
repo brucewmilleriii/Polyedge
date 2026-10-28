@@ -1468,3 +1468,5 @@
 {"ts": "2026-10-28T11:03:14+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-28T11:04:04+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-28T11:06:34+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 490.29, "unpaid_value": 21.0, "unpaid_cost": 18.83, "unpaid_trades": 1}
+{"ts": "2026-10-28T11:11:35+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 490.29, "unpaid_value": 21.0, "unpaid_cost": 18.83, "unpaid_trades": 1}
+{"ts": "2026-10-28T11:16:35+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 490.29, "unpaid_value": 21.0, "unpaid_cost": 18.83, "unpaid_trades": 1}
