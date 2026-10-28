@@ -1399,3 +1399,6 @@
 {"ts": "2026-10-28T09:19:51+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-28-0915z", "order_id": "DCAJNJP011MC", "reason": "close"}
 {"ts": "2026-10-28T09:19:51+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-28-0915z", "order_id": "DCAJNJP011MC", "state": "ORDER_STATE_CANCELED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
 {"ts": "2026-10-28T09:22:47+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 488.12, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T09:27:48+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 488.12, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T09:32:49+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 488.12, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T09:34:17+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
