@@ -1378,3 +1378,5 @@
 {"ts": "2026-10-28T08:44:40+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-28-0840z", "order_id": "DCA2NA2051MC", "filled": 0, "resting": 20, "paper": false}
 {"ts": "2026-10-28T08:44:52+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-28-0840z", "order_id": "DCA2NA2051MC", "reason": "close"}
 {"ts": "2026-10-28T08:44:52+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-28-0840z", "order_id": "DCA2NA2051MC", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 20.0, "avg_price": 0.0}
+{"ts": "2026-10-28T08:47:30+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 488.12, "unpaid_value": 22.0, "unpaid_cost": 19.94, "unpaid_trades": 1}
+{"ts": "2026-10-28T08:52:33+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 488.12, "unpaid_value": 22.0, "unpaid_cost": 19.94, "unpaid_trades": 1}
