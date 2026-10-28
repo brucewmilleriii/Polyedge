@@ -484,7 +484,7 @@ def test_new_loss_stop_defaults():
     s = Settings()
     assert (s.max_daily_loss_usd, s.max_weekly_loss_usd) == (200.0, 200.0)
     assert s.crypto_max_order_usd == 20.0 and s.crypto_window_secs == 120
-    assert (s.crypto_min_price, s.crypto_max_price, s.crypto_min_fair) == (0.80, 0.95, 0.95)
+    assert (s.crypto_min_price, s.crypto_max_price, s.crypto_min_fair) == (0.80, 0.97, 0.95)
 
 
 def test_crypto_counts_settled_trades_awaiting_payout(env):
@@ -555,3 +555,67 @@ def test_crypto_exposure_cap_ignores_positions_bought_by_hand(env):
     }
     trader.step()
     assert len(trader.trades) == 1 and slug in trader.own_slugs
+
+
+class RestingBroker:
+    """Wraps the paper broker: every buy rests unfilled until fill() is called."""
+
+    def __init__(self, inner):
+        self.inner, self.orders, self.cancelled = inner, {}, []
+
+    def __getattr__(self, name):
+        return getattr(self.inner, name)
+
+    def place(self, req):
+        oid = f"o{len(self.orders)}"
+        self.orders[oid] = {"filled": 0.0, "leaves": float(req.contracts), "avg_price": None, "state": "NEW"}
+        return {"order_id": oid, "filled": 0, "resting": req.contracts, "paper": False}
+
+    def order_status(self, oid):
+        return dict(self.orders[oid])
+
+    def fill(self, oid, px):
+        o = self.orders[oid]
+        o.update(filled=o["filled"] + o["leaves"], leaves=0.0, avg_price=px)
+
+    def cancel(self, oid, slug):
+        self.cancelled.append(oid)
+        self.orders[oid]["leaves"] = 0.0
+
+
+def _resting_env(env, fair_up=0.995):
+    trader, slug = _crypto_env(env, fair_up=fair_up)
+    trader.s = replace(trader.s, crypto_min_fair=0.98, crypto_rest_secs=30, crypto_cancel_secs_left=10)
+    trader.broker = RestingBroker(env.broker)
+    t = [trader.clock()]
+    trader.clock = lambda: t[0]
+    return trader, slug, t
+
+
+def test_crypto_resting_buy_fills_while_spot_backs_it(env):
+    trader, slug, t = _resting_env(env)
+    trader.step()
+    assert slug in trader.resting and not trader.inflight
+    t[0] += 4
+    trader.step()  # still resting, spot still backs it
+    assert slug in trader.resting and not trader.broker.cancelled
+    trader.broker.fill("o0", 0.90)
+    t[0] += 4
+    trader.step()
+    assert slug not in trader.resting and trader.inflight[0]["qty"] == 11
+    assert len(trader.broker.orders) == 1  # no second order for the same window
+
+
+def test_crypto_resting_buy_cancelled_when_spot_turns_or_times_out(env):
+    trader, slug, t = _resting_env(env)
+    trader.step()
+    trader.spot.up = 0.90  # spot no longer backs Up
+    t[0] += 4
+    trader.step()
+    assert trader.broker.cancelled == ["o0"] and not trader.resting and not trader.inflight
+
+    trader, slug, t = _resting_env(env)
+    trader.step()
+    t[0] += 31
+    trader.manage_resting()
+    assert trader.broker.cancelled == ["o0"] and not trader.resting
