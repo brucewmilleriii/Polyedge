@@ -1431,3 +1431,12 @@
 {"ts": "2026-10-28T10:18:49+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-28T10:19:13+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-28T10:19:37+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T10:21:14+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 488.12, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T10:23:40+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T10:26:17+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 488.12, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T10:28:49+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T10:29:15+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_request", "slug": "cpc-btc-updown-5m-2026-10-28-1025z", "action": "buy", "side": "no", "price": 0.89, "contracts": 33, "category": "crypto", "strategy": "crypto_updown", "probability": 0.89, "approved": true, "secs_left": 45.7, "fair": 0.9999, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-28T10:29:15+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-28-1025z", "order_id": "DCBJHB7G11R3", "filled": 0, "resting": 33, "paper": false}
+{"ts": "2026-10-28T10:29:26+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T10:29:53+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-28-1025z", "order_id": "DCBJHB7G11R3", "reason": "timeout"}
+{"ts": "2026-10-28T10:29:53+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-28-1025z", "order_id": "DCBJHB7G11R3", "state": "ORDER_STATE_CANCELED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
