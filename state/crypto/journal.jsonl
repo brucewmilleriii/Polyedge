@@ -1314,3 +1314,10 @@
 {"ts": "2026-10-28T07:06:43+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 479.32, "unpaid_value": 50.25, "unpaid_cost": 49.1, "unpaid_trades": 2}
 {"ts": "2026-10-28T07:08:47+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-28T07:11:45+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 479.32, "unpaid_value": 51.0, "unpaid_cost": 49.1, "unpaid_trades": 2}
+{"ts": "2026-10-28T07:16:47+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 479.32, "unpaid_value": 51.0, "unpaid_cost": 49.1, "unpaid_trades": 2}
+{"ts": "2026-10-28T07:19:40+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T07:21:49+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 479.32, "unpaid_value": 51.0, "unpaid_cost": 49.1, "unpaid_trades": 2}
+{"ts": "2026-10-28T07:24:06+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_request", "slug": "cpc-btc-updown-5m-2026-10-28-0720z", "action": "buy", "side": "yes", "price": 0.86, "contracts": 23, "category": "crypto", "strategy": "crypto_updown", "probability": 0.86, "approved": true, "secs_left": 64.4, "fair": 0.9618, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-28T07:24:06+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-28-0720z", "order_id": "DC8XS97G11KJ", "filled": 0, "resting": 23, "paper": false}
+{"ts": "2026-10-28T07:24:43+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-28-0720z", "order_id": "DC8XS97G11KJ", "reason": "timeout"}
+{"ts": "2026-10-28T07:24:43+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-28-0720z", "order_id": "DC8XS97G11KJ", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 23.0, "avg_price": 0.0}
