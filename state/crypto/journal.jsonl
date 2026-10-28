@@ -1392,3 +1392,10 @@
 {"ts": "2026-10-28T09:07:40+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 488.12, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-28T09:08:14+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-28T09:12:41+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 488.12, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T09:17:44+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 488.12, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T09:18:12+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T09:19:38+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_request", "slug": "cpc-btc-updown-5m-2026-10-28-0915z", "action": "buy", "side": "no", "price": 0.91, "contracts": 21, "category": "crypto", "strategy": "crypto_updown", "probability": 0.91, "approved": true, "secs_left": 23.3, "fair": 0.9629, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-28T09:19:38+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-28-0915z", "order_id": "DCAJNJP011MC", "filled": 0, "resting": 21, "paper": false}
+{"ts": "2026-10-28T09:19:51+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-28-0915z", "order_id": "DCAJNJP011MC", "reason": "close"}
+{"ts": "2026-10-28T09:19:51+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-28-0915z", "order_id": "DCAJNJP011MC", "state": "ORDER_STATE_CANCELED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
+{"ts": "2026-10-28T09:22:47+00:00", "run": "20261028T040526Z", "mode": "live", "kind": "account", "cash": 488.12, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
