@@ -1447,3 +1447,11 @@
 {"ts": "2026-10-28T10:39:13+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-28-1035z", "order_id": "DCBQ3F6G11MQ", "filled": 0, "resting": 31, "paper": false}
 {"ts": "2026-10-28T10:39:43+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-28T10:40:07+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-28-1035z", "order_id": "DCBQ3F6G11MQ", "state": "ORDER_STATE_EXPIRED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
+{"ts": "2026-10-28T10:41:23+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 488.12, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T10:43:48+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_request", "slug": "cpc-btc-updown-5m-2026-10-28-1040z", "action": "buy", "side": "yes", "price": 0.94, "contracts": 31, "category": "crypto", "strategy": "crypto_updown", "probability": 0.94, "approved": true, "secs_left": 82.1, "fair": 0.992, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-28T10:43:48+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-28-1040z", "order_id": "DCBS6KQ011TB", "filled": 0, "resting": 31, "paper": false}
+{"ts": "2026-10-28T10:44:26+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-28-1040z", "order_id": "DCBS6KQ011TB", "reason": "timeout"}
+{"ts": "2026-10-28T10:44:26+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-28-1040z", "order_id": "DCBS6KQ011TB", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 31.0, "avg_price": 0.0}
+{"ts": "2026-10-28T10:45:00+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T10:46:27+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 488.12, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T10:48:15+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
