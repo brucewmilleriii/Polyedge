@@ -1,26 +1,9 @@
 # Crypto Up/Down report
 
-Live fills: 70 (64 settled, 49 won, 15 lost). Settled P&L after fees: $-116.81.
+Live fills: 87 (81 settled, 66 won, 15 lost). Settled P&L after fees: $-85.23.
 
 | Market | Side | Price | Qty | Secs left | Outcome | P&L |
 |---|---|---|---|---|---|---|
-| cpceth-eth-updown-5m-2026-10-27-0830z | up | 0.94 | 10 | 52.2 | down | -9.44 |
-| cpc-btc-updown-5m-2026-10-27-0830z | up | 0.85 | 11 | 10.1 | down | -9.45 |
-| cpcsol-sol-updown-5m-2026-10-27-0835z | up | 0.85 | 11 | 116.4 | up | +1.55 |
-| cpc-btc-updown-5m-2026-10-27-0840z | down | 0.97 | 10 | 118.5 | down | +0.28 |
-| cpc-btc-updown-5m-2026-10-27-0845z | up | 0.97 | 10 | 118.2 | up | +0.28 |
-| cpcxrp-xrp-updown-5m-2026-10-27-0855z | up | 0.9 | 5.34 | 104.0 | up | +0.50 |
-| cpcxrp-xrp-updown-5m-2026-10-27-0900z | down | 0.95 | 10 | 106.4 | down | +0.47 |
-| cpcsol-sol-updown-5m-2026-10-27-0915z | down | 0.97 | 10 | 83.2 | up | -9.72 |
-| cpceth-eth-updown-5m-2026-10-27-0920z | up | 0.91 | 10 | 117.7 | up | +0.84 |
-| cpcsol-sol-updown-5m-2026-10-27-0920z | up | 0.9 | 11 | 113.8 | up | +1.03 |
-| cpc-btc-updown-5m-2026-10-27-0930z | up | 0.92 | 10 | 116.1 | up | +0.75 |
-| cpc-btc-updown-5m-2026-10-27-0935z | down | 0.94 | 10 | 118.7 | down | +0.56 |
-| cpcxrp-xrp-updown-5m-2026-10-27-0950z | up | 0.97 | 10 | 73.2 | up | +0.28 |
-| cpcsol-sol-updown-5m-2026-10-27-1000z | down | 0.92 | 10 | 108.3 | down | +0.75 |
-| cpcxrp-xrp-updown-5m-2026-10-27-1010z | down | 0.94 | 10 | 107.4 | down | +0.56 |
-| cpc-btc-updown-5m-2026-10-27-1015z | up | 0.93 | 10 | 117.5 | up | +0.65 |
-| cpceth-eth-updown-5m-2026-10-27-1015z | up | 0.92 | 10 | 113.4 | up | +0.75 |
 | cpcxrp-xrp-updown-5m-2026-10-27-1025z | up | 0.96 | 7.66 | 109.2 | up | +0.29 |
 | cpc-btc-updown-5m-2026-10-27-1315z | down | 0.97 | 10 | 43.3 | down | +0.28 |
 | cpc-btc-updown-5m-2026-10-27-1320z | down | 0.9 | 11 | 79.8 | down | +1.03 |
@@ -34,6 +17,23 @@ Live fills: 70 (64 settled, 49 won, 15 lost). Settled P&L after fees: $-116.81.
 | cpc-btc-updown-5m-2026-10-27-1540z | up | 0.99 | 20 | 54.2 | up | +0.19 |
 | cpcxrp-xrp-updown-5m-2026-10-27-1600z | down | 0.99 | 20 | 38.3 | down | +0.19 |
 | cpceth-eth-updown-5m-2026-10-28-0315z | down | 0.97 | 20 | 32.1 | down | +0.56 |
+| cpc-btc-updown-5m-2026-10-28-0415z | down | 0.85 | 23 | 36.2 | down | +3.25 |
+| cpc-btc-updown-5m-2026-10-28-0500z | down | 0.93 | 21 | 115.0 | down | +1.37 |
+| cpceth-eth-updown-5m-2026-10-28-0510z | down | 0.88 | 22 | 39.1 | down | +2.48 |
+| cpc-btc-updown-5m-2026-10-28-0540z | up | 0.96 | 31 | 89.8 | up | +1.16 |
+| cpceth-eth-updown-5m-2026-10-28-0545z | up | 0.83 | 20.58 | 79.8 | up | +3.30 |
+| cpc-btc-updown-5m-2026-10-28-0645z | down | 0.96 | 31 | 116.6 | down | +1.16 |
+| cpc-btc-updown-5m-2026-10-28-0700z | up | 0.96 | 20 | 115.1 | up | +0.75 |
+| cpc-btc-updown-5m-2026-10-28-0730z | down | 0.83 | 24 | 29.2 | down | +3.84 |
+| cpc-btc-updown-5m-2026-10-28-0740z | down | 0.93 | 21 | 55.4 | down | +1.37 |
+| cpc-btc-updown-5m-2026-10-28-0800z | up | 0.95 | 21 | 81.3 | up | +0.98 |
+| cpc-btc-updown-5m-2026-10-28-0820z | up | 0.9 | 22 | 109.4 | up | +2.06 |
+| cpc-btc-updown-5m-2026-10-28-1050z | down | 0.95 | 21 | 109.6 | down | +0.98 |
+| cpc-btc-updown-5m-2026-10-28-1305z | down | 0.96 | 31 | 48.3 | down | +1.16 |
+| cpceth-eth-updown-5m-2026-10-28-1325z | down | 0.89 | 22 | 86.8 | down | +2.27 |
+| cpc-btc-updown-5m-2026-10-28-1330z | up | 0.84 | 23 | 117.3 | up | +3.47 |
+| cpceth-eth-updown-5m-2026-10-28-1330z | up | 0.95 | 7.09 | 87.2 | up | +0.33 |
+| cpceth-eth-updown-5m-2026-10-28-1405z | down | 0.93 | 25.21 | 79.0 | down | +1.65 |
 
 ## What if: every recorded market
 
@@ -41,9 +41,9 @@ Win rate of the side priced in each band at each checkpoint (seconds before clos
 
 | Secs left | 0.85–0.90 | 0.90–0.95 | 0.95–0.98 |
 |---|---|---|---|
-| 120 | 44/53 (83%) | 77/85 (91%) | 118/123 (96%) |
-| 90 | 28/31 (90%) | 51/63 (81%) | 97/101 (96%) |
-| 60 | 15/18 (83%) | 21/28 (75%) | 70/75 (93%) |
-| 30 | 3/3 (100%) | 7/7 (100%) | 9/11 (82%) |
-| 15 | 2/3 (67%) | 1/1 (100%) | 2/2 (100%) |
-| 5 | – | 1/1 (100%) | 2/2 (100%) |
+| 120 | 66/79 (84%) | 128/145 (88%) | 196/205 (96%) |
+| 90 | 58/64 (91%) | 88/104 (85%) | 156/162 (96%) |
+| 60 | 32/37 (86%) | 39/47 (83%) | 117/126 (93%) |
+| 30 | 7/9 (78%) | 14/14 (100%) | 20/22 (91%) |
+| 15 | 3/4 (75%) | 2/2 (100%) | 4/5 (80%) |
+| 5 | 1/1 (100%) | 1/1 (100%) | 2/2 (100%) |

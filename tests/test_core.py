@@ -1,3 +1,5 @@
+import datetime as dt
+import json
 from dataclasses import replace
 from types import SimpleNamespace
 
@@ -434,11 +436,43 @@ def test_crypto_waits_outside_window_or_price_band(env):
     assert not env.broker.positions()
 
 
-def test_crypto_respects_loss_stop(env):
+def test_crypto_loss_stop_ignores_manual_losses(env):
     trader, _ = _crypto_env(env)
     trader.s = trader.risk.s = replace(trader.s, max_daily_loss_usd=10)
     trader.risk.start_of_day_equity(env.broker.total_cash())
-    env.broker.state["cash"] -= 15  # down $15 today
+    env.broker.state["cash"] -= 15  # down $15 today, but not from the bot's trades
+    trader.step()
+    assert env.broker.positions()
+
+
+def _log_own_fill(trader, slug, side, price, filled, ts, outcome):
+    rows = [
+        {"ts": ts, "kind": "order_request", "slug": slug, "side": side, "price": price,
+         "contracts": filled, "strategy": "crypto_updown"},
+        {"ts": ts, "kind": "order_result", "slug": slug, "order_id": "o-" + slug, "filled": filled},
+    ]
+    with trader.journal.path.open("a") as f:
+        f.writelines(json.dumps(r) + "\n" for r in rows)
+    if outcome:
+        with trader.markets_path.open("a") as f:
+            f.write(json.dumps({"slug": slug, "outcome": outcome}) + "\n")
+
+
+def test_crypto_loss_stop_counts_own_losses(env):
+    trader, _ = _crypto_env(env)
+    trader.s = trader.risk.s = replace(trader.s, max_daily_loss_usd=10, crypto_loss_since="")
+    trader.journal.path.parent.mkdir(parents=True, exist_ok=True)
+    _log_own_fill(trader, "old", "yes", 0.9, 20, "2026-10-26T23:00:00+00:00", "down")  # yesterday
+    _log_own_fill(trader, "won", "yes", 0.9, 10, "2026-10-27T01:00:00+00:00", "up")
+    assert trader.own_loss_halt().ok
+    _log_own_fill(trader, "lost", "no", 0.9, 13, "2026-10-27T02:00:00+00:00", "up")
+    assert -11 < trader.own_pnl(dt.datetime(2026, 10, 27, tzinfo=dt.timezone.utc)) < -10
+    assert not trader.own_loss_halt().ok
+    trader.s = replace(trader.s, crypto_loss_since="2026-10-27T01:30:00+00:00")  # counters reset after the loss
+    assert not trader.own_loss_halt().ok  # the 02:00 loss is still after the reset
+    trader.s = replace(trader.s, crypto_loss_since="2026-10-27T02:30:00+00:00")
+    assert trader.own_loss_halt().ok
+    trader.s = replace(trader.s, crypto_loss_since="")
     trader.step()
     assert not env.broker.positions()
 
