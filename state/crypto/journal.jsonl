@@ -1571,3 +1571,10 @@
 {"ts": "2026-10-28T13:47:32+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 445.84, "unpaid_value": 52.09, "unpaid_cost": 44.77, "unpaid_trades": 3}
 {"ts": "2026-10-28T13:48:13+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-28T13:49:14+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T13:52:36+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 445.84, "unpaid_value": 52.09, "unpaid_cost": 44.77, "unpaid_trades": 3}
+{"ts": "2026-10-28T13:54:50+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_request", "slug": "cpceth-eth-updown-5m-2026-10-28-1350z", "action": "buy", "side": "yes", "price": 0.91, "contracts": 32, "category": "crypto", "strategy": "crypto_updown", "probability": 0.91, "approved": true, "secs_left": 20.2, "fair": 0.9999, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-28T13:54:50+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_result", "slug": "cpceth-eth-updown-5m-2026-10-28-1350z", "order_id": "DCEGMZBG11R3", "filled": 0, "resting": 32, "paper": false}
+{"ts": "2026-10-28T13:54:53+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_skip", "slug": "cpcxrp-xrp-updown-5m-2026-10-28-1350z", "side": "yes", "price": 0.91, "reason": "would bring total exposure to $103.01, max is $100.00"}
+{"ts": "2026-10-28T13:54:53+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_cancelled", "slug": "cpceth-eth-updown-5m-2026-10-28-1350z", "order_id": "DCEGMZBG11R3", "reason": "close"}
+{"ts": "2026-10-28T13:54:53+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_status", "slug": "cpceth-eth-updown-5m-2026-10-28-1350z", "order_id": "DCEGMZBG11R3", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 32.0, "avg_price": 0.0}
+{"ts": "2026-10-28T13:57:36+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 445.84, "unpaid_value": 52.09, "unpaid_cost": 44.77, "unpaid_trades": 3}
