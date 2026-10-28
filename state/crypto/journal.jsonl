@@ -1567,3 +1567,7 @@
 {"ts": "2026-10-28T13:39:18+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-28-1335z", "order_id": "DCE95H5G11N2", "reason": "timeout"}
 {"ts": "2026-10-28T13:39:18+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-28-1335z", "order_id": "DCE95H5G11N2", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 21.0, "avg_price": 0.0}
 {"ts": "2026-10-28T13:39:41+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T13:42:30+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 445.84, "unpaid_value": 52.09, "unpaid_cost": 44.77, "unpaid_trades": 3}
+{"ts": "2026-10-28T13:47:32+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 445.84, "unpaid_value": 52.09, "unpaid_cost": 44.77, "unpaid_trades": 3}
+{"ts": "2026-10-28T13:48:13+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T13:49:14+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
