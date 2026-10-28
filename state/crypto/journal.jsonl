@@ -1162,3 +1162,7 @@
 {"ts": "2026-10-28T03:49:43+00:00", "run": "20261028T034347Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-28-0345z", "order_id": "DC5VMX7011N2", "filled": 0, "resting": 22, "paper": false}
 {"ts": "2026-10-28T03:49:46+00:00", "run": "20261028T034347Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-28-0345z", "order_id": "DC5VMX7011N2", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 22.0, "avg_price": 0.0}
 {"ts": "2026-10-28T03:49:46+00:00", "run": "20261028T034347Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-28-0345z", "order_id": "DC5VMX7011N2"}
+{"ts": "2026-10-28T03:54:33+00:00", "run": "20261028T034347Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T03:55:02+00:00", "run": "20261028T034347Z", "mode": "live", "kind": "account", "cash": 465.03, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T03:58:12+00:00", "run": "20261028T034347Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T04:00:22+00:00", "run": "20261028T034347Z", "mode": "live", "kind": "account", "cash": 465.03, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
