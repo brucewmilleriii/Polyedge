@@ -1929,3 +1929,5 @@
 {"ts": "2026-10-28T23:49:20+00:00", "run": "20261028T181327Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-28-2345z", "order_id": "DCQ0GEWG11R3", "reason": "timeout"}
 {"ts": "2026-10-28T23:49:20+00:00", "run": "20261028T181327Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-28-2345z", "order_id": "DCQ0GEWG11R3", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 21.0, "avg_price": 0.0}
 {"ts": "2026-10-28T23:52:26+00:00", "run": "20261028T181327Z", "mode": "live", "kind": "account", "cash": 172.86, "unpaid_value": 21.0, "unpaid_cost": 19.43, "unpaid_trades": 1}
+{"ts": "2026-10-28T23:57:29+00:00", "run": "20261028T181327Z", "mode": "live", "kind": "account", "cash": 172.86, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T23:58:37+00:00", "run": "20261028T181327Z", "mode": "live", "kind": "crypto_end", "trades": 41}
