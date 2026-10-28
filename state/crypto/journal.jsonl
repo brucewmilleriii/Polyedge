@@ -1509,3 +1509,10 @@
 {"ts": "2026-10-28T12:21:55+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 435.29, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-28T12:26:58+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 435.29, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-28T12:28:50+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-28T12:31:59+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 435.29, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-28T12:33:07+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_request", "slug": "cpc-btc-updown-5m-2026-10-28-1230z", "action": "buy", "side": "no", "price": 0.93, "contracts": 21, "category": "crypto", "strategy": "crypto_updown", "probability": 0.93, "approved": true, "secs_left": 113.8, "fair": 0.9535, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-28T12:33:07+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-28-1230z", "order_id": "DCDB7SB011N2", "filled": 0, "resting": 21, "paper": false}
+{"ts": "2026-10-28T12:33:37+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "halted", "reason": "daily loss limit hit (down $215.91 today)"}
+{"ts": "2026-10-28T12:33:39+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-28-1230z", "order_id": "DCDB7SB011N2", "reason": "timeout"}
+{"ts": "2026-10-28T12:33:39+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-28-1230z", "order_id": "DCDB7SB011N2", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 21.0, "avg_price": 0.0}
+{"ts": "2026-10-28T12:37:03+00:00", "run": "20261028T095057Z", "mode": "live", "kind": "account", "cash": 435.29, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
