@@ -2034,3 +2034,6 @@
 {"ts": "2026-10-29T01:48:44+00:00", "run": "20261028T235900Z", "mode": "live", "kind": "order_status", "slug": "cpcsol-sol-updown-5m-2026-10-29-0145z", "order_id": "DCRQ51R011N6", "state": "ORDER_STATE_CANCELED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
 {"ts": "2026-10-29T01:48:44+00:00", "run": "20261028T235900Z", "mode": "live", "kind": "order_cancelled", "slug": "cpcxrp-xrp-updown-5m-2026-10-29-0145z", "order_id": "DCRQ5FYG31R3", "reason": "timeout"}
 {"ts": "2026-10-29T01:48:44+00:00", "run": "20261028T235900Z", "mode": "live", "kind": "order_status", "slug": "cpcxrp-xrp-updown-5m-2026-10-29-0145z", "order_id": "DCRQ5FYG31R3", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 21.0, "avg_price": 0.0}
+{"ts": "2026-10-29T01:49:42+00:00", "run": "20261028T235900Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-29T01:50:59+00:00", "run": "20261028T235900Z", "mode": "live", "kind": "account", "cash": 176.61, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 1}
+{"ts": "2026-10-29T01:55:59+00:00", "run": "20261028T235900Z", "mode": "live", "kind": "account", "cash": 176.61, "unpaid_value": 16.2, "unpaid_cost": 15.44, "unpaid_trades": 1}
