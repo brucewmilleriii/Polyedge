@@ -2816,3 +2816,10 @@
 {"ts": "2026-10-29T20:35:07+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 3.99, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-29T20:38:49+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-29T20:40:09+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 3.99, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-29T20:45:13+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 3.99, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-29T20:50:13+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 3.99, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-29T20:53:59+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_request", "slug": "cpcsol-sol-updown-5m-2026-10-29-2050z", "action": "buy", "side": "yes", "price": 0.94, "contracts": 2, "category": "crypto", "strategy": "crypto_updown", "probability": 0.94, "approved": true, "secs_left": 60.7, "fair": 0.9554, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-29T20:54:00+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_result", "slug": "cpcsol-sol-updown-5m-2026-10-29-2050z", "order_id": "DD93PMRG12WP", "filled": 0, "resting": 2, "paper": false}
+{"ts": "2026-10-29T20:54:00+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "status_error", "slug": "cpcsol-sol-updown-5m-2026-10-29-2050z", "order_id": "DD93PMRG12WP", "error": "Order not found"}
+{"ts": "2026-10-29T20:54:39+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_cancelled", "slug": "cpcsol-sol-updown-5m-2026-10-29-2050z", "order_id": "DD93PMRG12WP", "reason": "timeout"}
+{"ts": "2026-10-29T20:54:39+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_status", "slug": "cpcsol-sol-updown-5m-2026-10-29-2050z", "order_id": "DD93PMRG12WP", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 2.0, "avg_price": 0.0}
