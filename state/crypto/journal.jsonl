@@ -2220,3 +2220,5 @@
 {"ts": "2026-10-29T07:03:49+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "order_result", "slug": "cpceth-eth-updown-5m-2026-10-29-0700z", "order_id": "DCX7NTVG51N2", "filled": 0, "resting": 2, "paper": false}
 {"ts": "2026-10-29T07:04:00+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "order_status", "slug": "cpceth-eth-updown-5m-2026-10-29-0700z", "order_id": "DCX7NTVG51N2", "state": "ORDER_STATE_FILLED", "filled": 2.0, "leaves": 0.0, "avg_price": 0.81}
 {"ts": "2026-10-29T07:06:27+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 2.97, "unpaid_value": 1.64, "unpaid_cost": 1.64, "unpaid_trades": 1}
+{"ts": "2026-10-29T07:11:29+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 2.97, "unpaid_value": 0.0, "unpaid_cost": 1.64, "unpaid_trades": 1}
+{"ts": "2026-10-29T07:16:32+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 2.97, "unpaid_value": 0.0, "unpaid_cost": 1.64, "unpaid_trades": 1}
