@@ -2843,3 +2843,10 @@
 {"ts": "2026-10-29T21:35:29+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 3.99, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-29T21:40:30+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 3.99, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-29T21:44:47+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-29T21:45:31+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 3.99, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-29T21:49:26+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_request", "slug": "cpceth-eth-updown-5m-2026-10-29-2145z", "action": "buy", "side": "yes", "price": 0.93, "contracts": 2, "category": "crypto", "strategy": "crypto_updown", "probability": 0.93, "approved": true, "secs_left": 33.7, "fair": 0.9964, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-29T21:49:27+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_result", "slug": "cpceth-eth-updown-5m-2026-10-29-2145z", "order_id": "DD9X2X4G12VX", "filled": 0, "resting": 2, "paper": false}
+{"ts": "2026-10-29T21:49:28+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "status_error", "slug": "cpceth-eth-updown-5m-2026-10-29-2145z", "order_id": "DD9X2X4G12VX", "error": "Order not found"}
+{"ts": "2026-10-29T21:49:51+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_cancelled", "slug": "cpceth-eth-updown-5m-2026-10-29-2145z", "order_id": "DD9X2X4G12VX", "reason": "close"}
+{"ts": "2026-10-29T21:49:51+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_status", "slug": "cpceth-eth-updown-5m-2026-10-29-2145z", "order_id": "DD9X2X4G12VX", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 2.0, "avg_price": 0.0}
+{"ts": "2026-10-29T21:50:34+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 3.99, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
