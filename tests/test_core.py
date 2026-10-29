@@ -518,8 +518,8 @@ def test_crypto_skips_wide_books_and_reports(env):
 def test_new_loss_stop_defaults():
     s = Settings()
     assert (s.max_daily_loss_usd, s.max_weekly_loss_usd) == (200.0, 200.0)
-    assert s.crypto_window_secs == 60 and s.crypto_cash_frac == 0.5 and s.crypto_assets == ("eth", "xrp")
-    assert (s.crypto_min_price, s.crypto_max_price, s.crypto_min_fair) == (0.80, 0.95, 0.95)
+    assert s.crypto_window_secs == 90 and s.crypto_cash_frac == 0.5 and s.crypto_assets == ("btc", "eth", "sol")
+    assert (s.crypto_min_price, s.crypto_max_price, s.crypto_min_fair) == (0.80, 0.97, 0.95)
 
 
 def test_crypto_counts_settled_trades_awaiting_payout(env):
