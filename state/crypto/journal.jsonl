@@ -2787,3 +2787,5 @@
 {"ts": "2026-10-29T19:59:50+00:00", "run": "20261029T141902Z", "mode": "live", "kind": "order_status", "slug": "cpceth-eth-updown-5m-2026-10-29-1955z", "order_id": "DD8AJFRG12WA", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 2.0, "avg_price": 0.0}
 {"ts": "2026-10-29T19:59:50+00:00", "run": "20261029T141902Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-29-1955z", "order_id": "DD8APME012TT", "reason": "close"}
 {"ts": "2026-10-29T19:59:50+00:00", "run": "20261029T141902Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-29-1955z", "order_id": "DD8APME012TT", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 2.0, "avg_price": 0.0}
+{"ts": "2026-10-29T20:02:03+00:00", "run": "20261029T141902Z", "mode": "live", "kind": "account", "cash": 3.99, "unpaid_value": 2.0, "unpaid_cost": 1.94, "unpaid_trades": 1}
+{"ts": "2026-10-29T20:04:16+00:00", "run": "20261029T141902Z", "mode": "live", "kind": "crypto_end", "trades": 47}
