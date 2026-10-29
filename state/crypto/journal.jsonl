@@ -2175,3 +2175,10 @@
 {"ts": "2026-10-29T05:25:37+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 4.19, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-29T05:30:37+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 4.19, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-29T05:35:38+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 4.19, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-29T05:38:43+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "order_request", "slug": "cpcsol-sol-updown-5m-2026-10-29-0535z", "action": "buy", "side": "yes", "price": 0.86, "contracts": 2, "category": "crypto", "strategy": "crypto_updown", "probability": 0.86, "approved": true, "secs_left": 77.5, "fair": 0.9682, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-29T05:38:43+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "order_result", "slug": "cpcsol-sol-updown-5m-2026-10-29-0535z", "order_id": "DCW0Q89G11TB", "filled": 0, "resting": 2, "paper": false}
+{"ts": "2026-10-29T05:38:43+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "status_error", "slug": "cpcsol-sol-updown-5m-2026-10-29-0535z", "order_id": "DCW0Q89G11TB", "error": "Order not found"}
+{"ts": "2026-10-29T05:39:16+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "order_cancelled", "slug": "cpcsol-sol-updown-5m-2026-10-29-0535z", "order_id": "DCW0Q89G11TB", "reason": "timeout"}
+{"ts": "2026-10-29T05:39:16+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "order_status", "slug": "cpcsol-sol-updown-5m-2026-10-29-0535z", "order_id": "DCW0Q89G11TB", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 2.0, "avg_price": 0.0}
+{"ts": "2026-10-29T05:40:41+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 4.19, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-29T05:45:43+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 4.19, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
