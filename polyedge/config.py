@@ -73,7 +73,7 @@ class Settings:
     # Order size when the spot fair value of the side is at least crypto_sure_fair.
     crypto_sure_order_usd: float = 30.0
     # When above 0, each order spends this share of free cash instead of the fixed sizes above.
-    crypto_cash_frac: float = 0.0
+    crypto_cash_frac: float = 0.5
     # The crypto loss stops count the bot's own trades from this time on (when Bruce reset
     # the counters at $389.86), so losses of the earlier strategy are not counted again.
     crypto_loss_since: str = "2026-10-27T13:16:00+00:00"
