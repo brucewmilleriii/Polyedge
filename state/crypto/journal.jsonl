@@ -2193,3 +2193,5 @@
 {"ts": "2026-10-29T06:04:32+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-29-0600z", "order_id": "DCWC9SX011M3", "state": "ORDER_STATE_FILLED", "filled": 2.0, "leaves": 0.0, "avg_price": 0.11}
 {"ts": "2026-10-29T06:04:33+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "order_status", "slug": "cpceth-eth-updown-5m-2026-10-29-0600z", "order_id": "DCWCA6VG11TB", "state": "ORDER_STATE_FILLED", "filled": 2.0, "leaves": 0.0, "avg_price": 0.03}
 {"ts": "2026-10-29T06:05:54+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 4.47, "unpaid_value": 3.74, "unpaid_cost": 3.74, "unpaid_trades": 2}
+{"ts": "2026-10-29T06:10:55+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 4.47, "unpaid_value": 4.0, "unpaid_cost": 3.74, "unpaid_trades": 2}
+{"ts": "2026-10-29T06:15:59+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 4.47, "unpaid_value": 4.0, "unpaid_cost": 3.74, "unpaid_trades": 2}
