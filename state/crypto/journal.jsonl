@@ -2102,3 +2102,10 @@
 {"ts": "2026-10-29T03:24:42+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-29T03:29:02+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 7.83, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-29T03:34:07+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 7.83, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-29T03:39:08+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 7.83, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-29T03:39:24+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-29T03:43:34+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "order_request", "slug": "cpc-btc-updown-5m-2026-10-29-0340z", "action": "buy", "side": "yes", "price": 0.93, "contracts": 4, "category": "crypto", "strategy": "crypto_updown", "probability": 0.93, "approved": true, "secs_left": 86.7, "fair": 0.9595, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-29T03:43:34+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-29-0340z", "order_id": "DCTC0E2011R3", "filled": 0, "resting": 4, "paper": false}
+{"ts": "2026-10-29T03:44:05+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-29-0340z", "order_id": "DCTC0E2011R3", "reason": "timeout"}
+{"ts": "2026-10-29T03:44:05+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-29-0340z", "order_id": "DCTC0E2011R3", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 4.0, "avg_price": 0.0}
+{"ts": "2026-10-29T03:44:13+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 7.83, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
