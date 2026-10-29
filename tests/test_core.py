@@ -378,7 +378,8 @@ def _crypto_env(env, yes_bid=0.88, yes_ask=0.90, secs_left=60, fair_up=None):
         "offers": [{"px": px(yes_ask), "qty": "500"}],
     }
     settings = replace(env.settings, crypto_max_order_usd=10, max_total_usd=50, crypto_assets=("btc",),
-                       crypto_min_price=0.90, crypto_max_price=0.97, crypto_min_fair=0.0)
+                       crypto_min_price=0.90, crypto_max_price=0.97, crypto_min_fair=0.0,
+                       crypto_cash_frac=0.0)
     journal = Journal(env.settings.state_dir, "t", "paper")
     risk = RiskManager(settings, env.broker, env.md)
     spot = FakeSpot(fair_up)
@@ -517,8 +518,8 @@ def test_crypto_skips_wide_books_and_reports(env):
 def test_new_loss_stop_defaults():
     s = Settings()
     assert (s.max_daily_loss_usd, s.max_weekly_loss_usd) == (200.0, 200.0)
-    assert s.crypto_max_order_usd == 20.0 and s.crypto_window_secs == 120
-    assert (s.crypto_min_price, s.crypto_max_price, s.crypto_min_fair) == (0.80, 0.96, 0.95)
+    assert s.crypto_window_secs == 60 and s.crypto_cash_frac == 0.0 and s.crypto_assets == ("eth", "xrp")
+    assert (s.crypto_min_price, s.crypto_max_price, s.crypto_min_fair) == (0.80, 0.95, 0.95)
 
 
 def test_crypto_counts_settled_trades_awaiting_payout(env):
@@ -669,3 +670,20 @@ def test_crypto_normal_size_below_sure_threshold(env):
                        crypto_sure_fair=0.99, max_total_usd=100)
     trader.step()
     assert trader.trades[0]["contracts"] == 22  # $20 at 0.90
+
+
+def test_crypto_sizes_by_share_of_cash(env):
+    trader, _ = _crypto_env(env, fair_up=0.97)
+    trader.s = replace(trader.s, crypto_min_fair=0.95, crypto_cash_frac=0.5, max_total_usd=1000)
+    cash = env.broker.cash()
+    trader.step()
+    contracts = trader.trades[0]["contracts"]
+    cost = contracts * (0.90 + taker_fee_per_contract(0.90))
+    assert cost <= 0.5 * cash < cost + 0.91
+
+
+def test_crypto_share_of_cash_stays_inside_exposure_cap(env):
+    trader, _ = _crypto_env(env, fair_up=0.97)
+    trader.s = replace(trader.s, crypto_min_fair=0.95, crypto_cash_frac=0.5, max_total_usd=30)
+    trader.step()
+    assert trader.trades[0]["contracts"] * 0.90 <= 30
