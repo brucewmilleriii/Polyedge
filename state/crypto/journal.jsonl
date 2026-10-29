@@ -2573,3 +2573,5 @@
 {"ts": "2026-10-29T15:29:35+00:00", "run": "20261029T141902Z", "mode": "live", "kind": "order_status", "slug": "cpcsol-sol-updown-5m-2026-10-29-1525z", "order_id": "DD4EYJSG12WK", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 1.0, "avg_price": 0.0}
 {"ts": "2026-10-29T15:30:28+00:00", "run": "20261029T141902Z", "mode": "live", "kind": "account", "cash": 3.65, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-29T15:35:30+00:00", "run": "20261029T141902Z", "mode": "live", "kind": "account", "cash": 3.65, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-29T15:40:33+00:00", "run": "20261029T141902Z", "mode": "live", "kind": "account", "cash": 3.65, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-29T15:45:33+00:00", "run": "20261029T141902Z", "mode": "live", "kind": "account", "cash": 3.65, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
