@@ -2384,3 +2384,5 @@
 {"ts": "2026-10-29T10:08:57+00:00", "run": "20261029T083318Z", "mode": "live", "kind": "status_error", "slug": "cpcsol-sol-updown-5m-2026-10-29-1005z", "order_id": "DCZWDV0G11KJ", "error": "Order not found"}
 {"ts": "2026-10-29T10:09:05+00:00", "run": "20261029T083318Z", "mode": "live", "kind": "order_status", "slug": "cpcsol-sol-updown-5m-2026-10-29-1005z", "order_id": "DCZWDV0G11KJ", "state": "ORDER_STATE_REJECTED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
 {"ts": "2026-10-29T10:10:09+00:00", "run": "20261029T083318Z", "mode": "live", "kind": "account", "cash": 3.51, "unpaid_value": 2.0, "unpaid_cost": 1.87, "unpaid_trades": 2}
+{"ts": "2026-10-29T10:15:14+00:00", "run": "20261029T083318Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-10-29T10:20:17+00:00", "run": "20261029T083318Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
