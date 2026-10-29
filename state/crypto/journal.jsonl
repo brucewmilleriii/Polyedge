@@ -2852,3 +2852,10 @@
 {"ts": "2026-10-29T21:50:34+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 3.99, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-29T21:55:37+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 3.99, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-29T22:00:41+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 3.99, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-29T22:05:43+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 3.99, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-29T22:09:08+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_request", "slug": "cpc-btc-updown-5m-2026-10-29-2205z", "action": "buy", "side": "no", "price": 0.93, "contracts": 2, "category": "crypto", "strategy": "crypto_updown", "probability": 0.93, "approved": true, "secs_left": 52.0, "fair": 0.9943, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-29T22:09:08+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-29-2205z", "order_id": "DDA63DMG12VC", "filled": 0, "resting": 2, "paper": false}
+{"ts": "2026-10-29T22:09:51+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-29-2205z", "order_id": "DDA63DMG12VC", "reason": "timeout"}
+{"ts": "2026-10-29T22:09:51+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-29-2205z", "order_id": "DDA63DMG12VC", "state": "ORDER_STATE_CANCELED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
+{"ts": "2026-10-29T22:10:46+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 3.99, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-29T22:13:18+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
