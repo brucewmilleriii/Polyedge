@@ -2182,3 +2182,6 @@
 {"ts": "2026-10-29T05:39:16+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "order_status", "slug": "cpcsol-sol-updown-5m-2026-10-29-0535z", "order_id": "DCW0Q89G11TB", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 2.0, "avg_price": 0.0}
 {"ts": "2026-10-29T05:40:41+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 4.19, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-29T05:45:43+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 4.19, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-29T05:48:52+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-29T05:50:45+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 4.19, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-29T05:55:48+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 4.19, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
