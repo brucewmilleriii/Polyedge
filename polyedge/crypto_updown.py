@@ -291,18 +291,22 @@ class CryptoTrader:
                 self._last_halt = halt.reason
             return None
 
-        size_usd = s.crypto_max_order_usd
-        if s.crypto_min_fair > 0 and fair is not None and fair >= s.crypto_sure_fair:
-            size_usd = max(size_usd, s.crypto_sure_order_usd)
-        contracts = int(size_usd // ask)
-        notional = ask * contracts
-        fee = taker_fee_per_contract(ask) * contracts
         exposure = (
             sum(p.cost for p in self.broker.positions() if p.slug in self.own_slugs)
             + self.broker.pending_buy_notional(slug)
             + sum(o["ask"] * o["contracts"] for k, o in self.resting.items() if k != slug)
             + pending_cost
         )
+        if s.crypto_cash_frac > 0:
+            # A share of buying power (cash not reserved by resting orders), kept inside the exposure cap.
+            size_usd = min(s.crypto_cash_frac * self.broker.cash(), s.max_total_usd - exposure)
+        else:
+            size_usd = s.crypto_max_order_usd
+            if s.crypto_min_fair > 0 and fair is not None and fair >= s.crypto_sure_fair:
+                size_usd = max(size_usd, s.crypto_sure_order_usd)
+        contracts = int(size_usd // (ask + taker_fee_per_contract(ask))) if s.crypto_cash_frac > 0 else int(size_usd // ask)
+        notional = ask * contracts
+        fee = taker_fee_per_contract(ask) * contracts
         reason = None
         if contracts < 1:
             reason = f"${size_usd:.2f} buys no contracts at {ask}"

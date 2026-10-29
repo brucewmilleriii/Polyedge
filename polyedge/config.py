@@ -65,20 +65,22 @@ class Settings:
     fav_max_total_usd: float = 30.0
     # "crypto_updown": in the last crypto_window_secs of each crypto Up/Down window,
     # buy the side priced between crypto_min_price and crypto_max_price and hold.
-    crypto_assets: tuple[str, ...] = ("btc", "eth", "sol", "xrp")
+    crypto_assets: tuple[str, ...] = ("eth", "xrp")
     crypto_horizons: tuple[str, ...] = ("5m",)
     crypto_min_price: float = 0.80
-    crypto_max_price: float = 0.96
+    crypto_max_price: float = 0.95
     crypto_max_order_usd: float = 20.0
     # Order size when the spot fair value of the side is at least crypto_sure_fair.
     crypto_sure_order_usd: float = 30.0
+    # When above 0, each order spends this share of free cash instead of the fixed sizes above.
+    crypto_cash_frac: float = 0.0
     # The crypto loss stops count the bot's own trades from this time on (when Bruce reset
     # the counters at $389.86), so losses of the earlier strategy are not counted again.
     crypto_loss_since: str = "2026-10-27T13:16:00+00:00"
     crypto_sure_fair: float = 0.99
     # Skip when the opposite side is offered above this: both sides high means a wide, empty book.
     crypto_max_other_ask: float = 0.25
-    crypto_window_secs: float = 120.0
+    crypto_window_secs: float = 60.0
     # Spot gate (polyedge/spot.py): only buy when the spot-price fair value of the side
     # is at least crypto_min_fair and beats the ask plus fee by crypto_min_fair_edge.
     # 0 turns the gate off.
@@ -144,6 +146,7 @@ class Settings:
             crypto_max_price=_float("POLYEDGE_CRYPTO_MAX_PRICE", cls.crypto_max_price),
             crypto_max_order_usd=_float("POLYEDGE_CRYPTO_MAX_ORDER_USD", cls.crypto_max_order_usd),
             crypto_sure_order_usd=_float("POLYEDGE_CRYPTO_SURE_ORDER_USD", cls.crypto_sure_order_usd),
+            crypto_cash_frac=_float("POLYEDGE_CRYPTO_CASH_FRAC", cls.crypto_cash_frac),
             crypto_loss_since=os.environ.get("POLYEDGE_CRYPTO_LOSS_SINCE") or cls.crypto_loss_since,
             crypto_max_other_ask=_float("POLYEDGE_CRYPTO_MAX_OTHER_ASK", cls.crypto_max_other_ask),
             crypto_window_secs=_float("POLYEDGE_CRYPTO_WINDOW_SECS", cls.crypto_window_secs),
