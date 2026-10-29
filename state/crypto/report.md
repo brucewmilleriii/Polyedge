@@ -1,10 +1,9 @@
 # Crypto Up/Down report
 
-Live fills: 124 (115 settled, 96 won, 19 lost). Settled P&L after fees: $-113.32.
+Live fills: 125 (116 settled, 97 won, 19 lost). Settled P&L after fees: $-113.27.
 
 | Market | Side | Price | Qty | Secs left | Outcome | P&L |
 |---|---|---|---|---|---|---|
-| cpcxrp-xrp-updown-5m-2026-10-28-2040z | up | 0.96 | 20 | 55.9 | up | +0.75 |
 | cpcxrp-xrp-updown-5m-2026-10-28-2045z | down | 0.92 | 19.73 | 70.1 | down | +1.48 |
 | cpceth-eth-updown-5m-2026-10-28-2105z | down | 0.96 | 20 | 64.5 | down | +0.75 |
 | cpcsol-sol-updown-5m-2026-10-28-2250z | down | 0.9 | 2.59 | 44.7 | down | +0.24 |
@@ -34,6 +33,7 @@ Live fills: 124 (115 settled, 96 won, 19 lost). Settled P&L after fees: $-113.32
 | cpceth-eth-updown-5m-2026-10-29-0950z | up | 0.95 | 1 | 72.4 | up | +0.05 |
 | cpc-btc-updown-5m-2026-10-29-1200z | down | 0.97 | 1 | 43.4 | down | +0.03 |
 | cpc-btc-updown-5m-2026-10-29-1250z | down | 0.94 | 1 | 25.4 | down | +0.06 |
+| cpceth-eth-updown-5m-2026-10-29-1345z | up | 0.95 | 1 | 42.1 | up | +0.05 |
 
 ## What if: every recorded market
 
@@ -41,9 +41,9 @@ Win rate of the side priced in each band at each checkpoint (seconds before clos
 
 | Secs left | 0.85–0.90 | 0.90–0.95 | 0.95–0.98 |
 |---|---|---|---|
-| 120 | 127/148 (86%) | 197/228 (86%) | 279/290 (96%) |
-| 90 | 100/113 (88%) | 143/164 (87%) | 242/252 (96%) |
-| 60 | 50/65 (77%) | 70/79 (89%) | 179/190 (94%) |
+| 120 | 127/148 (86%) | 199/230 (87%) | 280/291 (96%) |
+| 90 | 102/115 (89%) | 144/165 (87%) | 244/254 (96%) |
+| 60 | 50/65 (77%) | 71/80 (89%) | 180/191 (94%) |
 | 30 | 9/15 (60%) | 17/18 (94%) | 27/30 (90%) |
 | 15 | 5/9 (56%) | 3/4 (75%) | 9/12 (75%) |
 | 5 | 1/2 (50%) | 2/2 (100%) | 3/3 (100%) |
