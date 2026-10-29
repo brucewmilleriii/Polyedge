@@ -2301,3 +2301,9 @@
 {"ts": "2026-10-29T08:29:22+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-29-0825z", "order_id": "DCYEKAD011KJ", "state": "ORDER_STATE_FILLED", "filled": 1.0, "leaves": 0.0, "avg_price": 0.05}
 {"ts": "2026-10-29T08:32:01+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 3.21, "unpaid_value": 1.93, "unpaid_cost": 1.93, "unpaid_trades": 2}
 {"ts": "2026-10-29T08:32:58+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "crypto_end", "trades": 40}
+{"ts": "2026-10-29T08:33:18+00:00", "run": "20261029T083318Z", "mode": "live", "kind": "crypto_start", "horizons": ["5m"], "minutes": 345.0}
+{"ts": "2026-10-29T08:33:21+00:00", "run": "20261029T083318Z", "mode": "live", "kind": "account", "cash": 3.21, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-29T08:34:47+00:00", "run": "20261029T083318Z", "mode": "live", "kind": "order_request", "slug": "cpc-btc-updown-5m-2026-10-29-0830z", "action": "buy", "side": "yes", "price": 0.86, "contracts": 1, "category": "crypto", "strategy": "crypto_updown", "probability": 0.86, "approved": true, "secs_left": 13.2, "fair": 0.9585, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-29T08:34:47+00:00", "run": "20261029T083318Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-29-0830z", "order_id": "DCYHAA5011MV", "filled": 0, "resting": 1, "paper": false}
+{"ts": "2026-10-29T08:34:49+00:00", "run": "20261029T083318Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-29-0830z", "order_id": "DCYHAA5011MV", "state": "ORDER_STATE_FILLED", "filled": 1.0, "leaves": 0.0, "avg_price": 0.83}
+{"ts": "2026-10-29T08:38:30+00:00", "run": "20261029T083318Z", "mode": "live", "kind": "account", "cash": 3.37, "unpaid_value": 0.84, "unpaid_cost": 0.84, "unpaid_trades": 1}
