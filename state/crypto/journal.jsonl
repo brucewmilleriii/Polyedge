@@ -2279,3 +2279,6 @@
 {"ts": "2026-10-29T08:04:41+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "order_cancelled", "slug": "cpceth-eth-updown-5m-2026-10-29-0800z", "order_id": "DCY36X8G11N6", "reason": "timeout"}
 {"ts": "2026-10-29T08:04:41+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "order_status", "slug": "cpceth-eth-updown-5m-2026-10-29-0800z", "order_id": "DCY36X8G11N6", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 1.0, "avg_price": 0.0}
 {"ts": "2026-10-29T08:06:51+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 3.13, "unpaid_value": 2.0, "unpaid_cost": 1.84, "unpaid_trades": 2}
+{"ts": "2026-10-29T08:11:53+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 3.13, "unpaid_value": 2.0, "unpaid_cost": 1.84, "unpaid_trades": 2}
+{"ts": "2026-10-29T08:13:19+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-29T08:16:54+00:00", "run": "20261029T024755Z", "mode": "live", "kind": "account", "cash": 3.13, "unpaid_value": 2.0, "unpaid_cost": 1.84, "unpaid_trades": 2}
