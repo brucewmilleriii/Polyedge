@@ -2928,3 +2928,5 @@
 {"ts": "2026-10-29T23:29:35+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-29-2325z", "order_id": "DDBAN2T012WQ", "reason": "timeout"}
 {"ts": "2026-10-29T23:29:35+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-29-2325z", "order_id": "DDBAN2T012WQ", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 2.0, "avg_price": 0.0}
 {"ts": "2026-10-29T23:31:13+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 4.05, "unpaid_value": 1.94, "unpaid_cost": 1.94, "unpaid_trades": 1}
+{"ts": "2026-10-29T23:36:15+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 4.05, "unpaid_value": 2.0, "unpaid_cost": 1.94, "unpaid_trades": 1}
+{"ts": "2026-10-29T23:41:16+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 4.05, "unpaid_value": 2.0, "unpaid_cost": 1.94, "unpaid_trades": 1}
