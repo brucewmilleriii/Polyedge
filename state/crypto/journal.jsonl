@@ -2930,3 +2930,10 @@
 {"ts": "2026-10-29T23:31:13+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 4.05, "unpaid_value": 1.94, "unpaid_cost": 1.94, "unpaid_trades": 1}
 {"ts": "2026-10-29T23:36:15+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 4.05, "unpaid_value": 2.0, "unpaid_cost": 1.94, "unpaid_trades": 1}
 {"ts": "2026-10-29T23:41:16+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 4.05, "unpaid_value": 2.0, "unpaid_cost": 1.94, "unpaid_trades": 1}
+{"ts": "2026-10-29T23:46:17+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 4.05, "unpaid_value": 2.0, "unpaid_cost": 1.94, "unpaid_trades": 1}
+{"ts": "2026-10-29T23:48:35+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_request", "slug": "cpceth-eth-updown-5m-2026-10-29-2345z", "action": "buy", "side": "no", "price": 0.95, "contracts": 2, "category": "crypto", "strategy": "crypto_updown", "probability": 0.95, "approved": true, "secs_left": 85.5, "fair": 0.9901, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-29T23:48:35+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_result", "slug": "cpceth-eth-updown-5m-2026-10-29-2345z", "order_id": "DDBKM2KG12VC", "filled": 0, "resting": 2, "paper": false}
+{"ts": "2026-10-29T23:49:07+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_status", "slug": "cpceth-eth-updown-5m-2026-10-29-2345z", "order_id": "DDBKM2KG12VC", "state": "ORDER_STATE_FILLED", "filled": 2.0, "leaves": 0.0, "avg_price": 0.05}
+{"ts": "2026-10-29T23:50:00+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-29T23:51:21+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 4.15, "unpaid_value": 3.91, "unpaid_cost": 3.85, "unpaid_trades": 2}
+{"ts": "2026-10-29T23:53:37+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
