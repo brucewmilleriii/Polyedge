@@ -3366,3 +3366,8 @@
 {"ts": "2026-10-30T09:54:50+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-30-0950z", "order_id": "DDM94V5G52WQ", "filled": 0, "resting": 1, "paper": false}
 {"ts": "2026-10-30T09:54:53+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-30-0950z", "order_id": "DDM94V5G52WQ", "reason": "close"}
 {"ts": "2026-10-30T09:54:53+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-30-0950z", "order_id": "DDM94V5G52WQ", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 1.0, "avg_price": 0.0}
+{"ts": "2026-10-30T09:56:25+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "account", "cash": 3.49, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-30T09:59:19+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-30T10:01:28+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "account", "cash": 3.49, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-30T10:04:26+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-30T10:05:08+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
