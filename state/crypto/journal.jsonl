@@ -3084,3 +3084,10 @@
 {"ts": "2026-10-30T03:20:00+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "order_status", "slug": "cpcsol-sol-updown-5m-2026-10-30-0315z", "order_id": "DDEM41F012W4", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 2.0, "avg_price": 0.0}
 {"ts": "2026-10-30T03:20:57+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "account", "cash": 4.21, "unpaid_value": 2.0, "unpaid_cost": 1.94, "unpaid_trades": 1}
 {"ts": "2026-10-30T03:25:57+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "account", "cash": 4.21, "unpaid_value": 2.0, "unpaid_cost": 1.94, "unpaid_trades": 1}
+{"ts": "2026-10-30T03:31:01+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "account", "cash": 4.21, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-30T03:36:03+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "account", "cash": 4.21, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-30T03:38:39+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "order_request", "slug": "cpceth-eth-updown-5m-2026-10-30-0335z", "action": "buy", "side": "yes", "price": 0.9, "contracts": 2, "category": "crypto", "strategy": "crypto_updown", "probability": 0.9, "approved": true, "secs_left": 81.5, "fair": 0.9749, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-30T03:38:39+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "order_result", "slug": "cpceth-eth-updown-5m-2026-10-30-0335z", "order_id": "DDEWY7JG32WA", "filled": 0, "resting": 2, "paper": false}
+{"ts": "2026-10-30T03:39:14+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "order_cancelled", "slug": "cpceth-eth-updown-5m-2026-10-30-0335z", "order_id": "DDEWY7JG32WA", "reason": "timeout"}
+{"ts": "2026-10-30T03:39:14+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "order_status", "slug": "cpceth-eth-updown-5m-2026-10-30-0335z", "order_id": "DDEWY7JG32WA", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 2.0, "avg_price": 0.0}
+{"ts": "2026-10-30T03:39:30+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
