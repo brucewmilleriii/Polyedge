@@ -3522,3 +3522,6 @@
 {"ts": "2026-10-30T13:48:39+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "order_result", "slug": "cpceth-eth-updown-5m-2026-10-30-1345z", "order_id": "DDQM5S4012TT", "filled": 0, "resting": 102, "paper": false}
 {"ts": "2026-10-30T13:49:13+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "order_cancelled", "slug": "cpceth-eth-updown-5m-2026-10-30-1345z", "order_id": "DDQM5S4012TT", "reason": "timeout"}
 {"ts": "2026-10-30T13:49:13+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "order_status", "slug": "cpceth-eth-updown-5m-2026-10-30-1345z", "order_id": "DDQM5S4012TT", "state": "ORDER_STATE_PARTIALLY_FILLED", "filled": 10.22, "leaves": 91.78, "avg_price": 0.03}
+{"ts": "2026-10-30T13:51:13+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "account", "cash": 203.77, "unpaid_value": 9.93, "unpaid_cost": 9.93, "unpaid_trades": 1}
+{"ts": "2026-10-30T13:53:19+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-30T13:56:13+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "account", "cash": 203.77, "unpaid_value": 10.22, "unpaid_cost": 9.93, "unpaid_trades": 1}
