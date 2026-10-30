@@ -2974,3 +2974,9 @@
 {"ts": "2026-10-30T01:09:33+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-30-0105z", "order_id": "DDCRAY1032WE", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 2.0, "avg_price": 0.0}
 {"ts": "2026-10-30T01:09:48+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-30T01:11:57+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 4.15, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-30T01:16:58+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 4.15, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-30T01:21:58+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 4.15, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-30T01:24:40+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_request", "slug": "cpc-btc-updown-5m-2026-10-30-0120z", "action": "buy", "side": "no", "price": 0.95, "contracts": 2, "category": "crypto", "strategy": "crypto_updown", "probability": 0.95, "approved": true, "secs_left": 20.3, "fair": 0.9999, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-30T01:24:40+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-30-0120z", "order_id": "DDCZKMN032WA", "filled": 0, "resting": 2, "paper": false}
+{"ts": "2026-10-30T01:24:58+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-30T01:25:22+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-30-0120z", "order_id": "DDCZKMN032WA", "state": "ORDER_STATE_EXPIRED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
