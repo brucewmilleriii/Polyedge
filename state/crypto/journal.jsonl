@@ -2945,3 +2945,6 @@
 {"ts": "2026-10-30T00:14:02+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-30-0010z", "order_id": "DDBZ8XS072WQ", "filled": 0, "resting": 2, "paper": false}
 {"ts": "2026-10-30T00:14:42+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-30T00:15:06+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-30-0010z", "order_id": "DDBZ8XS072WQ", "state": "ORDER_STATE_EXPIRED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
+{"ts": "2026-10-30T00:16:31+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 4.15, "unpaid_value": 2.0, "unpaid_cost": 1.91, "unpaid_trades": 1}
+{"ts": "2026-10-30T00:21:35+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 4.15, "unpaid_value": 2.0, "unpaid_cost": 1.91, "unpaid_trades": 1}
+{"ts": "2026-10-30T00:24:09+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
