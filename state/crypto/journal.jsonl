@@ -3646,3 +3646,6 @@
 {"ts": "2026-10-30T17:29:31+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-30-1725z", "order_id": "DDTS938012WK", "filled": 0, "resting": 1, "paper": false}
 {"ts": "2026-10-30T17:29:56+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-30-1725z", "order_id": "DDTS938012WK", "reason": "close"}
 {"ts": "2026-10-30T17:29:56+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-30-1725z", "order_id": "DDTS938012WK", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 1.0, "avg_price": 0.0}
+{"ts": "2026-10-30T17:32:41+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "account", "cash": 217.97, "unpaid_value": 102.0, "unpaid_cost": 99.05, "unpaid_trades": 2}
+{"ts": "2026-10-30T17:34:00+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "crypto_skip", "slug": "cpc-btc-updown-5m-2026-10-30-1730z", "side": "no", "price": 0.95, "reason": "$0.95 buys no contracts at 0.95"}
+{"ts": "2026-10-30T17:37:42+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "account", "cash": 217.97, "unpaid_value": 102.0, "unpaid_cost": 99.05, "unpaid_trades": 2}
