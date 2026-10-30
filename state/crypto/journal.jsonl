@@ -3432,3 +3432,10 @@
 {"ts": "2026-10-30T11:26:58+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "account", "cash": 3.49, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-30T11:29:27+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-30T11:31:59+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "account", "cash": 3.49, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-30T11:37:01+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "account", "cash": 3.49, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-30T11:39:01+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "order_request", "slug": "cpcsol-sol-updown-5m-2026-10-30-1135z", "action": "buy", "side": "no", "price": 0.97, "contracts": 1, "category": "crypto", "strategy": "crypto_updown", "probability": 0.97, "approved": true, "secs_left": 58.8, "fair": 0.9818, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-30T11:39:01+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "order_result", "slug": "cpcsol-sol-updown-5m-2026-10-30-1135z", "order_id": "DDNRTYJG12WP", "filled": 0, "resting": 1, "paper": false}
+{"ts": "2026-10-30T11:39:01+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "status_error", "slug": "cpcsol-sol-updown-5m-2026-10-30-1135z", "order_id": "DDNRTYJG12WP", "error": "Order not found"}
+{"ts": "2026-10-30T11:39:37+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "order_cancelled", "slug": "cpcsol-sol-updown-5m-2026-10-30-1135z", "order_id": "DDNRTYJG12WP", "reason": "timeout"}
+{"ts": "2026-10-30T11:39:37+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "order_status", "slug": "cpcsol-sol-updown-5m-2026-10-30-1135z", "order_id": "DDNRTYJG12WP", "state": "ORDER_STATE_CANCELED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
+{"ts": "2026-10-30T11:42:04+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "account", "cash": 3.49, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
