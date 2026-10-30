@@ -1,36 +1,30 @@
-# Run 20261030T191650Z (live)
+# Run 20261030T234101Z (live)
 
-I placed no orders this run. Open exposure at cost is about $250 against the $100 total cap, so nothing new can go on, whatever the edge.
+I placed no orders this run. Open exposure at cost is still about **$200 against the $100 total cap**, so any new order would be rejected.
 
-**What changed since the last run (flag: several holdings changed with no orders from me)**
-- **The cricket position is gone.** Last run I held 368.33 YES in aec-testcr-sao-aus-2026-10-27. It's no longer listed, even though the market is still open (book 0.52 bid / 0.55 ask, settles after Nov 10). It didn't settle, and I didn't sell it.
-- **Three positions I didn't place have appeared:**
-  - crossd-0c2a37f9…: YES 98.32 @ 0.5085, about $50
-  - crossd-98e745a1…: YES 220.85 @ 0.2264, about $50
-  - ewc-usse-ga-2026-11-03-rep (Georgia Senate, Republican wins): YES 586 @ 0.0427, about $25. This buy is under the 0.15 price floor and breaks the house rule against longshots.
-- **Free cash rose from $3.49 to $43.97 (+$40.48).** That doesn't match a sale of the cricket position at the bid: 368 × ~0.52 ≈ $191. Equity fell from $305.28 to $286.54, but the portfolio reports P&L today as +$55.06. These numbers don't add up, so the account was probably changed outside this agent.
-- The four crossd markets I could try (0c2a, 98e7, and earlier 51e9, ae68) still return server errors and show no bid. Their total cost basis is about $225, and I can't value or exit any of it.
+**What changed since the last run**
+- **crossd-0c2a37f9… is gone and cash rose by exactly its contract count.** Last run it was held as 98.32 YES at 0.5085. Free cash went from $43.97 to $142.29, up $98.32, which is $1 per contract. That fits the market settling YES, worth about +$48.3 against its ~$50 cost. Unlike last run, the cash change has a plausible explanation. I still can't confirm it: the market returns a server error and there's no settlement record.
+- **The three other crossd positions are still held and still can't be valued or exited** (the order book returns server errors, no bid):
+  - crossd-51e9: 2,156.69 YES at 0.0464, about $100 cost
+  - crossd-98e7: 220.85 YES at 0.2264, about $50 cost
+  - crossd-ae68: 48.75 YES at 0.5128, about $25 cost
+- **Account numbers:** equity is $334.86, and the reported P&L today is +$103.38. The P&L is up $48.32 from last run's +$55.06, which matches the crossd-0c2a settlement gain. Equity rose by the same $48.32, since last run's figure was $286.54. The track record is still empty, so I have no calibration data.
 
 **Holdings review**
-- **Georgia Senate (Republican YES):** book is 0.03 bid / 0.04 ask with very deep size (280k / 184k contracts). The market prices Ossoff at about 96%. I haven't independently verified the race this run. Under hold-to-resolution I can only sell if the thesis is broken, and I didn't open this position, so there's no thesis to test. I'm holding it, marked at 0.03, which is a $7.35 paper loss. Settlement wording is clear and includes any runoff. Georgia requires 50% to avoid a runoff on Dec 1, so resolution could slip toward the Jan 15 end date.
-- **crossd ×4:** holding. They can't be valued.
+- **Georgia Senate, Republican YES:** 586 contracts at 0.0427. The book is 0.03 bid / 0.04 ask, with 1.58M contracts bid at 0.03, so the market still gives the Republican about 3.5%. I didn't place this position and have no thesis that new information could break, so under hold-to-resolution I'm holding it. Marked at the bid it's a loss of about $7.4. The election is Nov 3; a Dec 1 runoff is possible, and the market's end date is Jan 15.
+- **crossd ×3:** holding, since there's no book to exit into.
 
 **Quick Scan Table**
 | Market | Mid | My Prob | Net Edge | Liq Score | Action | Size | Confidence |
 |---|---|---|---|---|---|---|---|
-| GA Senate R (YES, held) | 0.035 | not estimated | n/a | Very deep | Hold | 0 | — |
-| SA vs AUS 3rd Test YES (no longer held) | 0.535 | ~0.50 | none after shrink | Moderate | None | 0 | Low |
-| crossd-0c2a / 98e7 / 51e9 / ae68 | n/a | n/a | n/a | No book; server error | Hold | 0 | — |
+| GA Senate R YES (held) | 0.035 | not estimated | n/a | Very deep | Hold | 0 | — |
+| crossd-51e9 / 98e7 / ae68 (held) | n/a | n/a | n/a | No book; server error | Hold | 0 | — |
+| crossd-0c2a | — | — | — | — | Apparently settled YES (not confirmed) | — | — |
 
-**No-Trade Declaration:** No trade, for three reasons:
-1. Exposure is about 2.5× the $100 total cap.
-2. The account was changed outside this agent, so I can't rely on the risk numbers until someone reconciles it.
-3. The one market I could price (cricket) shows no edge after the shrink.
+**No-Trade Declaration:** No trade. Exposure at cost (about $200) is twice the $100 total cap, so any order would be rejected. I didn't scan for new markets or check other markets for pricing gaps, because I couldn't act on anything I found.
 
-I didn't scan for new markets.
-
-**Needs a human (urgent):**
-1. Find out who or what closed the cricket position and opened crossd-0c2a, crossd-98e7 and the Georgia Senate position. This is a live account, and the Georgia buy at 0.0427 should have been blocked by the 0.15 price floor.
-2. Reconcile cash: +$40.48 with no fills from me, and equity −$18.74 while P&L today is reported as +$55.06.
-3. Previous items are still open: oversized positions got past code-enforced limits (2,157 contracts at 0.046); the crossd markets keep returning server errors; the portfolio report needs a weekly P&L figure.
-4. Until these are fixed, consider pausing scheduled runs. As it stands, the agent's risk controls aren't what decides what the account holds.
+**Needs a human (still open)**
+1. Confirm that crossd-0c2a settled YES; the matching cash increase points that way. Fix the server errors on the crossd markets, which hold about $175 of cost that can't be valued.
+2. Explain how positions got past the code-enforced limits: the 2,157-contract crossd-51e9 position (about $100) and the Georgia position under the 0.15 price floor. Last run's unexplained changes are still not reconciled: the cricket position disappeared, and new positions appeared without orders from me.
+3. Add a weekly P&L figure and populate the track record in the portfolio report.
+4. While total exposure stays over the cap, scheduled runs can only monitor. Pause them or reduce exposure manually if that fits your plan.
