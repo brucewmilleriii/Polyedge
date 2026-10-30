@@ -3439,3 +3439,5 @@
 {"ts": "2026-10-30T11:39:37+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "order_cancelled", "slug": "cpcsol-sol-updown-5m-2026-10-30-1135z", "order_id": "DDNRTYJG12WP", "reason": "timeout"}
 {"ts": "2026-10-30T11:39:37+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "order_status", "slug": "cpcsol-sol-updown-5m-2026-10-30-1135z", "order_id": "DDNRTYJG12WP", "state": "ORDER_STATE_CANCELED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
 {"ts": "2026-10-30T11:42:04+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "account", "cash": 3.49, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-30T11:47:05+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "account", "cash": 3.49, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-30T11:52:09+00:00", "run": "20261030T073533Z", "mode": "live", "kind": "account", "cash": 3.49, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
