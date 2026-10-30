@@ -3071,3 +3071,6 @@
 {"ts": "2026-10-30T02:58:46+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "status_error", "slug": "cpcsol-sol-updown-5m-2026-10-30-0255z", "order_id": "DDEANXEG12WK", "error": "Order not found"}
 {"ts": "2026-10-30T02:59:22+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "order_cancelled", "slug": "cpcsol-sol-updown-5m-2026-10-30-0255z", "order_id": "DDEANXEG12WK", "reason": "timeout"}
 {"ts": "2026-10-30T02:59:22+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "order_status", "slug": "cpcsol-sol-updown-5m-2026-10-30-0255z", "order_id": "DDEANXEG12WK", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 2.0, "avg_price": 0.0}
+{"ts": "2026-10-30T03:00:45+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "account", "cash": 4.21, "unpaid_value": 2.0, "unpaid_cost": 1.94, "unpaid_trades": 1}
+{"ts": "2026-10-30T03:04:40+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-30T03:05:49+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "account", "cash": 4.21, "unpaid_value": 2.0, "unpaid_cost": 1.94, "unpaid_trades": 1}
