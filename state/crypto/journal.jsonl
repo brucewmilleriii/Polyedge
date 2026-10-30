@@ -3615,3 +3615,5 @@
 {"ts": "2026-10-30T16:39:01+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "status_error", "slug": "cpcsol-sol-updown-5m-2026-10-30-1635z", "order_id": "DDT25ET012VC", "error": "Order not found"}
 {"ts": "2026-10-30T16:39:08+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "order_status", "slug": "cpcsol-sol-updown-5m-2026-10-30-1635z", "order_id": "DDT25ET012VC", "state": "ORDER_STATE_FILLED", "filled": 105.0, "leaves": 0.0, "avg_price": 0.06}
 {"ts": "2026-10-30T16:39:56+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-30T16:42:21+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "account", "cash": 265.02, "unpaid_value": 99.11, "unpaid_cost": 99.11, "unpaid_trades": 1}
+{"ts": "2026-10-30T16:47:22+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "account", "cash": 265.02, "unpaid_value": 105.0, "unpaid_cost": 99.11, "unpaid_trades": 1}
