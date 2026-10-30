@@ -3706,3 +3706,5 @@
 {"ts": "2026-10-30T18:54:11+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "order_status", "slug": "cpcsol-sol-updown-5m-2026-10-30-1850z", "order_id": "DDVZVJ4012WE", "state": "ORDER_STATE_FILLED", "filled": 110.0, "leaves": 0.0, "avg_price": 0.1}
 {"ts": "2026-10-30T18:54:49+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-30T18:58:55+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "account", "cash": 118.97, "unpaid_value": 99.69, "unpaid_cost": 99.69, "unpaid_trades": 1}
+{"ts": "2026-10-30T19:03:57+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "account", "cash": 118.97, "unpaid_value": 0.0, "unpaid_cost": 99.69, "unpaid_trades": 1}
+{"ts": "2026-10-30T19:06:00+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "crypto_end", "trades": 23}
