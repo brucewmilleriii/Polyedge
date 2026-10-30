@@ -3082,3 +3082,5 @@
 {"ts": "2026-10-30T03:19:23+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "status_error", "slug": "cpcsol-sol-updown-5m-2026-10-30-0315z", "order_id": "DDEM41F012W4", "error": "Order not found"}
 {"ts": "2026-10-30T03:20:00+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "order_cancelled", "slug": "cpcsol-sol-updown-5m-2026-10-30-0315z", "order_id": "DDEM41F012W4", "reason": "timeout"}
 {"ts": "2026-10-30T03:20:00+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "order_status", "slug": "cpcsol-sol-updown-5m-2026-10-30-0315z", "order_id": "DDEM41F012W4", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 2.0, "avg_price": 0.0}
+{"ts": "2026-10-30T03:20:57+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "account", "cash": 4.21, "unpaid_value": 2.0, "unpaid_cost": 1.94, "unpaid_trades": 1}
+{"ts": "2026-10-30T03:25:57+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "account", "cash": 4.21, "unpaid_value": 2.0, "unpaid_cost": 1.94, "unpaid_trades": 1}
