@@ -3114,3 +3114,6 @@
 {"ts": "2026-10-30T03:59:43+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "order_result", "slug": "cpceth-eth-updown-5m-2026-10-30-0355z", "order_id": "DDF6JXNG12WK", "filled": 0, "resting": 1, "paper": false}
 {"ts": "2026-10-30T04:00:00+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "order_cancelled", "slug": "cpceth-eth-updown-5m-2026-10-30-0355z", "order_id": "DDF6JXNG12WK", "reason": "close"}
 {"ts": "2026-10-30T04:00:00+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "order_status", "slug": "cpceth-eth-updown-5m-2026-10-30-0355z", "order_id": "DDF6JXNG12WK", "state": "ORDER_STATE_EXPIRED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
+{"ts": "2026-10-30T04:01:09+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "account", "cash": 3.33, "unpaid_value": 2.0, "unpaid_cost": 2.89, "unpaid_trades": 2}
+{"ts": "2026-10-30T04:05:08+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-30T04:06:13+00:00", "run": "20261030T015013Z", "mode": "live", "kind": "account", "cash": 3.33, "unpaid_value": 2.0, "unpaid_cost": 2.89, "unpaid_trades": 2}
