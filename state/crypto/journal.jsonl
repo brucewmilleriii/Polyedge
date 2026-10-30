@@ -3508,3 +3508,11 @@
 {"ts": "2026-10-30T13:21:00+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "account", "cash": 3.49, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-30T13:26:00+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "account", "cash": 203.46, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-30T13:29:00+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-30T13:31:04+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "account", "cash": 203.46, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-30T13:34:22+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-30T13:36:07+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "account", "cash": 203.46, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-30T13:39:04+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "order_request", "slug": "cpcsol-sol-updown-5m-2026-10-30-1335z", "action": "buy", "side": "no", "price": 0.93, "contracts": 107, "category": "crypto", "strategy": "crypto_updown", "probability": 0.93, "approved": true, "secs_left": 56.2, "fair": 0.9777, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-30T13:39:04+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "order_result", "slug": "cpcsol-sol-updown-5m-2026-10-30-1335z", "order_id": "DDQFSEVG12WQ", "filled": 0, "resting": 107, "paper": false}
+{"ts": "2026-10-30T13:39:04+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "status_error", "slug": "cpcsol-sol-updown-5m-2026-10-30-1335z", "order_id": "DDQFSEVG12WQ", "error": "Order not found"}
+{"ts": "2026-10-30T13:39:45+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "order_cancelled", "slug": "cpcsol-sol-updown-5m-2026-10-30-1335z", "order_id": "DDQFSEVG12WQ", "reason": "timeout"}
+{"ts": "2026-10-30T13:39:45+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "order_status", "slug": "cpcsol-sol-updown-5m-2026-10-30-1335z", "order_id": "DDQFSEVG12WQ", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 107.0, "avg_price": 0.0}
