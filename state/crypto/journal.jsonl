@@ -2939,3 +2939,9 @@
 {"ts": "2026-10-29T23:53:37+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-29T23:56:24+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 4.15, "unpaid_value": 4.0, "unpaid_cost": 3.85, "unpaid_trades": 2}
 {"ts": "2026-10-30T00:01:26+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 4.15, "unpaid_value": 4.0, "unpaid_cost": 3.85, "unpaid_trades": 2}
+{"ts": "2026-10-30T00:06:26+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 4.15, "unpaid_value": 2.0, "unpaid_cost": 1.91, "unpaid_trades": 1}
+{"ts": "2026-10-30T00:11:27+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "account", "cash": 4.15, "unpaid_value": 2.0, "unpaid_cost": 1.91, "unpaid_trades": 1}
+{"ts": "2026-10-30T00:14:02+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_request", "slug": "cpc-btc-updown-5m-2026-10-30-0010z", "action": "buy", "side": "no", "price": 0.87, "contracts": 2, "category": "crypto", "strategy": "crypto_updown", "probability": 0.87, "approved": true, "secs_left": 58.3, "fair": 0.9907, "rest_secs": 30.0, "strategy_note": "closing-minutes favorite"}
+{"ts": "2026-10-30T00:14:02+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_result", "slug": "cpc-btc-updown-5m-2026-10-30-0010z", "order_id": "DDBZ8XS072WQ", "filled": 0, "resting": 2, "paper": false}
+{"ts": "2026-10-30T00:14:42+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-10-30T00:15:06+00:00", "run": "20261029T200438Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-30-0010z", "order_id": "DDBZ8XS072WQ", "state": "ORDER_STATE_EXPIRED", "filled": 0.0, "leaves": 0.0, "avg_price": 0.0}
