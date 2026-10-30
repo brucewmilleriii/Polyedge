@@ -3656,3 +3656,6 @@
 {"ts": "2026-10-30T17:49:27+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "crypto_skip", "slug": "cpceth-eth-updown-5m-2026-10-30-1745z", "side": "yes", "price": 0.96, "reason": "$0.50 buys no contracts at 0.96"}
 {"ts": "2026-10-30T17:49:58+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "order_cancelled", "slug": "cpc-btc-updown-5m-2026-10-30-1745z", "order_id": "DDV2CV1G12WP", "reason": "timeout"}
 {"ts": "2026-10-30T17:49:58+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "order_status", "slug": "cpc-btc-updown-5m-2026-10-30-1745z", "order_id": "DDV2CV1G12WP", "state": "ORDER_STATE_NEW", "filled": 0.0, "leaves": 105.0, "avg_price": 0.0}
+{"ts": "2026-10-30T17:52:53+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "account", "cash": 217.97, "unpaid_value": 2.0, "unpaid_cost": 1.85, "unpaid_trades": 1}
+{"ts": "2026-10-30T17:57:53+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "account", "cash": 217.97, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-30T17:59:18+00:00", "run": "20261030T132059Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
