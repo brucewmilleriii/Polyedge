@@ -3801,3 +3801,5 @@
 {"ts": "2026-10-31T00:51:50+00:00", "run": "20261031T005149Z", "mode": "live", "kind": "account", "cash": 336.29, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-31T00:56:52+00:00", "run": "20261031T005149Z", "mode": "live", "kind": "account", "cash": 336.29, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-31T00:58:42+00:00", "run": "20261031T005149Z", "mode": "live", "kind": "halted", "reason": "weekly loss limit hit (bot down $202.19 this week)"}
+{"ts": "2026-10-31T01:01:55+00:00", "run": "20261031T005149Z", "mode": "live", "kind": "account", "cash": 336.29, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-31T01:06:56+00:00", "run": "20261031T005149Z", "mode": "live", "kind": "account", "cash": 336.29, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
