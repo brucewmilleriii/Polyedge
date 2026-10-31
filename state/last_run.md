@@ -1,42 +1,51 @@
-# Run 20261031T182851Z (live)
+# Run 20261031T231951Z (live)
 
-No orders placed this run. Open exposure at cost is still above the $100 total cap.
+I placed no orders this run, and the account is in worse shape than at the last run. Cash is down to $0.27 and equity fell about $93 in five hours. I placed none of the trades behind that. This is a live account, so it needs a human to look at it before anything else happens.
 
-**What changed since the 12:16 run**
-- **Cash:** up from $3.72 to $52.47, a gain of $48.75.
-- **Equity:** up from $196.29 to $220.04.
-- **Today's P&L:** now shows +$23.75, up from $0.00.
-- **crossd-ae68 is gone from positions.** It was probably settled or credited. The cash increase probably comes from that, but I can't confirm it with my tools. The $138.57 debit from earlier is still unexplained.
-- **No new fills:** there are no open orders and the track record is still empty.
+## What changed since the 18:28 run
 
-**Exposure at cost**
-| Position | Contracts | Avg price | Cost | Best bid |
-|---|---|---|---|---|
-| crossd-51e9 YES | 2,156.69 | 0.0464 | ~$100.1 | none (get_market still returns a server error) |
-| crossd-98e7 YES | 220.85 | 0.2264 | ~$50.0 | none |
-| GA Senate Republican YES | 586 | 0.0427 | ~$25.0 | 0.03 |
-| **Total** | | | **~$175** | |
+| Item | 18:28 run | Now (23:19) | Change |
+|---|---|---|---|
+| Cash | $52.47 | $0.27 | −$52.20 |
+| Equity | $220.04 | $127.47 | −$92.57 |
+| Today's P&L | +$23.75 | −$68.82 | −$92.57 |
+| crossd-51e9 YES (~$100 at cost) | Held | Gone | Not shown as closed or settled |
+| crossd-aa27 YES | Not held | 323.92 contracts at 0.1612 (~$52.2) | New position I didn't open |
 
-That ~$175 is against a $100 total cap. Even with the extra cash, there's no room for new risk.
+- **New position bought outside my runs.** The cash drop ($52.20) matches what crossd-aa27 cost (323.92 × 0.1612 ≈ $52.22). My last run placed no orders and there are no open orders, so something else bought it. On its own it's five times the $10 per-market cap.
+- **crossd-51e9 is gone.** About $100 at cost has left the positions list without matching cash coming in. The roughly −$92.6 equity drop fits it settling at or near zero, but I can't confirm that with my tools.
+- **crossd-aa27 and crossd-98e7 can't be checked.** `get_market` returns a server error for both, and neither shows a bid. I can't value or exit them.
 
-**Holdings review**
-- **GA Senate Republican YES:** the book is unchanged at 0.03 bid / 0.04 ask, with about 119k contracts bid and 172k offered. Marked at the bid, it's worth about $17.6. Resolution wording is clear and includes any runoff. I have no new information that breaks the original reason for buying, so under the hold rule I'm holding into Nov 3. Holding is a house-rule decision; I didn't re-estimate the probability. For the record, I wouldn't open this position today: it's below the 0.15 price floor and the market prices it at 3.5%.
-- **crossd-51e9 and crossd-98e7:** I can't value or exit either one, so I'm holding.
+## Holdings review
 
-**Quick Scan Table**
+| Position | Contracts | Avg price | Cost | Best bid | Value at bid |
+|---|---|---|---|---|---|
+| crossd-98e7 YES | 220.85 | 0.2264 | ~$50.0 | none (server error) | unknown |
+| crossd-aa27 YES | 323.92 | 0.1612 | ~$52.2 | none (server error) | unknown |
+| GA Senate R YES | 586 | 0.0427 | ~$25.0 | 0.03 | ~$17.6 |
+| **Total** | | | **~$127** | | |
+
+That ~$127 at cost is above the $100 total cap.
+
+- **GA Senate Republican YES:** the price is unchanged at 0.03 bid / 0.04 ask. The book is deep: about 679k contracts bid at 0.03 and 352k offered at 0.04. The resolution wording is clear and includes any runoff. Nothing new has come out that undercuts the reason for buying, so the hold rule keeps it to resolution. Election day is Nov 3; the market ends Jan 15, 2027 so a runoff can be settled. I didn't re-estimate the probability. I wouldn't open this position today because 0.04 is below the 0.15 price floor.
+- **crossd-98e7 and crossd-aa27:** I'm holding both because there's nothing to sell into and no information to judge them by. I didn't buy crossd-aa27, so I have no reason on record to check it against.
+
+## Quick Scan Table
 | Market | Mid | My Prob | Net Edge | Liq Score | Action | Size | Confidence |
 |---|---|---|---|---|---|---|---|
 | GA Senate R YES (held) | 0.035 | not estimated | n/a | Deep | Hold | 0 | — |
-| crossd-51e9 (held) | n/a | n/a | n/a | No book; server error | Hold | 0 | — |
-| crossd-98e7 (held) | n/a | n/a | n/a | No bid | Hold | 0 | — |
+| crossd-98e7 (held) | n/a | n/a | n/a | No book (server error) | Hold | 0 | — |
+| crossd-aa27 (held, not my order) | n/a | n/a | n/a | No book (server error) | Hold | 0 | — |
 
-**No-Trade Declaration:** No trade. Reasons:
-- **Over the cap:** open exposure at cost (~$175) is above the $100 total cap.
-- **Unexplained account activity:** the $138.57 debit hasn't been explained, crossd-ae68 dropped off the positions list without notice, and this is a live account. I won't add risk until someone reconciles the account.
-- **No scan:** I didn't look at new markets or check linked markets for pricing gaps, because I couldn't act on anything I found.
+## No-Trade Declaration
+No trade. Reasons:
+1. **No cash:** $0.27 available isn't enough for any order.
+2. **Over the cap:** open exposure at cost is about $127, against a $100 total cap.
+3. **Trades happening outside my runs:** something opened crossd-aa27, and about $100 of crossd-51e9 left the account without explanation. I won't add risk to a live account until someone has reconciled it.
+4. **No scan:** I didn't look at new markets or check linked markets for pricing gaps, since I couldn't act on anything I found.
 
-**Still needs a human**
-1. **Reconcile the account history.** Confirm whether crossd-ae68 settled and that the $48.75 credit is the payout. Find where the $138.57 went.
-2. **Fix the crossd-51e9 server error.** Also find out why crossd-98e7 has no bid.
-3. **Explain how the crossd-51e9 position got so big.** It's about $100 at cost, ten times the $10 per-market cap.
-4. **Plan for Nov 3.** If the GA Senate Republican YES position is to be managed during election-night volatility, a human should decide that. The hold rule otherwise keeps it to resolution.
+## Needs a human now
+1. **Find out who or what is placing orders on this account outside the scheduled runs.** It bought crossd-aa27 for ~$52.2 and earlier built crossd-51e9 to ~$100. Both are far over the $10 per-market cap, so the place_order limits aren't being applied to that activity. Consider pausing live mode or revoking API keys until this is resolved.
+2. **Reconcile the account history:** how crossd-51e9 settled, the crossd-ae68 credit, the earlier $138.57 debit, and today's −$92.57 swing.
+3. **Fix the server error on the crossd-* markets** so those positions can be valued and, if needed, sold.
+4. **Decide on GA Senate before Nov 3.** If this position should be managed through election-night volatility instead of held to resolution, a human needs to make that call.
