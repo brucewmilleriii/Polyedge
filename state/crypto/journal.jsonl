@@ -4072,3 +4072,8 @@
 {"ts": "2026-10-31T18:04:39+00:00", "run": "20261031T122239Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-10-31T18:06:27+00:00", "run": "20261031T122239Z", "mode": "live", "kind": "account", "cash": 52.47, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-10-31T18:07:40+00:00", "run": "20261031T122239Z", "mode": "live", "kind": "crypto_end", "trades": 0}
+{"ts": "2026-10-31T18:08:04+00:00", "run": "20261031T180803Z", "mode": "live", "kind": "crypto_start", "horizons": ["5m"], "minutes": 345.0}
+{"ts": "2026-10-31T18:08:12+00:00", "run": "20261031T180803Z", "mode": "live", "kind": "account", "cash": 52.47, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-31T18:08:34+00:00", "run": "20261031T180803Z", "mode": "live", "kind": "halted", "reason": "weekly loss limit hit (bot down $202.19 this week)"}
+{"ts": "2026-10-31T18:13:22+00:00", "run": "20261031T180803Z", "mode": "live", "kind": "account", "cash": 52.47, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-10-31T18:13:37+00:00", "run": "20261031T180803Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
