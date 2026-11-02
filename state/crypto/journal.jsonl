@@ -4518,3 +4518,5 @@
 {"ts": "2026-11-02T00:53:49+00:00", "run": "20261101T232513Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-11-02T00:54:15+00:00", "run": "20261101T232513Z", "mode": "live", "kind": "crypto_skip", "slug": "cpc-btc-updown-5m-2026-11-02-0050z", "side": "no", "price": 0.87, "reason": "$0.14 buys no contracts at 0.87"}
 {"ts": "2026-11-02T00:54:17+00:00", "run": "20261101T232513Z", "mode": "live", "kind": "crypto_skip", "slug": "cpceth-eth-updown-5m-2026-11-02-0050z", "side": "no", "price": 0.97, "reason": "$0.14 buys no contracts at 0.97"}
+{"ts": "2026-11-02T00:55:55+00:00", "run": "20261101T232513Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-11-02T01:00:57+00:00", "run": "20261101T232513Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
