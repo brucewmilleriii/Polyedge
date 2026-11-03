@@ -5008,3 +5008,7 @@
 {"ts": "2026-11-03T00:51:03+00:00", "run": "20261102T191214Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-11-03T00:56:07+00:00", "run": "20261102T191214Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-11-03T00:57:15+00:00", "run": "20261102T191214Z", "mode": "live", "kind": "crypto_end", "trades": 0}
+{"ts": "2026-11-03T02:00:16+00:00", "run": "20261103T020016Z", "mode": "live", "kind": "crypto_start", "horizons": ["5m"], "minutes": 345.0}
+{"ts": "2026-11-03T02:00:16+00:00", "run": "20261103T020016Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-11-03T02:05:17+00:00", "run": "20261103T020016Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-11-03T02:08:48+00:00", "run": "20261103T020016Z", "mode": "live", "kind": "crypto_skip", "slug": "cpceth-eth-updown-5m-2026-11-03-0205z", "side": "no", "price": 0.95, "reason": "$0.14 buys no contracts at 0.95"}
