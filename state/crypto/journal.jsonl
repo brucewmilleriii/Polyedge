@@ -5452,3 +5452,11 @@
 {"ts": "2026-11-04T02:33:59+00:00", "run": "20261104T000022Z", "mode": "live", "kind": "crypto_skip", "slug": "cpc-btc-updown-5m-2026-11-04-0230z", "side": "no", "price": 0.93, "reason": "$0.14 buys no contracts at 0.93"}
 {"ts": "2026-11-04T02:36:19+00:00", "run": "20261104T000022Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-11-04T02:39:10+00:00", "run": "20261104T000022Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-11-04T02:41:19+00:00", "run": "20261104T000022Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-11-04T02:43:55+00:00", "run": "20261104T000022Z", "mode": "live", "kind": "crypto_skip", "slug": "cpc-btc-updown-5m-2026-11-04-0240z", "side": "no", "price": 0.87, "reason": "$0.14 buys no contracts at 0.87"}
+{"ts": "2026-11-04T02:44:04+00:00", "run": "20261104T000022Z", "mode": "live", "kind": "crypto_skip", "slug": "cpceth-eth-updown-5m-2026-11-04-0240z", "side": "yes", "price": 0.87, "reason": "$0.14 buys no contracts at 0.87"}
+{"ts": "2026-11-04T02:44:20+00:00", "run": "20261104T000022Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-11-04T02:46:20+00:00", "run": "20261104T000022Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-11-04T02:48:34+00:00", "run": "20261104T000022Z", "mode": "live", "kind": "crypto_skip", "slug": "cpc-btc-updown-5m-2026-11-04-0245z", "side": "no", "price": 0.91, "reason": "$0.14 buys no contracts at 0.91"}
+{"ts": "2026-11-04T02:48:36+00:00", "run": "20261104T000022Z", "mode": "live", "kind": "crypto_skip", "slug": "cpceth-eth-updown-5m-2026-11-04-0245z", "side": "no", "price": 0.96, "reason": "$0.14 buys no contracts at 0.96"}
+{"ts": "2026-11-04T02:49:52+00:00", "run": "20261104T000022Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
