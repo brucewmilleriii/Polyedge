@@ -6134,3 +6134,6 @@
 {"ts": "2026-11-05T11:48:17+00:00", "run": "20261105T085837Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-11-05T11:50:55+00:00", "run": "20261105T085837Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
 {"ts": "2026-11-05T11:55:57+00:00", "run": "20261105T085837Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-11-05T12:00:04+00:00", "run": "20261105T085837Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-11-05T12:00:57+00:00", "run": "20261105T085837Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-11-05T12:05:58+00:00", "run": "20261105T085837Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
