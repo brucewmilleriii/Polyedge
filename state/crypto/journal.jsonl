@@ -6125,3 +6125,5 @@
 {"ts": "2026-11-05T11:20:43+00:00", "run": "20261105T085837Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-11-05T11:24:34+00:00", "run": "20261105T085837Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-11-05T11:25:46+00:00", "run": "20261105T085837Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-11-05T11:30:50+00:00", "run": "20261105T085837Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
+{"ts": "2026-11-05T11:35:51+00:00", "run": "20261105T085837Z", "mode": "live", "kind": "crypto_error", "error": "The server was unable to process your request."}
