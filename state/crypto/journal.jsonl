@@ -6446,3 +6446,6 @@
 {"ts": "2026-11-06T03:30:11+00:00", "run": "20261105T231707Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-11-06T03:33:57+00:00", "run": "20261105T231707Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-11-06T03:35:15+00:00", "run": "20261105T231707Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-11-06T03:38:59+00:00", "run": "20261105T231707Z", "mode": "live", "kind": "crypto_skip", "slug": "cpc-btc-updown-5m-2026-11-06-0335z", "side": "yes", "price": 0.94, "reason": "$0.14 buys no contracts at 0.94"}
+{"ts": "2026-11-06T03:40:19+00:00", "run": "20261105T231707Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-11-06T03:45:20+00:00", "run": "20261105T231707Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
