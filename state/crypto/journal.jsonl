@@ -6483,3 +6483,6 @@
 {"ts": "2026-11-06T04:50:40+00:00", "run": "20261105T231707Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-11-06T04:54:03+00:00", "run": "20261105T231707Z", "mode": "live", "kind": "crypto_skip", "slug": "cpcsol-sol-updown-5m-2026-11-06-0450z", "side": "no", "price": 0.97, "reason": "$0.14 buys no contracts at 0.97"}
 {"ts": "2026-11-06T04:55:50+00:00", "run": "20261105T231707Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-11-06T04:58:20+00:00", "run": "20261105T231707Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-11-06T05:00:50+00:00", "run": "20261105T231707Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-11-06T05:02:11+00:00", "run": "20261105T231707Z", "mode": "live", "kind": "crypto_end", "trades": 0}
