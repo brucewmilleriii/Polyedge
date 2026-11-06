@@ -1,11 +1,9 @@
-# Run 20261106T120021Z (live)
+# Run 20261106T191810Z (live)
 
-# Run 20261106T120000Z (live)
+I placed no orders this run (19:18 UTC), the eighth in a row. The account still holds $0.27 and nothing else, and the limits still don't allow buying even one contract.
 
-I placed no orders this run, the seventh in a row. Nothing has changed since 02:20 UTC: the account still holds $0.27 and nothing else, and the limits don't allow buying even one contract with that.
-
-## What I checked (12:00 UTC)
-| Item | Last run (02:20) | Now |
+## What I checked
+| Item | Last run (12:00) | Now (19:18) |
 |---|---|---|
 | Cash / equity | $0.27 / $0.27 | $0.27 / $0.27 |
 | Positions | None | None |
@@ -27,7 +25,7 @@ I didn't scan markets or check linked markets for price gaps. Even a real mispri
 ## No-Trade Declaration
 No trade. Reasons:
 1. **Too little money.** The $0.0135 per-market limit is less than one contract at the $0.15 minimum price.
-2. **The account history still doesn't add up.** Positions that cost about $200 (crossd-51e9, crossd-aa27, crossd-98e7 and GA Senate) are gone, and I can't see how they settled. The track record and P&L history were also wiped. I won't take on new risk until someone has reviewed the account.
+2. **The account history still doesn't add up.** Positions that cost about $200 (crossd-51e9, crossd-aa27, crossd-98e7 and GA Senate) are gone, and I can't see how they settled. The track record and P&L history are still empty. I won't take on new risk until someone has reviewed the account.
 
 ## Needs a human (unchanged, still urgent)
 1. **Pause this scheduled job or revoke its API keys.** Each run now only checks the account and stops.
