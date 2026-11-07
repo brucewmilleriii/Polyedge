@@ -7013,3 +7013,9 @@
 {"ts": "2026-11-07T05:43:50+00:00", "run": "20261107T020032Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
 {"ts": "2026-11-07T05:47:09+00:00", "run": "20261107T020032Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-11-07T05:48:52+00:00", "run": "20261107T020032Z", "mode": "live", "kind": "crypto_skip", "slug": "cpc-btc-updown-5m-2026-11-07-0545z", "side": "yes", "price": 0.96, "reason": "$0.14 buys no contracts at 0.96"}
+{"ts": "2026-11-07T05:52:11+00:00", "run": "20261107T020032Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-11-07T05:53:32+00:00", "run": "20261107T020032Z", "mode": "live", "kind": "crypto_skip", "slug": "cpc-btc-updown-5m-2026-11-07-0550z", "side": "yes", "price": 0.89, "reason": "$0.14 buys no contracts at 0.89"}
+{"ts": "2026-11-07T05:53:49+00:00", "run": "20261107T020032Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-11-07T05:57:12+00:00", "run": "20261107T020032Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-11-07T05:58:32+00:00", "run": "20261107T020032Z", "mode": "live", "kind": "crypto_skip", "slug": "cpc-btc-updown-5m-2026-11-07-0555z", "side": "yes", "price": 0.9, "reason": "$0.14 buys no contracts at 0.9"}
+{"ts": "2026-11-07T05:59:50+00:00", "run": "20261107T020032Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
