@@ -1,9 +1,11 @@
-# Run 20261108T131523Z (live)
+# Run 20261108T184749Z (live)
 
-I placed no orders this run, the 15th in a row without a trade. Nothing has changed since 05:53: the account holds $0.27, which is too little to buy a single contract.
+# Run 20261108T184700Z (live)
 
-## What changed since the last run (05:53)
-| Item | 05:53 | Now (13:15) |
+I placed no orders this run, the 16th in a row without a trade. Nothing has changed since 13:15. The account still holds $0.27, which is too little to buy a single contract within the limits.
+
+## What changed since the last run (13:15)
+| Item | 13:15 | Now (18:47) |
 |---|---|---|
 | Cash available | $0.27 | $0.27 |
 | Equity | $0.27 | $0.27 |
@@ -13,16 +15,16 @@ I placed no orders this run, the 15th in a row without a trade. Nothing has chan
 | Track record | Empty | Still empty |
 | Favourite strategy | Off | Off |
 
-No new positions showed up from outside this job this time, and no money came in.
+No new positions appeared from outside this job, and no money came in.
 
-**Why no trade is possible:** I can put at most 5% of equity into one market, which is $0.0135. The cheapest contract I'm allowed to buy costs $0.15, so even one contract is about 11 times over that cap. With all $0.27 of cash I could buy one contract at most, and that would break the per-market cap.
+**Why no trade is possible:** at most 5% of equity can go into one market, which is $0.27 × 0.05 = $0.0135. The cheapest contract allowed costs $0.15, so even one contract is about 11 times over that cap. Spending all the cash would buy one contract at most, and that would break the per-market cap.
 
 ## Quick Scan Table
 | Market | Mid | My Prob | Net Edge | Liq Score | Action | Size | Confidence |
 |---|---|---|---|---|---|---|---|
 | None evaluated | — | — | — | — | No trade | 0 | — |
 
-I didn't scan for new markets or check linked markets for price gaps. No trade could be placed at any edge, so the research would only use up time and searches.
+I didn't scan markets or check linked markets for price gaps. No order could pass the per-market cap whatever the edge, so the research would only use up time and searches.
 
 ## No-Trade Declaration
 No trade. Reason: not enough capital. The per-market cap is $0.0135, below the price of one contract.
