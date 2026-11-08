@@ -7910,3 +7910,10 @@
 {"ts": "2026-11-08T17:46:06+00:00", "run": "20261108T124709Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-11-08T17:51:06+00:00", "run": "20261108T124709Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
 {"ts": "2026-11-08T17:56:09+00:00", "run": "20261108T124709Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-11-08T17:59:02+00:00", "run": "20261108T124709Z", "mode": "live", "kind": "crypto_skip", "slug": "cpcsol-sol-updown-5m-2026-11-08-1755z", "side": "yes", "price": 0.97, "reason": "$0.14 buys no contracts at 0.97"}
+{"ts": "2026-11-08T17:59:07+00:00", "run": "20261108T124709Z", "mode": "live", "kind": "crypto_skip", "slug": "cpc-btc-updown-5m-2026-11-08-1755z", "side": "yes", "price": 0.97, "reason": "$0.14 buys no contracts at 0.97"}
+{"ts": "2026-11-08T17:59:31+00:00", "run": "20261108T124709Z", "mode": "live", "kind": "crypto_skip", "slug": "cpceth-eth-updown-5m-2026-11-08-1755z", "side": "no", "price": 0.95, "reason": "$0.14 buys no contracts at 0.95"}
+{"ts": "2026-11-08T18:01:12+00:00", "run": "20261108T124709Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
+{"ts": "2026-11-08T18:03:33+00:00", "run": "20261108T124709Z", "mode": "live", "kind": "crypto_skip", "slug": "cpceth-eth-updown-5m-2026-11-08-1800z", "side": "no", "price": 0.89, "reason": "$0.14 buys no contracts at 0.89"}
+{"ts": "2026-11-08T18:05:08+00:00", "run": "20261108T124709Z", "mode": "live", "kind": "crypto_error", "error": "rate limited"}
+{"ts": "2026-11-08T18:06:15+00:00", "run": "20261108T124709Z", "mode": "live", "kind": "account", "cash": 0.27, "unpaid_value": 0.0, "unpaid_cost": 0.0, "unpaid_trades": 0}
