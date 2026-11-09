@@ -3,8 +3,10 @@ name: crypto
 # Crypto Up/Down closing-minutes strategy. Each job loops for about 5h45m; the
 # hourly schedule queues the next job so coverage is close to continuous.
 on:
-  schedule:
-    - cron: "0 * * * *"
+  # PAUSED 2026-11-09 at Bruce's request. To resume, uncomment the two
+  # schedule lines below and delete the KILL file in the repo root.
+  # schedule:
+  #   - cron: "0 * * * *"
   workflow_dispatch:
 
 concurrency:
